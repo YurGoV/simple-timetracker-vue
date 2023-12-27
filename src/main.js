@@ -5,16 +5,26 @@
  */
 
 // Plugins
-import { registerPlugins } from '@/plugins'
+import { registerPlugins } from "@/plugins";
 
 // Components
-import App from './App.vue'
+import App from "./App.vue";
 
 // Composables
-import { createApp } from 'vue'
+import { createApp } from "vue";
 
-const app = createApp(App)
+// TODO:
+import vue3GoogleLogin from "vue3-google-login";
 
-registerPlugins(app)
+const app = createApp(App);
 
-app.mount('#app')
+// TODO:
+app.use(vue3GoogleLogin, {
+  // clientId: "YOUR_GOOGLE_CLIENT_ID",
+  clientId:
+    "634188018755-ums1tj1ch1eshs2n91272or2tbn27ini.apps.googleusercontent.com",
+});
+
+registerPlugins(app);
+
+app.mount("#app");
