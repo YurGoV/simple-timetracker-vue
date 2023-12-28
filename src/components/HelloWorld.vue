@@ -1,61 +1,27 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="align-center text-center fill-height">
-      <v-img height="300" src="@/assets/logo.svg" />
-
-        <p>1</p>
-      <div class="g-signin2" data-onsuccess="onSignIn"></div>
-      <p>2</p>
-
-      <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
-
-      <h1 class="text-h2 font-weight-bold">Vuetify</h1>
-
-      <div class="py-14" />
+      <!-- <v-navigation-drawer v-model="drawerVisible" location="bottom" temporary> -->
 
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
-          <v-btn
-            href="https://vuetifyjs.com/components/all/"
-            min-width="164"
-            rel="noopener noreferrer"
-            target="_blank"
-            variant="text"
+          <v-sheet
+            @click="reset"
+            :elevation="8"
+            :height="200"
+            :width="200"
+            border
+            rounded
+            class="main-button"
+            ><p class="timer">
+              <!-- {{ duration - (elapsed / 1000).toFixed(0) }} -->
+              <!-- {{ (elapsed / 1000).toFixed(0) }} -->
+              {{ Math.abs(remained / 1000).toFixed(0) }}
+            </p></v-sheet
           >
-            <v-icon icon="mdi-view-dashboard" size="large" start />
-
-            Components
-          </v-btn>
-        </v-col>
-
-        <v-col cols="auto">
-          <v-btn
-            color="primary"
-            href="https://vuetifyjs.com/introduction/why-vuetify/#feature-guides"
-            min-width="228"
-            rel="noopener noreferrer"
-            size="x-large"
-            target="_blank"
-            variant="flat"
-          >
-            <v-icon icon="mdi-speedometer" size="large" start />
-
-            Get Started
-          </v-btn>
-        </v-col>
-
-        <v-col cols="auto">
-          <v-btn
-            href="https://community.vuetifyjs.com/"
-            min-width="164"
-            rel="noopener noreferrer"
-            target="_blank"
-            variant="text"
-          >
-            <v-icon icon="mdi-account-group" size="large" start />
-
-            Community
-          </v-btn>
+          <v-btn @click="pause"> Pause </v-btn>
+          <v-btn @click="resume"> Resume </v-btn>
+          <v-btn @click="stop"> Stop </v-btn>
         </v-col>
       </v-row>
     </v-responsive>
@@ -63,5 +29,78 @@
 </template>
 
 <script setup>
+import { ref, onUnmounted, computed } from "vue";
+
+// const duration = ref(15 * 1000);
+// let duration = 25;
+const duration = ref(15 * 1000);
+
+// const elapsed = ref(0);
+const remained = ref(15 * 1000);
+let isCounting = ref(true);
+
+let lastTime;
+let handle;
+
+const update = () => {
+  //  elapsed.value = performance.now() - lastTime;
+  if (!isCounting.value) return;
+  remained.value = duration.value - (performance.now() - lastTime);
+  console.log(remained.value, duration.value);
+  // if (remained.value >= duration.value) {
+  if (remained.value <= 0) {
+    console.log("ifff");
+    //if (elapsed.value >= duration) {
+    cancelAnimationFrame(handle);
+  } else {
+    handle = requestAnimationFrame(update);
+  }
+};
+
+const reset = () => {
+  // elapsed.value = 0;
+  remained.value = duration.value;
+  lastTime = performance.now();
+  startCountdown();
+  update();
+};
+
+const stop = () => {
+  isCounting.value = false;
+  duration.value = 15000;
+  remained.value = 15000;
+  lastTime = null;
+  handle = null;
+};
+
+const pause = () => {
+  isCounting.value = false;
+  duration.value = remained.value;
+};
+
+const resume = () => {
+  isCounting.value = true;
+  lastTime = performance.now();
+  update();
+};
+
+const startCountdown = () => {
+  isCounting.value = true; // Set the flag to start counting
+  update(); // Initial call to start the countdown
+};
+
+//reset()
+
 //
 </script>
+
+<style scoped>
+.main-button {
+  display: flex;
+  cursor: pointer;
+}
+.timer {
+  font-size: 3rem;
+  margin: auto;
+}
+</style>
