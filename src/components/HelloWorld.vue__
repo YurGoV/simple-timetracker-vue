@@ -1,0 +1,72 @@
+<template>
+  <v-container class="fill-height">
+    <v-responsive class="align-center text-center fill-height">
+      <v-row class="d-flex align-center justify-center">
+        <v-col cols="auto">
+          <v-sheet
+            @click="reset"
+            :elevation="8"
+            :height="200"
+            :width="200"
+            border
+            rounded
+            class="main-button"
+          >
+            <!-- Marked change: Using `duration.value` -->
+            <p class="timer">
+              {{ duration.value - (elapsed.value / 1000).toFixed(0) }}
+            </p>
+          </v-sheet>
+        </v-col>
+      </v-row>
+    </v-responsive>
+  </v-container>
+</template>
+
+<script setup>
+import { ref, onUnmounted, watchEffect } from "vue";
+
+// Marked change: Changed `const` to `ref`
+const duration = ref(25);
+const elapsed = ref(0);
+
+let lastTime;
+let handle;
+
+const update = () => {
+  // Marked change: Using `elapsed.value` and `duration.value`
+  elapsed.value = performance.now() - lastTime;
+  if (elapsed.value >= duration.value * 1000) {
+    cancelAnimationFrame(handle);
+  } else {
+    handle = requestAnimationFrame(update);
+  }
+};
+
+const reset = () => {
+  elapsed.value = 0;
+  lastTime = performance.now();
+  update();
+};
+
+onUnmounted(() => {
+  cancelAnimationFrame(handle);
+});
+
+// Marked change: Using watchEffect to automatically start the timer on component mount
+watchEffect(() => {
+  reset();
+});
+
+</script>
+
+<style scoped>
+.main-button {
+  display: flex;
+  cursor: pointer;
+}
+.timer {
+  font-size: 3rem;
+  margin: auto;
+}
+</style>

@@ -1,6 +1,6 @@
 {
-  "title": "Simple Time Tracker",
   "common": {
+    "title": "Simple Time Tracker",
     "logout": "logout"
   }
 }
