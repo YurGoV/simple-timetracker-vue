@@ -1,8 +1,7 @@
 <template>
   <v-app-bar :elevation="2">
-    <!-- <v-app-bar-nav-icon @click.stop="toggleDrawer"> </v-app-bar-nav-icon> -->
-    <v-app-bar-nav-icon v-if="isLoggedIn" @click.stop="drawer = !drawer">
-    </v-app-bar-nav-icon>
+    <!-- <v-app-bar-nav-icon v-if="isLoggedIn" @click.stop="drawer = !drawer"> -->
+    <v-app-bar-nav-icon @click.stop="drawer = !drawer"> </v-app-bar-nav-icon>
 
     <!-- <v-navigation-drawer location="bottom" temporary> -->
     <!-- </v-app-bar-nav-icon> -->
@@ -23,10 +22,30 @@
   <!-- <v-navigation-drawer v-model="drawer" floating permanent> -->
   <v-navigation-drawer v-model="drawer" floating temporary>
     <v-list density="compact" nav>
-      <v-list-item link title="List Item 1" value="1"></v-list-item>
-      <!-- <v-list-item >111</v-list-item> -->
-      <v-list-item link title="List Item 2" value="2"></v-list-item>
-      <!-- <v-list-item >222</v-list-item> -->
+      <v-list-item
+        :to="{ name: 'Home' }"
+        link
+        title="Home"
+        value="1"
+      ></v-list-item>
+      <!-- <v-list-item -->
+      <!--   :to="{ name: 'AddTime' }" -->
+      <!--   link -->
+      <!--   title="Time" -->
+      <!--   value="2" -->
+      <!-- ></v-list-item> -->
+      <v-list-item
+        :to="{ name: 'Time' }"
+        link
+        title="Time"
+        value="2"
+      ></v-list-item>
+      <v-list-item
+        :to="{ name: 'About' }"
+        link
+        title="About"
+        value="3"
+      ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
