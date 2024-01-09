@@ -1,56 +1,62 @@
 <template>
   <!-- <p>{{ day }}</p> -->
-  <v-text-field
-    v-model="duration"
-    type="number"
-    label="Duration in min"
-  ></v-text-field>
-  <v-row>
-    <v-col>
-      <v-select
-        v-model="selectedLifeSphere"
-        :items="getLifeSpheres"
-        item-title="value"
-        item-value="_id"
-        density="compact"
-        label="Life Sphere"
-      ></v-select>
-    </v-col>
-    <v-col>
-      <v-select
-        v-model="selectedImportance"
-        :items="getImportances"
-        item-title="value"
-        item-value="_id"
-        density="compact"
-        label="Importance"
-      ></v-select>
-    </v-col>
-    <!-- <v-col> -->
-    <!-- </v-col> -->
-  </v-row>
-  <h2 class="choose-context-capition">Choose context</h2>
-  <v-row>
-    <v-checkbox
-      v-model="selectedTags"
-      v-for="tag in getTags"
-      :label="tag.value"
-      :value="tag._id"
-      :key="tag._id"
-    ></v-checkbox>
-  </v-row>
-  <v-row>
-    <v-text-field v-model="comment" type="text" label="Comment"></v-text-field>
-  </v-row>
-  <!-- <v-col class="d-flex justify-end"> -->
+  <div>
+    <v-text-field
+      v-model="duration"
+      type="number"
+      label="Duration in min"
+    ></v-text-field>
+    <v-row>
+      <v-col>
+        <v-select
+          v-model="selectedLifeSphere"
+          :items="getLifeSpheres"
+          item-title="value"
+          item-value="_id"
+          density="compact"
+          label="Life Sphere"
+        ></v-select>
+      </v-col>
+      <v-col>
+        <v-select
+          v-model="selectedImportance"
+          :items="getImportances"
+          item-title="value"
+          item-value="_id"
+          density="compact"
+          label="Importance"
+        ></v-select>
+      </v-col>
+      <!-- <v-col> -->
+      <!-- </v-col> -->
+    </v-row>
+    <h2 class="choose-context-capition">Choose context</h2>
+    <v-row>
+      <v-checkbox
+        v-model="selectedTags"
+        v-for="tag in getTags"
+        :label="tag.value"
+        :value="tag._id"
+        :key="tag._id"
+      ></v-checkbox>
+    </v-row>
+    <v-row>
+      <v-text-field
+        v-model="comment"
+        type="text"
+        label="Comment"
+      ></v-text-field>
+    </v-row>
+    <!-- <v-col class="d-flex justify-end"> -->
+  </div>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
 import { storeToRefs } from "pinia";
-import { saveRecord } from "@/services/records.service";
+// import { saveRecord } from "@/services/records.service";
 
-import { useUserStore } from "@/store/user";
+// import { useUserStore } from "@/store/user";
 // import { useContextsStore } from "@/store/contexts";
 // const { setupContexts } = useContextsStore();
 
@@ -76,25 +82,25 @@ const selectedImportance = ref(
 );
 const selectedTags = ref([]);
 
-const date = computed(() => {
-  const day = new Date(startTime.value);
-  day.setHours(0, 0, 0, 0);
-  return day.getTime();
-});
+// const date = computed(() => {
+//   const day = new Date(startTime.value);
+//   day.setHours(0, 0, 0, 0);
+//   return day.getTime();
+// });
 
-function save() {
-  console.log("save");
-  const payload = {
-    // date: date.value,
-    startTime: startTime.value.getTime(),
-    endTime: startTime.value.getTime() + duration.value * 60 * 1000,
-    lifeSphere: selectedLifeSphere.value,
-    importance: selectedImportance.value,
-    tags: selectedTags.value,
-    comment: comment.value,
-  };
-  saveRecord(payload);
-}
+// function save() {
+//   console.log("save");
+//   const payload = {
+//     // date: date.value,
+//     startTime: startTime.value.getTime(),
+//     endTime: startTime.value.getTime() + duration.value * 60 * 1000,
+//     lifeSphere: selectedLifeSphere.value,
+//     importance: selectedImportance.value,
+//     tags: selectedTags.value,
+//     comment: comment.value,
+//   };
+//   saveRecord(payload);
+// }
 </script>
 
 <style scoped>

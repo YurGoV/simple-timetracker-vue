@@ -20,10 +20,47 @@
               type="number"
               label="Duration in min"
             ></v-text-field>
-            <test-component />
-            <properties-selector />
-            <!-- <v-col class="d-flex justify-end"> -->
-            <!-- <v-col class="d-flex justify-end"> -->
+            <v-row>
+              <v-col>
+                <v-select
+                  v-model="selectedLifeSphere"
+                  :items="getLifeSpheres"
+                  item-title="value"
+                  item-value="_id"
+                  density="compact"
+                  label="Life Sphere"
+                ></v-select>
+              </v-col>
+              <v-col>
+                <v-select
+                  v-model="selectedImportance"
+                  :items="getImportances"
+                  item-title="value"
+                  item-value="_id"
+                  density="compact"
+                  label="Importance"
+                ></v-select>
+              </v-col>
+              <!-- <v-col> -->
+              <!-- </v-col> -->
+            </v-row>
+            <h2 class="choose-context-capition">Choose context</h2>
+            <v-row>
+              <v-checkbox
+                v-model="selectedTags"
+                v-for="tag in getTags"
+                :label="tag.value"
+                :value="tag._id"
+                :key="tag._id"
+              ></v-checkbox>
+            </v-row>
+            <v-row>
+              <v-text-field
+                v-model="comment"
+                type="text"
+                label="Comment"
+              ></v-text-field>
+            </v-row>
             <!-- <v-col class="d-flex justify-end"> -->
             <v-btn @click="save" color="primary">Save</v-btn>
             <!-- </v-col> -->
@@ -38,26 +75,23 @@
 <script setup>
 import { ref, computed, watchEffect } from "vue";
 import { storeToRefs } from "pinia";
-// import { saveRecord } from "@/services/records.service";
+import { saveRecord } from "@/services/records.service";
 
-import TestComponent from "@/components/records/TestComponent.vue";
-import PropertiesSelector from "@/components/records/PropertiesSelector.vue";
-
-// import { useUserStore } from "@/store/user";
+import { useUserStore } from "@/store/user";
 import { useRecordsStore } from "@/store/records";
 // import { useContextsStore } from "@/store/contexts";
 // const { setupContexts } = useContextsStore();
 
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-// import { useContextsStore } from "@/store/contexts";
+import { useContextsStore } from "@/store/contexts";
 
-// const testItems = ["ldld", "sjsjs", "icici"];
-// const userStore = useUserStore();
+const testItems = ["ldld", "sjsjs", "icici"];
+const userStore = useUserStore();
 
 const recordsStore = useRecordsStore();
-// const contextsStore = useContextsStore();
-// const { getLifeSpheres, getImportances, getTags } = storeToRefs(contextsStore);
+const contextsStore = useContextsStore();
+const { getLifeSpheres, getImportances, getTags } = storeToRefs(contextsStore);
 // const {
 //   setManualDate,
 //   setManualStartTime,
@@ -72,16 +106,16 @@ const currentDate = new Date();
 
 const startTime = ref(currentDate);
 const duration = ref(30);
-// const comment = ref("");
-// const selectedLifeSphere = ref(
-// getLifeSpheres.value ? getLifeSpheres.value[0]._id : null,
-// getLifeSpheres.value[0]._id,
-// );
-// const selectedImportance = ref(
-//   // getImportances.value ? getImportances.value[0]._id : null,
-//   getImportances.value[0]._id,
-// );
-// const selectedTags = ref([]);
+const comment = ref("");
+const selectedLifeSphere = ref(
+  // getLifeSpheres.value ? getLifeSpheres.value[0]._id : null,
+  getLifeSpheres.value[0]._id,
+);
+const selectedImportance = ref(
+  // getImportances.value ? getImportances.value[0]._id : null,
+  getImportances.value[0]._id,
+);
+const selectedTags = ref([]);
 
 const date = computed(() => {
   const day = new Date(startTime.value);
@@ -91,24 +125,32 @@ const date = computed(() => {
 
 function save() {
   console.log("save");
+  // const payload = {
+  //   date: date.value,
+  //   startTime: startTime.value.getTime(),
+  //   endTime: startTime.value.getTime() + duration.value * 60 * 1000,
+  //   lifeSphere: selectedLifeSphere.value,
+  //   importance: selectedImportance.value,
+  //   tags: selectedTags.value,
+  //   comment: comment.value,
+  // };
+  // saveRecord(payload);
   recordsStore.saveRecordToDb();
 }
-
 watchEffect(() => {
   console.log("watchEffect triggered");
 
   recordsStore.setManualDate(date.value);
-  // recordsStore.setLifeSphere(selectedLifeSphere.value);
+  recordsStore.setLifeSphere(selectedLifeSphere.value);
   recordsStore.setManualStartTime(startTime.value.getTime());
   recordsStore.setManualEndTime(
     startTime.value.getTime() + duration.value * 60 * 1000,
-  );
-  // recordsStore.setLifeSphere(selectedLifeSphere.value);
-  // recordsStore.setImportance(selectedImportance.value);
-  // recordsStore.setTags(selectedTags.value);
-  // recordsStore.setComment(comment.value);
+  ),
+    recordsStore.setLifeSphere(selectedLifeSphere.value);
+  recordsStore.setImportance(selectedImportance.value);
+  recordsStore.setTags(selectedTags.value);
+  recordsStore.setComment(comment.value);
 });
-
 // watchEffect(() => {
 //   setManualDate(date.value);
 // });
