@@ -1,7 +1,7 @@
 <template>
-  <HelloWorld />
+  <PomodoroPage />
 </template>
 
 <script setup>
-import HelloWorld from "@/components/HelloWorld.vue";
+import PomodoroPage from "@/components/PomodoroPage.vue";
 </script>
