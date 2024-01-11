@@ -18,13 +18,11 @@ import vue3GoogleLogin from "vue3-google-login";
 
 const app = createApp(App);
 
+registerPlugins(app);
+
 // TODO:
 app.use(vue3GoogleLogin, {
-  // clientId: "YOUR_GOOGLE_CLIENT_ID",
-  clientId:
-    "634188018755-ums1tj1ch1eshs2n91272or2tbn27ini.apps.googleusercontent.com",
+  clientId: import.meta.env.VITE_OAUTH_GOOGLE_CLIENT_ID,
 });
-
-registerPlugins(app);
 
 app.mount("#app");

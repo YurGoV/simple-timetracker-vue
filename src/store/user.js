@@ -1,38 +1,37 @@
 // store/user.js
 import { logoutUser } from "@/services/auth.service";
 import { defineStore } from "pinia";
+import { computed, ref } from "vue";
 
-export const useUserStore = defineStore("user", {
-  state: () => ({
-    user: null, // Initial state for the user module, representing the user data
-  }),
+export const useUserStore = defineStore("user", () => {
+  const user = ref(null);
 
-  // Actions: Functions that modify the state
-  actions: {
-    setUser(user) {
-      this.user = user;
-      localStorage.setItem("token", user.token);
-    },
-    async clearUser() {
-      await logoutUser();
-      this.user = null;
-      localStorage.removeItem("token");
-    },
-  },
+  function setUser(newUser) {
+    console.log(newUser, "uuuu");
+    console.log(newUser.token, "uuuttt");
+    user.value = newUser;
+    console.log(user.value.name, "uuuvvv");
+    localStorage.setItem("token", newUser.token);
+  }
 
-  // Getters: Computed properties based on the state
-  getters: {
-    isLoggedIn() {
-      return this.user !== null;
-    },
-    getUsername() {
-      return this.user ? this.user.name : "Guest";
-    },
-  },
-  // Mutations: Synchronous modifications to the state (optional)
-  // mutations: {
-  //   setUserName(newName) {
-  //     this.user.username = newName;
-  //   },
-  // },
+  async function clearUser() {
+    await logoutUser();
+    user.value = null;
+    localStorage.removeItem("token");
+  }
+  const isLoggedIn = computed(() => {
+    console.log(user.value, "uv isLI");
+    return user.value !== null;
+  });
+
+  const getUsername = computed(() => {
+    return user.value ? user.value.name : "Guest";
+  });
+
+  return {
+    setUser,
+    clearUser,
+    isLoggedIn,
+    getUsername,
+  };
 });

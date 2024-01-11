@@ -1,20 +1,29 @@
-import axios from "axios";
+//auth.service.js
+import axios from "@/services/axios";
+const baseUrl = import.meta.env.VITE_BACK_BASE_URL;
 
-export const loginUser = async ({ credential }) => {
+export const loginUserByCredential = async ({ credential }) => {
   // console.log(credential, 'credential')
-  const response = await axios.post("http://localhost:4000/api/auth/login", {
+  const user = await axios.post(`${baseUrl}/auth/login`, {
     credential,
   });
 
-  axios.defaults.headers.common["Authorization"] =
-    `Bearer ${response.data.token}`;
+  axios.defaults.headers.common["Authorization"] = `Bearer ${user.data.token}`;
 
-  return response.data;
+  const gettedRecords = await axios.get(`${baseUrl}/records`);
+
+  const gettedContexts = await axios.get(`${baseUrl}/contexts`);
+
+  return {
+    user: user.data,
+    gettedRecords: gettedRecords.data,
+    gettedContexts: gettedContexts.data,
+  };
 };
 
 export const logoutUser = async () => {
   const response = await axios.post(
-    "http://localhost:4000/api/auth/logout",
+    `${baseUrl}/auth/logout`,
     {},
   );
 
@@ -23,18 +32,24 @@ export const logoutUser = async () => {
   return response.data;
 };
 
-export const getUserByToken = async (token) => {
-  // console.log(credential, 'credential')
-  const response = await axios.get("http://localhost:4000/api/auth/current", {
+export const loginUserByToken = async (token) => {
+  const user = await axios.get("auth/current", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
-  axios.defaults.headers.common["Authorization"] =
-    `Bearer ${response.data.token}`;
+  axios.defaults.headers.common["Authorization"] = `Bearer ${user.data.token}`;
 
-  return response.data;
+  const gettedRecords = await axios.get(`${baseUrl}/records`);
+
+  const gettedContexts = await axios.get(`${baseUrl}/contexts`);
+
+  return {
+    user: user.data,
+    gettedRecords: gettedRecords.data,
+    gettedContexts: gettedContexts.data,
+  };
 };
 
 // export default login;

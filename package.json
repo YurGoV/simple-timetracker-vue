@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "host": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
+    "@vuepic/vue-datepicker": "^7.4.0",
     "axios": "^1.6.2",
     "core-js": "^3.29.0",
     "pinia": "^2.0.0",
