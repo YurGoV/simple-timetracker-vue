@@ -11,4 +11,3 @@ export const saveRecord = async (record) => {
   return response.data;
 };
 
-// export default login;

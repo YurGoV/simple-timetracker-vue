@@ -33,8 +33,6 @@
 
 <script setup>
 import { ref, computed, watchEffect } from "vue";
-// import { storeToRefs } from "pinia";
-// import { saveRecord } from "@/services/records.service";
 
 import PropertiesSelector from "@/components/records/PropertiesSelector.vue";
 

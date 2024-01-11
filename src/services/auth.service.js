@@ -1,17 +1,18 @@
 //auth.service.js
 import axios from "@/services/axios";
+const baseUrl = import.meta.env.VITE_BACK_BASE_URL;
 
 export const loginUserByCredential = async ({ credential }) => {
   // console.log(credential, 'credential')
-  const user = await axios.post("http://localhost:4000/api/auth/login", {
+  const user = await axios.post(`${baseUrl}/auth/login`, {
     credential,
   });
 
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.data.token}`;
 
-  const gettedRecords = await axios.get("http://localhost:4000/api/records");
+  const gettedRecords = await axios.get(`${baseUrl}/records`);
 
-  const gettedContexts = await axios.get("http://localhost:4000/api/contexts");
+  const gettedContexts = await axios.get(`${baseUrl}/contexts`);
 
   return {
     user: user.data,
@@ -22,7 +23,7 @@ export const loginUserByCredential = async ({ credential }) => {
 
 export const logoutUser = async () => {
   const response = await axios.post(
-    "http://localhost:4000/api/auth/logout",
+    `${baseUrl}/auth/logout`,
     {},
   );
 
@@ -40,9 +41,9 @@ export const loginUserByToken = async (token) => {
 
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.data.token}`;
 
-  const gettedRecords = await axios.get("http://localhost:4000/api/records");
+  const gettedRecords = await axios.get(`${baseUrl}/records`);
 
-  const gettedContexts = await axios.get("http://localhost:4000/api/contexts");
+  const gettedContexts = await axios.get(`${baseUrl}/contexts`);
 
   return {
     user: user.data,

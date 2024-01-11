@@ -25,17 +25,11 @@
                   </p>
                 </div>
               </div>
-              <!-- <p>session: {{ passedSessions + 1 }}lll</p> -->
-              <!-- !!!! -->
               <p v-if="!inPause" class="timer">
                 {{ remindedMinutes.toString().padStart(2, "0") }}
                 :
                 {{ remindedMinuteSeconds.toString().padStart(2, "0") }}
               </p>
-              <!-- !!!! -->
-              <!-- <p v-else-if="readyToContinue" class="pause"> -->
-              <!--   <v-btn @click="onContinueClick"> Continue </v-btn> -->
-              <!-- </p> -->
               <p v-else class="pause">
                 PAUSE<br />
                 {{ pauseOnDisplay.toString() }} <br />
@@ -51,10 +45,9 @@
                 </div>
               </div>
             </v-sheet>
-            <properties-selector class="properties" />
+            <properties-selector v-if="isLoggedIn" class="properties" />
           </v-sheet>
           <br />
-          <!-- <v-btn @click="restart"> Restart </v-btn> -->
           <v-btn @click="reset"> Stop </v-btn>
         </v-col>
       </v-row>
@@ -63,23 +56,29 @@
 </template>
 
 <script setup>
+import { useUserStore } from "@/store/user";
 import { usePomodoroSetup } from "@/store/pomodoroSetup";
 import { usePomodorosCount } from "@/store/pomodorosCount";
-import { computed, ref } from "vue";
 import { storeToRefs } from "pinia";
+import { ref } from "vue";
 
 import PropertiesSelector from "@/components/records/PropertiesSelector.vue";
+import { computed } from "vue";
+
+const userStore = useUserStore();
+const isLoggedIn = computed(() => userStore.isLoggedIn);
 
 const setup = usePomodoroSetup();
 const { pomodoroSetup } = storeToRefs(setup);
 
-const {
-  // timerDuration: initialDuration,
-  sessionsAmount,
-  timersInSession,
-} = pomodoroSetup.value;
-// console.log("iiiddd", initialDuration);
+const { sessionsAmount, timersInSession } = pomodoroSetup.value;
+
 const pomodorosCount = usePomodorosCount();
+
+// function setIsAuth() {
+//   console.log("aaaa");
+//   isAuth.value = isLoggedIn;
+// }
 // NOTE: just now
 const {
   inPause,
@@ -90,8 +89,9 @@ const {
   passedPomodoros,
 } = storeToRefs(pomodorosCount);
 const { reset, onTimerClick } = pomodorosCount;
-</script>
 
+// user.$subscribe(setIsAuth);
+</script>
 <style scoped>
 .main-button {
   display: flex;
@@ -110,4 +110,3 @@ const { reset, onTimerClick } = pomodorosCount;
   margin-top: 30px;
 }
 </style>
-

@@ -9,7 +9,7 @@ export const useRecordsStore = defineStore("records", () => {
   const manualStartTime = ref(null);
   const manualEndTime = ref(null);
 
-  const lifeSphere = ref(null);
+  const lifeSphere = ref("");
   const importance = ref(null);
   const tags = ref(null);
   const comment = ref(null);
@@ -18,9 +18,9 @@ export const useRecordsStore = defineStore("records", () => {
   day.setHours(0, 0, 0, 0);
   console.log(day, "day in records store");
 
+
   function setupRecords(gettedRecords) {
     console.log(gettedRecords);
-    // records.value = records;
     records.value = gettedRecords;
   }
 
@@ -50,7 +50,7 @@ export const useRecordsStore = defineStore("records", () => {
   }
 
   function saveRecordToDb() {
-    console.log("save record in record store", day);
+    console.log("save record in record store");
     const payload = {
       date: manualDate.value,
       startTime: manualStartTime.value,
@@ -60,10 +60,30 @@ export const useRecordsStore = defineStore("records", () => {
       tags: tags.value,
       comment: comment.value,
     };
+
     saveRecord(payload);
   }
 
-  const getAllRecords = computed(() => records.value );
+  function savePomodoroRecordToDb({
+    pomodoroDate,
+    pomororoStartTime,
+    pomodoroEndTime,
+  }) {
+    console.log("save record in record store");
+    const payload = {
+      date: pomodoroDate,
+      startTime: pomororoStartTime,
+      endTime: pomodoroEndTime,
+      lifeSphere: lifeSphere.value,
+      importance: importance.value,
+      tags: tags.value,
+      comment: comment.value,
+    };
+
+    saveRecord(payload);
+  }
+
+  const getAllRecords = computed(() => records.value);
 
   return {
     setupRecords,
@@ -76,5 +96,7 @@ export const useRecordsStore = defineStore("records", () => {
     setTags,
     saveRecordToDb,
     setComment,
+    //
+    savePomodoroRecordToDb,
   };
 });

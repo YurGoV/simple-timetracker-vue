@@ -1,7 +1,16 @@
 <template>
   <v-app-bar :elevation="2">
     <!-- <v-app-bar-nav-icon v-if="isLoggedIn" @click.stop="drawer = !drawer"> -->
-    <v-app-bar-nav-icon @click.stop="drawer = !drawer"> </v-app-bar-nav-icon>
+    <v-app-bar-nav-icon v-if="isLoggedIn" @click.stop="drawer = !drawer">
+    </v-app-bar-nav-icon>
+    <v-btn v-else-if="isHomeRoute" @click="onAboutBtnClick">
+      <!-- {{ $t(`common.logout`) }} -->
+      About
+    </v-btn>
+    <v-btn v-else @click="onHomeBtnClick">
+      <!-- {{ $t(`common.logout`) }} -->
+      Home
+    </v-btn>
 
     <!-- <v-navigation-drawer location="bottom" temporary> -->
     <!-- </v-app-bar-nav-icon> -->
@@ -17,9 +26,7 @@
         {{ $t(`common.logout`) }}
       </v-btn>
     </div>
-    <!-- </v-app-bar-title> -->
   </v-app-bar>
-  <!-- <v-navigation-drawer v-model="drawer" floating permanent> -->
   <v-navigation-drawer v-model="drawer" floating temporary>
     <v-list density="compact" nav>
       <v-list-item
@@ -28,12 +35,6 @@
         title="Home"
         value="1"
       ></v-list-item>
-      <!-- <v-list-item -->
-      <!--   :to="{ name: 'AddTime' }" -->
-      <!--   link -->
-      <!--   title="Time" -->
-      <!--   value="2" -->
-      <!-- ></v-list-item> -->
       <v-list-item
         :to="{ name: 'Time' }"
         link
@@ -54,13 +55,31 @@
 import { computed, ref } from "vue";
 import GoogleAuthBtn from "@/components/GoogleOAUTHButton.vue";
 import { useUserStore } from "@/store/user";
+import { useRouter } from "vue-router";
+
+// import router from "@/router";
+const router = useRouter();
+
 const userStore = useUserStore();
 
 const drawer = ref(null);
 
 async function logout() {
   await userStore.clearUser();
+  router.push({ name: "Home" });
 }
+async function onAboutBtnClick() {
+  router.push({ name: "About" });
+}
+
+async function onHomeBtnClick() {
+  router.push({ name: "Home" });
+}
+
+const isHomeRoute = computed(() => {
+  return router.currentRoute.value.name === "Home";
+});
+
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 </script>
 

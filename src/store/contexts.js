@@ -6,7 +6,6 @@ export const useContextsStore = defineStore("contexts", () => {
 
   function setupContexts(gettedContexts) {
     console.log(gettedContexts);
-    // contexts.value = contexts;
     contexts.value = gettedContexts;
   }
 

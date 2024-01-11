@@ -10,7 +10,7 @@ const contextsStore = useContextsStore();
 
 const callback = async (response) => {
   const { credential } = response;
-  console.log(credential, "credential");
+  // console.log(credential, "credential");
   const loginResult = await loginUserByCredential({ credential });
   // console.log(user, "user in button");
   const { user, gettedContexts, gettedRecords } = loginResult;
@@ -27,6 +27,4 @@ const config = {
 
 <template>
   <GoogleLogin :callback="callback" :buttonConfig="config" />
-  <!-- <GoogleLogin :callback="callback" prompt /> -->
-  <!-- <GoogleLogin :callback="callback" :buttonConfig="config" prompt auto-login /> -->
 </template>

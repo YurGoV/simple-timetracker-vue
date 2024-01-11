@@ -28,26 +28,10 @@ export const useUserStore = defineStore("user", () => {
     return user.value ? user.value.name : "Guest";
   });
 
-  const getLifeSpheres = computed(() => {
-    console.log(user.value.lifeSpheres, "uulllsss");
-    return user.value.lifeSpheres;
-  });
-
-  const getImportances = computed(() => {
-    return user.value.importances;
-  });
-
-  const getTags = computed(() => {
-    return user.value.tags;
-  });
-
   return {
     setUser,
     clearUser,
     isLoggedIn,
     getUsername,
-    // getLifeSpheres,
-    // getImportances,
-    // getTags,
   };
 });

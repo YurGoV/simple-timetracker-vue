@@ -18,7 +18,7 @@ export const useGeneralStore = defineStore("general", () => {
     setLoading(true);
     setError(null);
   }
-  //-------------
+
   async function generalApiOperation(
     { operation, successCallback, errorCallBack },
   ) {
