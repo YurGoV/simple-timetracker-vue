@@ -10,6 +10,8 @@ export const useContextsStore = defineStore("contexts", () => {
   }
 
   const getAllContexts = computed(() => contexts.value);
+
+
   const getLifeSpheres = computed(() => {
     if (contexts.value) {
       return contexts.value.filter((item) => {
