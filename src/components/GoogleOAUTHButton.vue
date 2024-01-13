@@ -19,9 +19,11 @@ const callback = async (response) => {
   recordsStore.setupRecords(gettedRecords);
 };
 const config = {
+  theme: 'filled_black',
   type: "icon",
   size: "medium",
-  shape: "circle",
+  // shape: "circle",
+  shape: "rectangular",
 };
 </script>
 

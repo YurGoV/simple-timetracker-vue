@@ -22,15 +22,15 @@ const routes = [
       {
         path: "/time",
         name: "Time",
-        component: () => import("@/views/ReviewTime.vue"),
+        component: () => import("@/views/TimeView.vue"),
         meta: { requiresAuth: true },
       },
-      {
-        path: "/add",
-        name: "AddTime",
-        component: () => import("@/views/AddTime.vue"),
-        meta: { requiresAuth: true },
-      },
+      // {
+      //   path: "/add",
+      //   name: "AddTime",
+      //   component: () => import("@/views/AddTime.vue"),
+      //   meta: { requiresAuth: true },
+      // },
     ],
   },
 ];
