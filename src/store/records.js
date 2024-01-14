@@ -12,7 +12,6 @@ export const useRecordsStore = defineStore("records", () => {
 
   const records = ref(null);
 
-  // const manualDate = ref(null);
   const manualDate = ref(day.getTime());
   const manualStartTime = ref(null);
   const manualEndTime = ref(null);
@@ -24,15 +23,21 @@ export const useRecordsStore = defineStore("records", () => {
 
   const getAllRecords = computed(() => records.value);
 
-  // const getRecordsByDay = computed((dayForSearch = day) => {
   const getRecordsByDay = computed(() => {
     console.log(manualDate.value, "manual dayForSearch");
     return records.value.filter((record) =>
-      // record.date == dayForSearch.getTime()
-      // record.date == manualDate.value.getTime()
       record.date == manualDate.value
     );
   });
+
+  const getRecordById = computed(() => {
+    return (id) => {
+      console.log(id, "id in get record by id");
+      return records.value.find((record) => record._id === id);
+    };
+  });
+
+  const getRecordsTags = computed(() => tags.value);
 
   const allLifeSpheres = computed(() => contextsStore.getLifeSpheres);
   const allImportances = computed(() => contextsStore.getImportances);
@@ -198,14 +203,20 @@ export const useRecordsStore = defineStore("records", () => {
     importance.value = importanceValue;
   }
   function setTags(tagsValue) {
+    console.log(
+      JSON.stringify(tagsValue),
+      "- tagsValue /set tags in record store!!!",
+    );
+    // console.log(tags.value, 'tags before tagsValue added')
     tags.value = tagsValue;
+    // console.log(tags.value, 'tags after tagsValue added')
   }
   function setComment(commentValue) {
     comment.value = commentValue;
   }
 
   function saveRecordToDb() {
-    console.log("save record in record store");
+    console.log("save manual record in record store");
     const payload = {
       date: manualDate.value,
       startTime: manualStartTime.value,
@@ -224,7 +235,7 @@ export const useRecordsStore = defineStore("records", () => {
     pomororoStartTime,
     pomodoroEndTime,
   }) {
-    console.log("save record in record store");
+    console.log("save pomodoro record in record store");
     const payload = {
       date: pomodoroDate,
       startTime: pomororoStartTime,
@@ -238,6 +249,17 @@ export const useRecordsStore = defineStore("records", () => {
     saveRecord(payload);
   }
 
+  function updateRecordInDb(id) {
+    console.log("update record in records store:", id);
+    console.log("date:", manualDate.value);
+    console.log("startTime:", manualStartTime.value);
+    console.log("endTime:", manualEndTime.value);
+    console.log("lifeSphere:", lifeSphere.value);
+    console.log("importance:", importance.value);
+    console.log("tags:", tags.value);
+    console.log("comment:", comment.value);
+  }
+
   return {
     setupRecords,
     getAllRecords,
@@ -247,11 +269,14 @@ export const useRecordsStore = defineStore("records", () => {
     setLifeSphere,
     setImportance,
     setTags,
+    getRecordsTags,
     saveRecordToDb,
     setComment,
+    updateRecordInDb,
     //
     savePomodoroRecordToDb,
     getRecordsByDay,
     getStatByDay,
+    getRecordById,
   };
 });

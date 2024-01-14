@@ -6,29 +6,18 @@
           <h1>time review</h1>
           <h2>daily:</h2>
           <v-row>
-            <!-- <v-col> -->
-            <!-- <v-col> -->
             <v-radio-group v-model="statCategory" inline>
               <v-radio label="Importance" default value="importance"></v-radio>
               <v-radio label="life spheres" value="life"></v-radio>
             </v-radio-group>
-            <!-- </v-col> -->
-            <!-- <v-col> -->
             <v-checkbox
               v-model="includeWholeDay"
               label="include untracked time"
             ></v-checkbox>
-            <!-- </v-col> -->
-            <!-- <p>{{ dailyRecords }}</p> -->
-            <!-- <p>{{ dailyStat.life }}</p> -->
-            <!-- </v-col> -->
           </v-row>
         </v-col>
       </v-row>
       <v-row>
-        <!-- <Doughnut :data="data" :options="options" /> -->
-        <!-- <Doughnut :data="dailyStat.life" :options="options" /> -->
-        <!-- <Doughnut :data="dailyStat.importance" :options="options" /> -->
         <Doughnut :data="dailyStatToDisplay" :options="options" />
       </v-row>
     </v-responsive>
@@ -36,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from "vue";
+import { ref, watchEffect, onMounted } from "vue";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "vue-chartjs";
 
@@ -54,23 +43,23 @@ import { computed } from "vue";
 import { useRecordsStore } from "@/store/records";
 const recordsStore = useRecordsStore();
 
-// const dailyRecords = computed(() => recordsStore.getRecordsByDay);
-// const dailyStat = computed(() => recordsStore.getStatByDay);
-
 const dailyStat = ref(
   recordsStore.getStatByDay({ includeWholeDay: includeWholeDay.value }),
 );
+
+const dailyStatToDisplay = computed(() => {
+  return dailyStat.value[statCategory.value];
+});
 
 watchEffect(() => {
   const stat = recordsStore.getStatByDay({
     includeWholeDay: includeWholeDay.value,
   });
-  // Update dailyStatToDisplay based on the new stat
   dailyStat.value = stat;
 });
 
-const dailyStatToDisplay = computed(() => {
-  return dailyStat.value[statCategory.value];
+onMounted(() => {
+  console.log("ReviewTime onMounted triggered");
 });
 </script>
 

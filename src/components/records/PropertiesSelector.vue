@@ -1,9 +1,7 @@
 <template>
   <div
     v-if="
-      !getLifeSpheres ||
-      !getImportances ||
-      !getTags
+      !getLifeSpheres || !getImportances || !getTags
       // ||
       // !selectedLifeSphere ||
       // !selectedTags ||
@@ -70,12 +68,11 @@ const { getLifeSpheres, getImportances, getTags } = storeToRefs(contextsStore);
 const comment = ref("");
 const selectedLifeSphere = ref(
   getLifeSpheres.value ? getLifeSpheres.value[0]._id : null,
-  // getLifeSpheres.value[0]._id,
 );
 const selectedImportance = ref(
   getImportances.value ? getImportances.value[0]._id : null,
-  // getImportances.value[0]._id,
 );
+
 const selectedTags = ref([]);
 
 watchEffect(() => {
