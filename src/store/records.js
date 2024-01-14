@@ -3,12 +3,17 @@ import { defineStore } from "pinia";
 import { saveRecord } from "@/services/records.service";
 import { useContextsStore } from "@/store/contexts";
 
+const day = new Date();
+day.setHours(0, 0, 0, 0);
+console.log(day, "day in records store");
+
 export const useRecordsStore = defineStore("records", () => {
   const contextsStore = useContextsStore();
 
   const records = ref(null);
 
-  const manualDate = ref(null);
+  // const manualDate = ref(null);
+  const manualDate = ref(day.getTime());
   const manualStartTime = ref(null);
   const manualEndTime = ref(null);
 
@@ -17,16 +22,15 @@ export const useRecordsStore = defineStore("records", () => {
   const tags = ref(null);
   const comment = ref(null);
 
-  const day = new Date();
-  day.setHours(0, 0, 0, 0);
-  console.log(day, "day in records store");
-
   const getAllRecords = computed(() => records.value);
 
-  const getRecordsByDay = computed((dayForSearch = day) => {
-    console.log(dayForSearch, "dayForSearch");
+  // const getRecordsByDay = computed((dayForSearch = day) => {
+  const getRecordsByDay = computed(() => {
+    console.log(manualDate.value, "manual dayForSearch");
     return records.value.filter((record) =>
-      record.date == dayForSearch.getTime()
+      // record.date == dayForSearch.getTime()
+      // record.date == manualDate.value.getTime()
+      record.date == manualDate.value
     );
   });
 

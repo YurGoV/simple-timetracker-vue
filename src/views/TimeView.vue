@@ -6,26 +6,41 @@
     rounded
     class="buttons-section"
   >
-    <v-btn @click="selectSection('add-time')" color="primary">Add Time</v-btn>
-    <v-btn @click="selectSection('review-time')" color="primary"
-      >Review Time</v-btn
-    >
-    <!-- </v-col> -->
+    <v-btn @click="selectSection('add')" color="primary">Add</v-btn>
+    <v-btn @click="selectSection('review')" color="primary">Review</v-btn>
+    <v-btn @click="selectSection('edit')" color="primary">Edit</v-btn>
   </v-sheet>
-  <AddTime v-if="section === 'add-time'" />
-  <ReviwTime v-if="section === 'review-time'" />
+  <AddTime v-if="section === 'add'" />
+  <ReviewTime v-if="section === 'review'" />
+  <EditTime v-if="section === 'edit'" />
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import AddTime from "@/components/AddTime.vue";
-import ReviwTime from "@/components/ReviewTime.vue";
+import ReviewTime from "@/components/ReviewTime.vue";
+import EditTime from "@/components/EditTime.vue";
+import { useRouter } from "vue-router";
 
-const section = ref("add-time");
+const section = ref("add");
+const router = useRouter();
 
 function selectSection(selectedSection) {
   section.value = selectedSection;
+
+  router.push({ name: "Time", params: { action: section.value } });
 }
+
+onMounted(() => {
+  const routeSection = router.currentRoute.value;
+
+  console.log(routeSection.params, "RS PARAMS");
+
+  const action = routeSection.params.action || "review";
+
+  section.value = action;
+  router.push({ name: "Time", params: { action: section.value } });
+});
 </script>
 
 <style scoped>
