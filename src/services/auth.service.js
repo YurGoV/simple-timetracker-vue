@@ -10,8 +10,10 @@ export const loginUserByCredential = async ({ credential }) => {
 
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.data.token}`;
 
+  // TODO: move to records.service
   const gettedRecords = await axios.get(`${baseUrl}/records`);
 
+  // TODO: move to context.service
   const gettedContexts = await axios.get(`${baseUrl}/contexts`);
 
   return {

@@ -1,6 +1,6 @@
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
-import { saveRecord } from "@/services/records.service";
+import { saveRecord, updateRecord } from "@/services/records.service";
 import { useContextsStore } from "@/store/contexts";
 
 const day = new Date();
@@ -250,14 +250,19 @@ export const useRecordsStore = defineStore("records", () => {
   }
 
   function updateRecordInDb(id) {
-    console.log("update record in records store:", id);
-    console.log("date:", manualDate.value);
-    console.log("startTime:", manualStartTime.value);
-    console.log("endTime:", manualEndTime.value);
-    console.log("lifeSphere:", lifeSphere.value);
-    console.log("importance:", importance.value);
-    console.log("tags:", tags.value);
-    console.log("comment:", comment.value);
+    const record = {
+      date: manualDate.value,
+      startTime: manualStartTime.value,
+      endTime: manualEndTime.value,
+      lifeSphere: lifeSphere.value,
+      importance: importance.value,
+      tags: tags.value,
+      comment: comment.value
+    }
+
+    // const recordId = "65a52f2851758191a430aef7"
+
+    updateRecord({ record, recordId: id })
   }
 
   return {

@@ -1,5 +1,6 @@
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
+import { updateContext } from "@/services/contexts.service";
 
 export const useContextsStore = defineStore("contexts", () => {
   const contexts = ref(null);
@@ -38,11 +39,17 @@ export const useContextsStore = defineStore("contexts", () => {
     return null;
   });
 
+  function updateContextInDb(payload) {
+
+    updateContext(payload)
+  }
+
   return {
     setupContexts,
     getAllContexts,
     getLifeSpheres,
     getImportances,
     getTags,
+    updateContextInDb,
   };
 });

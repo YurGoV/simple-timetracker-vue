@@ -26,6 +26,11 @@ const routes = [
         component: () => import("@/views/TimeView.vue"),
         meta: { requiresAuth: true },
       },
+      {
+        path: "/config",
+        name: "Config",
+        component: () => import("@/views/ConfigView.vue"),
+      },
       // {
       //   path: "/time/:action?/edit/:id?",
       //   name: "Time",
