@@ -29,24 +29,10 @@
   </v-app-bar>
   <v-navigation-drawer v-model="drawer" floating temporary>
     <v-list density="compact" nav>
-      <v-list-item
-        :to="{ name: 'Home' }"
-        link
-        title="Home"
-        value="1"
-      ></v-list-item>
-      <v-list-item
-        :to="{ name: 'Time' }"
-        link
-        title="Time"
-        value="2"
-      ></v-list-item>
-      <v-list-item
-        :to="{ name: 'About' }"
-        link
-        title="About"
-        value="3"
-      ></v-list-item>
+      <v-list-item :to="{ name: 'Home' }" link title="Home" value="1"></v-list-item>
+      <v-list-item :to="{ name: 'Time' }" link title="Time" value="2"></v-list-item>
+      <v-list-item :to="{ name: 'Config' }" link title="Config" value="3"></v-list-item>
+      <v-list-item :to="{ name: 'About' }" link title="About" value="4"></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -88,12 +74,14 @@ const isLoggedIn = computed(() => userStore.isLoggedIn);
   display: flex;
   justify-content: space-around;
 }
+
 .button-section {
   display: flex;
   padding-left: 20px;
   margin-right: 50px;
   max-width: 60px;
 }
+
 .gbtn {
   display: flex;
 }

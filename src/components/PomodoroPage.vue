@@ -60,7 +60,7 @@ import { useUserStore } from "@/store/user";
 import { usePomodoroSetup } from "@/store/pomodoroSetup";
 import { usePomodorosCount } from "@/store/pomodorosCount";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
+// import { ref } from "vue";
 
 import PropertiesSelector from "@/components/records/PropertiesSelector.vue";
 import { computed } from "vue";
