@@ -33,7 +33,7 @@
 
 <script setup>
 // TODO: rename to TimeList
-import { ref, computed, watchEffect, onMounted } from "vue";
+import { ref, computed, watch, watchEffect, onMounted } from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { useRecordsStore } from "@/store/records";
@@ -85,6 +85,14 @@ watchEffect(() => {
 });
 onMounted(() => {
   const routeSection = router.currentRoute.value;
+
+  watch(
+    () => router.currentRoute.value.params.identifier,
+    (newIdentifier) => {
+      console.log("Identifier changed:", newIdentifier);
+      identifier.value = newIdentifier;
+    }
+  );
 
   console.log(routeSection, "RS PARAMS S");
 
