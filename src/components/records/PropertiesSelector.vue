@@ -60,20 +60,26 @@ import { storeToRefs } from "pinia";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { useContextsStore } from "@/store/contexts";
 import { useRecordsStore } from "@/store/records";
+// import CheckboxList from "../CheckboxList.vue";
 
 const contextsStore = useContextsStore();
 const recordsStore = useRecordsStore();
+const {getSelectedTags, getSelectedImportance, getSelectedLifeSphere } = recordsStore
 const { getLifeSpheres, getImportances, getTags } = storeToRefs(contextsStore);
+
+const importance = getSelectedImportance
+const lifeSphere = getSelectedLifeSphere
+const tags = getSelectedTags
 
 const comment = ref("");
 const selectedLifeSphere = ref(
-  getLifeSpheres.value ? getLifeSpheres.value[0]._id : null,
+  lifeSphere ? lifeSphere : null,
 );
 const selectedImportance = ref(
-  getImportances.value ? getImportances.value[0]._id : null,
+  importance ? importance : null,
 );
 
-const selectedTags = ref([]);
+const selectedTags = ref(tags ? tags : []);
 
 watchEffect(() => {
   console.log("watchEffect triggered");

@@ -1,7 +1,6 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="align-center text-center fill-height">
-
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
           <!-- TODO: make template -->
@@ -13,13 +12,6 @@
               type="number"
               label="Duration in min"
             ></v-text-field>
-            <p>
-              current record values: <br />
-              Life Sphere: {{ oldTags.lifeSphere }} <br />
-              Importance: {{ oldTags.importance }} <br />
-              Tags: {{ oldTags.tags }} <br />
-              select new values below to edit...
-            </p>
             <PropertiesSelector />
             <v-btn @click="save" color="primary">Save</v-btn>
           </v-sheet>
@@ -32,16 +24,16 @@
 
 <script setup>
 // TODO: rename to TimeList
-import { ref, computed, watchEffect, onMounted } from "vue";
+import { ref, computed, watchEffect, onMounted, onBeforeMount} from "vue";
 import { useRouter } from "vue-router";
 import { useRecordsStore } from "@/store/records";
-import { useContextsStore } from "@/store/contexts";
+// import { useContextsStore } from "@/store/contexts";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import PropertiesSelector from "@/components/records/PropertiesSelector.vue";
 
 const recordsStore = useRecordsStore();
-const contextsStore = useContextsStore();
-const contexts = contextsStore.getAllContexts;
+// const contextsStore = useContextsStore();
+// const contexts = contextsStore.getAllContexts;
 const router = useRouter();
 
 const { identifier } = defineProps(["identifier"]);
@@ -59,29 +51,12 @@ const date = computed(() => {
   return day.getTime();
 });
 
-const oldTags = computed(() => {
-  const importance = contexts.find(
-    (context) => context._id === record.value.importance,
-  ).value;
-  const lifeSphere = contexts.find(
-    (context) => context._id === record.value.lifeSphere,
-  ).value;
-
-  let tags = "";
-  record.value.tags.forEach((id) => {
-    const tagName = contexts.find((context) => context._id === id).value;
-    tags += `${tagName} `;
-  });
-
-  return { importance, lifeSphere, tags };
-});
-
 function save() {
   recordsStore.updateRecordInDb(record.value._id);
 }
 
 watchEffect(() => {
-  console.log('sE start time', startTime.value)
+  console.log("sE start time", startTime.value);
   recordsStore.setManualDate(date.value);
   recordsStore.setManualStartTime(startTime.value.getTime());
   recordsStore.setManualEndTime(
@@ -107,6 +82,14 @@ onMounted(() => {
   console.log(identifierProp, "RS identity in edit componenT");
 
   identity.value = identifierProp;
+  // recordsStore.setTags(record.value.tags);
+});
+onBeforeMount(() => {
+  console.log(record.value.lifeSphere, record.value.importance, record.value.tags, 'ON BEforeMONUT')
+  recordsStore.setLifeSphere(record.value.lifeSphere);
+  recordsStore.setImportance(record.value.importance);
+  recordsStore.setTags(record.value.tags);
+  // recordsStore.setComment(comment.value);
 });
 </script>
 

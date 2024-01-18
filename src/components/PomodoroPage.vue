@@ -6,49 +6,59 @@
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
           <h1>Pomodoro</h1>
-          <v-sheet :elevation="0" :height="900" :width="500" rounded>
+          <v-row class='main-pomodoro'>
+            <!-- <v-sheet :elevation="0" :height="900" :width="500" rounded> -->
             <v-sheet
-              @click="onTimerClick"
-              :elevation="8"
-              :height="400"
-              :width="400"
-              border
+              :elevation="1"
+              :height="300"
+              :width="200"
+              rounded="xl"
+            >
+              <!-- TODO: add pomodoro time, pomodoros interval, sessions interval -->
+              <h2>Setup:</h2>
+              <p>{{ sessionsAmount }} sessions</p>
+              <p>{{ timersInSession }} pomodoros at session:</p>
+            </v-sheet>
+            <v-col >
+              <v-sheet
+                @click="onTimerClick"
+                :elevation="8"
+                :height="400"
+                :width="400"
+                border
+                rounded="circle"
+                class="main-button"
+              >
+                <div></div>
+                <p v-if="!inPause" class="timer">
+                  {{ remindedMinutes.toString().padStart(2, "0") }}
+                  :
+                  {{ remindedMinuteSeconds.toString().padStart(2, "0") }}
+                </p>
+                <p v-else class="pause">
+                  PAUSE<br />
+                  {{ pauseOnDisplay.toString() }} <br />
+                  MINUTES LEFT
+                </p>
+              </v-sheet>
+
+              <v-btn @click="reset" class="stop-btn"> Stop </v-btn>
+            </v-col>
+            <v-sheet
+              :elevation="1"
+              :height="300"
+              :width="200"
               rounded="xl"
               class="main-button"
             >
-              <div>
-                <div>Setup:</div>
-                <div>
-                  <p>
-                    sessions: {{ sessionsAmount }}, pomodoros at session:
-                    {{ timersInSession }}
-                  </p>
-                </div>
-              </div>
-              <p v-if="!inPause" class="timer">
-                {{ remindedMinutes.toString().padStart(2, "0") }}
-                :
-                {{ remindedMinuteSeconds.toString().padStart(2, "0") }}
-              </p>
-              <p v-else class="pause">
-                PAUSE<br />
-                {{ pauseOnDisplay.toString() }} <br />
-                MINUTES LEFT
-              </p>
-              <div>
-                <div>Passed (total):</div>
-                <div>
-                  <p>
-                    {{ passedPomodoros }} pomodoros,
-                    {{ passedSessions }} sessions
-                  </p>
-                </div>
-              </div>
+              <h2>Passed (total):</h2>
+              <p>{{ passedPomodoros }} pomodoros,</p>
+              <p>{{ passedSessions }} sessions</p>
             </v-sheet>
             <properties-selector v-if="isLoggedIn" class="properties" />
-          </v-sheet>
+            <!-- </v-sheet> -->
+          </v-row>
           <br />
-          <v-btn @click="reset"> Stop </v-btn>
         </v-col>
       </v-row>
     </v-responsive>
@@ -93,8 +103,16 @@ const { reset, onTimerClick } = pomodorosCount;
 // user.$subscribe(setIsAuth);
 </script>
 <style scoped>
+.main-pomodoro {
+align-items: center;
+justify-content: center;
+}
+.pomodoro {
+margin: auto;
+}
 .main-button {
   display: flex;
+margin: auto;
   flex-direction: column;
   cursor: pointer;
 }
@@ -107,6 +125,9 @@ const { reset, onTimerClick } = pomodorosCount;
   margin: auto;
 }
 .properties {
+  margin-top: 30px;
+}
+.stop-btn {
   margin-top: 30px;
 }
 </style>
