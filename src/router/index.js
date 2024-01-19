@@ -72,13 +72,13 @@ const router = createRouter({
 });
 
 router.beforeResolve(async (to, from, next) => {
-  console.log("beforeResolve router");
+  // console.log("beforeResolve router");
   // Your logic here
   next();
 });
 
 router.beforeEach(async (to, from, next) => {
-  console.log("befor each router");
+  // console.log("befor each router");
   const userStore = useUserStore();
   // TODO: refactoring to all inside login/current in user store
   const contextsStore = useContextsStore();
@@ -87,7 +87,7 @@ router.beforeEach(async (to, from, next) => {
   // await userStore.init();
 
   const { isLoggedIn } = userStore;
-  console.log(isLoggedIn, "LOGGED IN CHECK");
+  // console.log(isLoggedIn, "LOGGED IN CHECK");
   if (!isLoggedIn && token) {
     try {
       const { user, gettedContexts, gettedRecords } = await loginUserByToken(
@@ -114,7 +114,7 @@ router.beforeEach(async (to, from, next) => {
     // }
   }
   if (to.meta?.requiresAuth && !userStore.isLoggedIn) {
-    console.log("User not logged in, redirecting to Home");
+    // console.log("User not logged in, redirecting to Home");
     return next({
       name: "Home",
     });

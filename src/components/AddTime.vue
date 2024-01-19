@@ -12,7 +12,7 @@
           <!-- </div> -->
           <!-- <v-sheet v-else :elevation="0" :height="900" :width="500" rounded> -->
           <v-sheet :elevation="0" :height="900" :width="500" rounded>
-            <h1>Add time page</h1>
+            <h1>Add time manually</h1>
 
             <VueDatePicker v-model="startTime"></VueDatePicker>
             <v-text-field
@@ -22,11 +22,10 @@
             ></v-text-field>
             <properties-selector />
 
-            <v-btn @click="save" color="primary">Save</v-btn>
+            <v-btn @click="save" color="secondary" variant='outlined'>Save time record</v-btn>
           </v-sheet>
         </v-col>
       </v-row>
-      <v-row> </v-row>
     </v-responsive>
   </v-container>
 </template>
@@ -55,12 +54,12 @@ const date = computed(() => {
 });
 
 function save() {
-  console.log("save");
+  // console.log("save");
   recordsStore.saveRecordToDb();
 }
 
 watchEffect(() => {
-  console.log("watchEffect triggered");
+  // console.log("watchEffect triggered");
 
   recordsStore.setManualDate(date.value);
   recordsStore.setManualStartTime(startTime.value.getTime());

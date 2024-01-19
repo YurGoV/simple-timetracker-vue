@@ -13,7 +13,7 @@
               label="Duration in min"
             ></v-text-field>
             <PropertiesSelector />
-            <v-btn @click="save" color="primary">Save</v-btn>
+            <v-btn @click="save" color="secondary" variant="outlined">Save</v-btn>
           </v-sheet>
         </v-col>
       </v-row>
@@ -56,17 +56,17 @@ function save() {
 }
 
 watchEffect(() => {
-  console.log("sE start time", startTime.value);
+  // console.log("sE start time", startTime.value);
   recordsStore.setManualDate(date.value);
   recordsStore.setManualStartTime(startTime.value.getTime());
   recordsStore.setManualEndTime(
     startTime.value.getTime() + duration.value * 60 * 1000,
   );
-  console.log(
-    "watchEffect triggered in edit record",
-    identity.value,
-    identifier,
-  );
+  // console.log(
+  //   "watchEffect triggered in edit record",
+  //   identity.value,
+  //   identifier,
+  // );
   if (identifier) {
     record.value = recordsStore.getRecordById(identifier);
   } else {
@@ -75,17 +75,17 @@ watchEffect(() => {
 });
 
 onMounted(() => {
-  console.log("EditRecord onMounted triggered");
+  // console.log("EditRecord onMounted triggered");
   const routeSection = router.currentRoute.value;
 
   const identifierProp = routeSection.params.identifier || null;
-  console.log(identifierProp, "RS identity in edit componenT");
+  // console.log(identifierProp, "RS identity in edit componenT");
 
   identity.value = identifierProp;
   // recordsStore.setTags(record.value.tags);
 });
 onBeforeMount(() => {
-  console.log(record.value.lifeSphere, record.value.importance, record.value.tags, 'ON BEforeMONUT')
+  // console.log(record.value.lifeSphere, record.value.importance, record.value.tags, 'ON BEforeMONUT')
   recordsStore.setLifeSphere(record.value.lifeSphere);
   recordsStore.setImportance(record.value.importance);
   recordsStore.setTags(record.value.tags);

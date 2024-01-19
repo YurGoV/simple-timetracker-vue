@@ -7,10 +7,10 @@ export const useUserStore = defineStore("user", () => {
   const user = ref(null);
 
   function setUser(newUser) {
-    console.log(newUser, "uuuu");
-    console.log(newUser.token, "uuuttt");
+    // console.log(newUser, "uuuu");
+    // console.log(newUser.token, "uuuttt");
     user.value = newUser;
-    console.log(user.value.name, "uuuvvv");
+    // console.log(user.value.name, "uuuvvv");
     localStorage.setItem("token", newUser.token);
   }
 
@@ -20,7 +20,7 @@ export const useUserStore = defineStore("user", () => {
     localStorage.removeItem("token");
   }
   const isLoggedIn = computed(() => {
-    console.log(user.value, "uv isLI");
+    // console.log(user.value, "uv isLI");
     return user.value !== null;
   });
 

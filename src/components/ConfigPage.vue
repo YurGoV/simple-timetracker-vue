@@ -164,13 +164,13 @@ const isButtonDisabled = computed(
 );
 
 function onListClick(context) {
-  console.log(`on list click: ${context}`);
+  // console.log(`on list click: ${context}`);
   oldTagName.value = context.value;
   newTagName.value = context.value;
   tagId.value = context.id;
 }
 function save() {
-  console.log("click on save");
+  // console.log("click on save");
   contextsStore.updateContextInDb({
     id: tagId.value,
     value: newTagName.value

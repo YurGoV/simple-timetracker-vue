@@ -47,7 +47,7 @@
       <v-text-field
         v-model="comment"
         type="text"
-        label="Comment"
+        label="write your comment there"
       ></v-text-field>
     </v-row>
   </div>
@@ -72,17 +72,19 @@ const lifeSphere = getSelectedLifeSphere
 const tags = getSelectedTags
 
 const comment = ref("");
+
+// TODO: last choise for default
 const selectedLifeSphere = ref(
-  lifeSphere ? lifeSphere : null,
+  lifeSphere ? lifeSphere : getLifeSpheres.value[0]._id,
 );
 const selectedImportance = ref(
-  importance ? importance : null,
+  importance ? importance : getImportances.value[0]._id,
 );
 
 const selectedTags = ref(tags ? tags : []);
 
 watchEffect(() => {
-  console.log("watchEffect triggered");
+  // console.log("watchEffect triggered");
 
   recordsStore.setLifeSphere(selectedLifeSphere.value);
   recordsStore.setImportance(selectedImportance.value);
