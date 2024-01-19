@@ -12,7 +12,6 @@ export const useContextsStore = defineStore("contexts", () => {
 
   const getAllContexts = computed(() => contexts.value);
 
-
   const getLifeSpheres = computed(() => {
     if (contexts.value) {
       return contexts.value.filter((item) => {
@@ -39,9 +38,15 @@ export const useContextsStore = defineStore("contexts", () => {
     return null;
   });
 
-  function updateContextInDb(payload) {
+  async function updateContextInDb(payload) {
+    const newContext = await updateContext(payload);
+    if (newContext) {
+      const contextId = contexts.value.findIndex(
+        (context) => context._id === newContext._id,
+      );
+      contexts.value[contextId].value = newContext.value
+    }
 
-    updateContext(payload)
   }
 
   return {

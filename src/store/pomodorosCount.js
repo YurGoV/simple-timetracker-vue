@@ -186,7 +186,7 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
   }
 
   // TODO: move to service
-  function addPomodoro() {
+  async function addPomodoro() {
     pomodorosCount.value.passedPomodoros += 1;
 
     if (pomodorosCount.value.passedPomodoros % timersInSession === 0) {
@@ -200,7 +200,11 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
         pomodoroEndTime: timerStartAt + timerDuration.value,
       };
       //
-      savePomodoroRecordToDb(payload);
+      const newPomodoro = await savePomodoroRecordToDb(payload);
+      console.log(newPomodoro, "new POMODORO!");
+      // if (newPomodoro) {
+      //
+      // }
     }
 
     timerStartAt = null;

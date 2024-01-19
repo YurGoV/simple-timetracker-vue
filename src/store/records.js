@@ -55,7 +55,7 @@ export const useRecordsStore = defineStore("records", () => {
         recordsByDay: getRecordsByDay.value,
       });
 
-      return stat
+      return stat;
     };
   });
 
@@ -95,7 +95,7 @@ export const useRecordsStore = defineStore("records", () => {
     comment.value = commentValue;
   }
 
-  function saveRecordToDb() {
+  async function saveRecordToDb() {
     console.log("save manual record in record store");
     const payload = {
       date: manualDate.value,
@@ -107,10 +107,14 @@ export const useRecordsStore = defineStore("records", () => {
       comment: comment.value,
     };
 
-    saveRecord(payload);
+    const newRecord = await saveRecord(payload);
+    if (newRecord) {
+      records.value.push(newRecord);
+    }
+    return await newRecord;
   }
 
-  function savePomodoroRecordToDb({
+  async function savePomodoroRecordToDb({
     pomodoroDate,
     pomororoStartTime,
     pomodoroEndTime,
@@ -126,10 +130,14 @@ export const useRecordsStore = defineStore("records", () => {
       comment: comment.value,
     };
 
-    saveRecord(payload);
+    const newRecord = await saveRecord(payload);
+    if (newRecord) {
+      records.value.push(newRecord);
+    }
+    return await newRecord;
   }
 
-  function updateRecordInDb(id) {
+  async function updateRecordInDb(id) {
     const record = {
       date: manualDate.value,
       startTime: manualStartTime.value,
@@ -142,7 +150,14 @@ export const useRecordsStore = defineStore("records", () => {
 
     // const recordId = "65a52f2851758191a430aef7"
 
-    updateRecord({ record, recordId: id });
+    const updatedRecord = await updateRecord({ record, recordId: id });
+    if (updatedRecord) {
+      const recordIndex = records.value.findIndex(
+        (record) => record._id === updatedRecord._id,
+      );
+      records.value[recordIndex] = updatedRecord;
+    }
+    return updatedRecord;
   }
 
   return {
