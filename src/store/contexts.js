@@ -39,14 +39,18 @@ export const useContextsStore = defineStore("contexts", () => {
   });
 
   async function updateContextInDb(payload) {
-    const newContext = await updateContext(payload);
-    if (newContext) {
-      const contextId = contexts.value.findIndex(
-        (context) => context._id === newContext._id,
-      );
-      contexts.value[contextId].value = newContext.value
+    try {
+      const newContext = await updateContext(payload);
+      if (newContext) {
+        const contextId = contexts.value.findIndex(
+          (context) => context._id === newContext._id,
+        );
+        contexts.value[contextId].value = newContext.value;
+        return newContext;
+      }
+    } catch {
+      return false;
     }
-
   }
 
   return {

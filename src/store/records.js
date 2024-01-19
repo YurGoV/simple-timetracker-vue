@@ -122,11 +122,15 @@ export const useRecordsStore = defineStore("records", () => {
       comment: comment.value,
     };
 
+    try {
     const newRecord = await saveRecord(payload);
     if (newRecord) {
       records.value.push(newRecord);
     }
-    return await newRecord;
+    return true
+    } catch {
+      return false
+    }
   }
 
   async function savePomodoroRecordToDb({
@@ -165,6 +169,7 @@ export const useRecordsStore = defineStore("records", () => {
 
     // const recordId = "65a52f2851758191a430aef7"
 
+    try {
     const updatedRecord = await updateRecord({ record, recordId: id });
     if (updatedRecord) {
       const recordIndex = records.value.findIndex(
@@ -172,7 +177,10 @@ export const useRecordsStore = defineStore("records", () => {
       );
       records.value[recordIndex] = updatedRecord;
     }
-    return updatedRecord;
+    return true;
+    } catch {
+      return false
+    }
   }
 
   return {

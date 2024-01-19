@@ -1,4 +1,13 @@
 <template>
+  <v-snackbar
+    v-model="snackbar"
+    :color="snackbarColor"
+    location="top"
+    :close-on-content-click="true"
+    timeout="2500"
+  >
+    {{ snackbarText }}</v-snackbar
+  >
   <h1>Config page</h1>
   <div>
     <v-text-field
@@ -123,6 +132,9 @@
 import { computed, ref } from "vue";
 import { useContextsStore } from "@/store/contexts";
 
+import { useSnackbar } from "@/utils/useSnackbar";
+const { snackbar, snackbarText, snackbarColor, showSnackbar } = useSnackbar();
+
 const oldTagName = ref(null);
 const newTagName = ref(null);
 const tagId = ref(null);
@@ -169,13 +181,18 @@ function onListClick(context) {
   newTagName.value = context.value;
   tagId.value = context.id;
 }
-function save() {
-  // console.log("click on save");
-  contextsStore.updateContextInDb({
-    id: tagId.value,
-    value: newTagName.value
-  })
 
+async function save() {
+  // console.log("click on save");
+  const savedResult = await contextsStore.updateContextInDb({
+    id: tagId.value,
+    value: newTagName.value,
+  });
+  if (savedResult) {
+    oldTagName.value = savedResult.value;
+  }
+
+  showSnackbar({ isSuccess: savedResult });
 }
 </script>
 

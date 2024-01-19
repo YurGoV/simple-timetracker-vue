@@ -1,4 +1,13 @@
 <template>
+  <v-snackbar
+    v-model="snackbar"
+    :color="snackbarColor"
+    location="top"
+    :close-on-content-click="true"
+    timeout="2500"
+  >
+    {{ snackbarText }}</v-snackbar
+  >
   <v-container class="fill-height">
     <v-responsive class="align-center text-center fill-height">
       <v-row class="d-flex align-center justify-center">
@@ -13,7 +22,9 @@
               label="Duration in min"
             ></v-text-field>
             <PropertiesSelector />
-            <v-btn @click="save" color="secondary" variant="outlined">Save</v-btn>
+            <v-btn @click="save" color="secondary" variant="outlined"
+              >Save</v-btn
+            >
           </v-sheet>
         </v-col>
       </v-row>
@@ -24,12 +35,15 @@
 
 <script setup>
 // TODO: rename to TimeList
-import { ref, computed, watchEffect, onMounted, onBeforeMount} from "vue";
+import { ref, computed, watchEffect, onMounted, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import { useRecordsStore } from "@/store/records";
 // import { useContextsStore } from "@/store/contexts";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import PropertiesSelector from "@/components/records/PropertiesSelector.vue";
+
+import { useSnackbar } from "@/utils/useSnackbar";
+const { snackbar, snackbarText, snackbarColor, showSnackbar } = useSnackbar();
 
 const recordsStore = useRecordsStore();
 // const contextsStore = useContextsStore();
@@ -51,8 +65,10 @@ const date = computed(() => {
   return day.getTime();
 });
 
-function save() {
-  recordsStore.updateRecordInDb(record.value._id);
+async function save() {
+  const saveResult = await recordsStore.updateRecordInDb(record.value._id);
+  console.log(saveResult, "SR on edit record");
+  showSnackbar({ isSuccess: saveResult });
 }
 
 watchEffect(() => {

@@ -85,11 +85,6 @@ const { sessionsAmount, timersInSession } = pomodoroSetup.value;
 
 const pomodorosCount = usePomodorosCount();
 
-// function setIsAuth() {
-//   console.log("aaaa");
-//   isAuth.value = isLoggedIn;
-// }
-// NOTE: just now
 const {
   inPause,
   remindedMinuteSeconds,

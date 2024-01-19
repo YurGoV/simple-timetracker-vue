@@ -1,16 +1,19 @@
 <template>
+  <v-snackbar
+    v-model="snackbar"
+    :color="snackbarColor"
+    location="top"
+    :close-on-content-click="true"
+    timeout="2500"
+  >
+    {{ snackbarText }}</v-snackbar
+  >
   <v-container class="fill-height">
     <v-responsive class="align-center text-center fill-height">
       <!-- <v-navigation-drawer v-model="drawerVisible" location="bottom" temporary> -->
 
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
-          <!-- TODO: make template -->
-
-          <!-- <div v-if="!getLifeSpheres || !getImportances || !getTags"> -->
-          <!--   Loading... -->
-          <!-- </div> -->
-          <!-- <v-sheet v-else :elevation="0" :height="900" :width="500" rounded> -->
           <v-sheet :elevation="0" :height="900" :width="500" rounded>
             <h1>Add time manually</h1>
 
@@ -22,7 +25,9 @@
             ></v-text-field>
             <properties-selector />
 
-            <v-btn @click="save" color="secondary" variant='outlined'>Save time record</v-btn>
+            <v-btn @click="save" color="secondary" variant="outlined"
+              >Save time record</v-btn
+            >
           </v-sheet>
         </v-col>
       </v-row>
@@ -40,6 +45,9 @@ import { useRecordsStore } from "@/store/records";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
+import { useSnackbar } from "@/utils/useSnackbar";
+const { snackbar, snackbarText, snackbarColor, showSnackbar } = useSnackbar();
+
 const recordsStore = useRecordsStore();
 
 const currentDate = new Date();
@@ -53,9 +61,9 @@ const date = computed(() => {
   return day.getTime();
 });
 
-function save() {
-  // console.log("save");
-  recordsStore.saveRecordToDb();
+async function save() {
+  const saveResult = await recordsStore.saveRecordToDb();
+  showSnackbar({isSuccess: saveResult})
 }
 
 watchEffect(() => {
