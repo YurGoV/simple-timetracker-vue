@@ -14,18 +14,18 @@
         <v-col cols="auto">
           <!-- TODO: make template -->
           <v-sheet :elevation="0" :height="900" :width="500" rounded>
-            <h1>Edit record page</h1>
+            <h1>{{ $t(`editRecord.title`) }}</h1>
             <VueDatePicker v-model="startTime"></VueDatePicker>
             <v-text-field
               v-model="duration"
               type="number"
-              label="Duration in min"
+              :label="$t(`editRecord.duration`)"
             ></v-text-field>
             <PropertiesSelector />
 
-            <v-btn @click="save" color="secondary" variant="outlined"
-              >Save</v-btn
-            >
+            <v-btn @click="save" color="secondary" variant="outlined">{{
+              $t(`editRecord.save`)
+            }}</v-btn>
           </v-sheet>
         </v-col>
       </v-row>
@@ -38,7 +38,7 @@
 import { ref, computed, watchEffect, onMounted, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import { useRecordsStore } from "@/store/records";
-// import { useContextsStore } from "@/store/contexts";
+
 import VueDatePicker from "@vuepic/vue-datepicker";
 import PropertiesSelector from "@/components/records/PropertiesSelector.vue";
 
@@ -46,14 +46,12 @@ import { useSnackbar } from "@/utils/useSnackbar";
 const { snackbar, snackbarText, snackbarColor, showSnackbar } = useSnackbar();
 
 const recordsStore = useRecordsStore();
-// const contextsStore = useContextsStore();
-// const contexts = contextsStore.getAllContexts;
 const router = useRouter();
 
 const { identifier } = defineProps(["identifier"]);
 const identity = ref(identifier);
 
-// TODO: unneeded?
+// NOTE: unneeded?
 const record = ref(recordsStore.getRecordById(identity.value));
 const startTime = ref(new Date(record.value.startTime));
 const duration = ref(
@@ -67,22 +65,15 @@ const date = computed(() => {
 
 async function save() {
   const saveResult = await recordsStore.updateRecordInDb(record.value._id);
-  console.log(saveResult, "SR on edit record");
   showSnackbar({ isSuccess: saveResult });
 }
 
 watchEffect(() => {
-  // console.log("sE start time", startTime.value);
   recordsStore.setManualDate(date.value);
   recordsStore.setManualStartTime(startTime.value.getTime());
   recordsStore.setManualEndTime(
     startTime.value.getTime() + duration.value * 60 * 1000,
   );
-  // console.log(
-  //   "watchEffect triggered in edit record",
-  //   identity.value,
-  //   identifier,
-  // );
   if (identifier) {
     record.value = recordsStore.getRecordById(identifier);
   } else {
@@ -91,21 +82,16 @@ watchEffect(() => {
 });
 
 onMounted(() => {
-  // console.log("EditRecord onMounted triggered");
   const routeSection = router.currentRoute.value;
 
   const identifierProp = routeSection.params.identifier || null;
-  // console.log(identifierProp, "RS identity in edit componenT");
 
   identity.value = identifierProp;
-  // recordsStore.setTags(record.value.tags);
 });
 onBeforeMount(() => {
-  // console.log(record.value.lifeSphere, record.value.importance, record.value.tags, 'ON BEforeMONUT')
   recordsStore.setLifeSphere(record.value.lifeSphere);
   recordsStore.setImportance(record.value.importance);
   recordsStore.setTags(record.value.tags);
-  // recordsStore.setComment(comment.value);
 });
 </script>
 

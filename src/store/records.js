@@ -8,7 +8,6 @@ import { getDaysInPeriod } from "@/utils/statistics/getDaysInPeriod";
 
 const day = new Date();
 day.setHours(0, 0, 0, 0);
-// console.log(day, "day in records store");
 
 export const useRecordsStore = defineStore("records", () => {
   const contextsStore = useContextsStore();
@@ -27,25 +26,16 @@ export const useRecordsStore = defineStore("records", () => {
   const getAllRecords = computed(() => records.value);
 
   const getRecordsByDay = computed(() => {
-    // console.log(manualDate.value, "manual periodForSearch");
     return records.value.filter((record) => record.date == manualDate.value);
   });
 
-  // const getRecordsByPeriod = computed(() => {
-  // return (period) => {
   function getRecordsByPeriod({ startSearchDay, endSearchDay }) {
-    // console.log(startSearchDay, endSearchDay, 'G S B P PERIOD')
-    // console.log(manualDate.value, "manual periodForSearch");
-    // return records.value.filter((record) => record.date == manualDate.value);
     return records.value.filter(
       (record) => record.date >= startSearchDay && record.date <= endSearchDay,
     );
   }
-  // });
-
   const getRecordById = computed(() => {
     return (id) => {
-      // console.log(id, "id in get record by id");
       return records.value.find((record) => record._id === id);
     };
   });
@@ -59,11 +49,9 @@ export const useRecordsStore = defineStore("records", () => {
 
   const getStatByPeriod = computed(() => {
     return (props) => {
-      // console.log(props, 'GSBP PROPS')
       const { period, includeWholeDay = false } = props;
       const periodForSearch = periodByPreset(period);
-      const daysInPeriod = getDaysInPeriod(periodForSearch)
-      // console.log(periodForSearch, daysInPeriod, 'PFS p e r i o d')
+      const daysInPeriod = getDaysInPeriod(periodForSearch);
       const recordsByPeriod = getRecordsByPeriod(periodForSearch);
       // NOTE: new
       const stat = calculateStatByPeriod({
@@ -79,12 +67,10 @@ export const useRecordsStore = defineStore("records", () => {
   });
 
   function setupRecords(gettedRecords) {
-    // console.log(gettedRecords);
     records.value = gettedRecords;
   }
 
   function setManualDate(date) {
-    // console.log(date, "manual date in store");
     manualDate.value = date;
   }
   function setManualStartTime(startTime) {
@@ -95,27 +81,19 @@ export const useRecordsStore = defineStore("records", () => {
   }
 
   function setLifeSphere(lifeSphereValue) {
-    // console.log(lifeSphereValue, "LS value in record store");
     lifeSphere.value = lifeSphereValue;
   }
   function setImportance(importanceValue) {
     importance.value = importanceValue;
   }
   function setTags(tagsValue) {
-    // console.log(
-    //   JSON.stringify(tagsValue),
-    //   "- tagsValue /set tags in record store!!!",
-    // );
-    // console.log(tags.value, 'tags before tagsValue added')
     tags.value = tagsValue;
-    // console.log(tags.value, 'tags after tagsValue added')
   }
   function setComment(commentValue) {
     comment.value = commentValue;
   }
 
   async function saveRecordToDb() {
-    // console.log("save manual record in record store");
     const payload = {
       date: manualDate.value,
       startTime: manualStartTime.value,
@@ -142,7 +120,6 @@ export const useRecordsStore = defineStore("records", () => {
     pomororoStartTime,
     pomodoroEndTime,
   }) {
-    // console.log("save pomodoro record in record store");
     const payload = {
       date: pomodoroDate,
       startTime: pomororoStartTime,
@@ -170,8 +147,6 @@ export const useRecordsStore = defineStore("records", () => {
       tags: tags.value,
       comment: comment.value,
     };
-
-    // const recordId = "65a52f2851758191a430aef7"
 
     try {
       const updatedRecord = await updateRecord({ record, recordId: id });
@@ -202,7 +177,6 @@ export const useRecordsStore = defineStore("records", () => {
     saveRecordToDb,
     setComment,
     updateRecordInDb,
-    //
     savePomodoroRecordToDb,
     getRecordsByDay,
     getStatByPeriod,

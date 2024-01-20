@@ -3,13 +3,12 @@
     <v-responsive class="align-center text-center fill-height">
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
-          <!-- TODO: make template -->
-
           <v-sheet :elevation="0" :height="900" :width="500" rounded>
             <div v-if="!identifier">
               <!-- TODO: move in component as EditRecord -->
-              <h1>Edit time page</h1>
-
+              <p><br /><br /></p>
+              <h1>{{ $t(`editTimeList.title`) }}</h1>
+              <p><br /></p>
               <VueDatePicker v-model="startTime"></VueDatePicker>
               <v-list>
                 <v-list-item
@@ -32,6 +31,9 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+
 import { ref, computed, watch, watchEffect, onMounted } from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
@@ -43,7 +45,6 @@ const router = useRouter();
 
 const currentDate = new Date();
 const startTime = ref(currentDate);
-// route params:
 const identifier = ref(null);
 const name = ref(null);
 
@@ -55,7 +56,7 @@ const dayRecordsList = computed(() =>
     const duration = Math.ceil((record.endTime - record.startTime) / 1000 / 60);
     return {
       id: record._id,
-      title: `start at ${hours}:${minutes}; duration ${duration} min`,
+      title: t('editTimeList.time', { hours, minutes, duration }),
     };
   }),
 );
@@ -67,8 +68,6 @@ const date = computed(() => {
 });
 
 function onListClick(id) {
-  // console.log(id, "on list click id");
-
   identifier.value = id;
   router.push({
     name: name.value,
@@ -77,9 +76,6 @@ function onListClick(id) {
 }
 
 watchEffect(() => {
-  // console.log("EditTime onMounted triggered");
-  // console.log("watchEffect triggered");
-
   recordsStore.setManualDate(date.value);
 });
 onMounted(() => {
@@ -88,12 +84,9 @@ onMounted(() => {
   watch(
     () => router.currentRoute.value.params.identifier,
     (newIdentifier) => {
-      // console.log("Identifier changed:", newIdentifier);
       identifier.value = newIdentifier;
-    }
+    },
   );
-
-  // console.log(routeSection, "RS PARAMS S");
 
   const identifierProp = routeSection.params.identifier || null;
 

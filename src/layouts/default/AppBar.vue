@@ -1,49 +1,72 @@
 <template>
   <v-app-bar :elevation="2">
-    <!-- <v-app-bar-nav-icon v-if="isLoggedIn" @click.stop="drawer = !drawer"> -->
     <v-app-bar-nav-icon v-if="isLoggedIn" @click.stop="drawer = !drawer">
     </v-app-bar-nav-icon>
     <v-btn v-else-if="isHomeRoute" @click="onAboutBtnClick">
-      <!-- {{ $t(`common.logout`) }} -->
       About
     </v-btn>
     <v-btn v-else @click="onHomeBtnClick">
-      <!-- {{ $t(`common.logout`) }} -->
       Home
     </v-btn>
 
-    <!-- <v-navigation-drawer location="bottom" temporary> -->
-    <!-- </v-app-bar-nav-icon> -->
-
     <v-app-bar-title class="app-bar">
-      {{ $t(`common.title`) }}
+      {{ $t(`appBar.title`) }}
     </v-app-bar-title>
-    <!-- <v-icon icon="mdi-home" /> -->
-    <!-- <v-icon icon="mdi-account" /> -->
+
     <div class="button-section">
+      <div class="i18n-section">
+        <v-switch
+          v-model='$i18n.locale'
+          true-value="en"
+          false-value="ua"
+          :label="$i18n.locale"
+        ></v-switch>
+      </div>
       <GoogleAuthBtn v-if="!isLoggedIn" class="gbtn" />
       <v-btn v-else @click="logout" prepend-icon="mdi-logout">
-        {{ $t(`common.logout`) }}
+        {{ $t(`appBar.logout`) }}
       </v-btn>
     </div>
   </v-app-bar>
   <v-navigation-drawer v-model="drawer" floating temporary>
     <v-list density="compact" nav>
-      <v-list-item :to="{ name: 'Home' }" link title="Home" value="1"></v-list-item>
-      <v-list-item :to="{ name: 'Time' }" link title="Time" value="2"></v-list-item>
-      <v-list-item :to="{ name: 'Config' }" link title="Config" value="3"></v-list-item>
-      <v-list-item :to="{ name: 'About' }" link title="About" value="4"></v-list-item>
+      <v-list-item
+        :to="{ name: 'Home' }"
+        link
+        :title="$t(`appBar.home`)"
+        value="1"
+      ></v-list-item>
+      <v-list-item
+        :to="{ name: 'Time' }"
+        link
+        :title="$t(`appBar.time`)"
+        value="2"
+      ></v-list-item>
+      <v-list-item
+        :to="{ name: 'Config' }"
+        link
+        :title="$t(`appBar.config`)"
+        value="3"
+      ></v-list-item>
+      <v-list-item
+        :to="{ name: 'About' }"
+        link
+        :title="$t(`appBar.about`)"
+        value="4"
+      ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import GoogleAuthBtn from "@/components/GoogleOAUTHButton.vue";
 import { useUserStore } from "@/store/user";
 import { useRouter } from "vue-router";
 
-// import router from "@/router";
+import i18n from '@/plugins/i18n'
+
+const language = ref("en");
 const router = useRouter();
 
 const userStore = useUserStore();
@@ -67,6 +90,10 @@ const isHomeRoute = computed(() => {
 });
 
 const isLoggedIn = computed(() => userStore.isLoggedIn);
+
+watch(language, (newLanguage) => {
+  i18n.locale = newLanguage
+});
 </script>
 
 <style scoped>
@@ -77,11 +104,21 @@ const isLoggedIn = computed(() => userStore.isLoggedIn);
 
 .button-section {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-left: 20px;
   margin-right: 50px;
-  max-width: 60px;
+  min-width: 270px;
 }
-
+.i18n-section {
+  display: flex;
+  align-items: center;
+  min-width: 100px;
+}
+.v-switch {
+  display: flex;
+  justify-content: center;
+}
 .gbtn {
   display: flex;
 }

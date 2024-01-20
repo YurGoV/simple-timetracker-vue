@@ -1,6 +1,71 @@
 {
-  "common": {
+  "appBar": {
     "title": "Simple Time Tracker",
-    "logout": "logout"
+    "logout": "logout",
+    "home": "Home",
+    "time": "Time",
+    "config": "Setup",
+    "about": "About"
+  },
+  "aboutApp": {
+    "title": "About this app",
+    "quote": "For many of us, there’s a gap between the compass and the clock— between what’s deeply important to us and the way we spend our time.",
+    "quoteAuthor": "― Stephen R. Covey, First Things First",
+    "describe": "the purpose of this application is to help in the analysis of which areas of our lives we spend time on and whether we do not sacrifice important things in our lives in exchange for the urgent."
+  },
+  "addTime": {
+    "title": "Add time manually",
+    "duration": "Duration in min",
+    "save": "Save time record"
+  },
+  "configPage": {
+    "title": "Edit your tags and contexts",
+    "chooseLabel": "choose tag to edit",
+    "save": "Save",
+    "editImprtns": "Edit importances",
+    "editLifeSphrs": "Edit life spheres",
+    "editTags": "Edit tags",
+    "tagName": "Tag Name"
+  },
+  "editTimeList": {
+    "title": "Editing existing records",
+    "time": "time of record - {hours}:{minutes}; duration - {duration} min"
+  },
+  "editRecord": {
+    "title": "Shoose time & tags",
+    "duration": "Duration in minutes",
+    "save": "Save"
+  },
+  "reviewTime": {
+    "title": "Statistics",
+    "today": "Today",
+    "currentWeek": "This week",
+    "prevWeek": "Previous week",
+    "currentMonth": "This month",
+    "importance": "Importance",
+    "lifeSpheres": "Life Spheres",
+    "untracked": "Include untracked time"
+  },
+  "timeView": {
+    "add": "Add",
+    "review": "Statisctics",
+    "edit": "Edit"
+  },
+  "pomodoroPage": {
+    "title": "Pomodoro",
+    "subTitleSetup": "Setup",
+    "subTitlePassed": "Passed",
+    "sessions": "sessions",
+    "pomodoros": "pomodoros",
+    "pomAtSession": "pomodoros at session",
+    "pause": "PAUSE",
+    "minutesLeft": "MINUTES LEFT",
+    "stop": "Stop"
+  },
+  "propsSelector": {
+    "lifeSphere": "Life Sphere",
+    "importance": "Importance",
+    "contextChoose": "Choose Context",
+    "comment": "comment"
   }
 }

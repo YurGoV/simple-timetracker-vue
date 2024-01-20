@@ -1,26 +1,48 @@
 <template>
   <v-container class="fill-height">
-    <v-responsive class="align-center text-center fill-height">
+    <v-responsive
+      class="align-center text-center fill-height"
+    >
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
-          <h1>time review</h1>
-          <h2>daily:</h2>
+          <h1>{{ $t(`reviewTime.title`) }}</h1>
+          <p><br /></p>
           <v-row class="d-flex align-center justify-center">
             <v-radio-group v-model="statPeriod" inline>
-              <v-radio label="Today" default value="today"></v-radio>
-              <v-radio label="Current week" value="current_week"></v-radio>
-              <v-radio label="Previous week" value="previous_week"></v-radio>
-              <v-radio label="Current month" value="current_month"></v-radio>
+              <v-radio
+                :label="$t(`reviewTime.today`)"
+                default
+                value="today"
+              ></v-radio>
+              <v-radio
+                :label="$t(`reviewTime.currentWeek`)"
+                value="current_week"
+              ></v-radio>
+              <v-radio
+                :label="$t(`reviewTime.prevWeek`)"
+                value="previous_week"
+              ></v-radio>
+              <v-radio
+                :label="$t(`reviewTime.currentMonth`)"
+                value="current_month"
+              ></v-radio>
             </v-radio-group>
           </v-row>
           <v-row class="d-flex align-center justify-center">
             <v-radio-group v-model="statCategory" inline>
-              <v-radio label="Importance" default value="importance"></v-radio>
-              <v-radio label="life spheres" value="life"></v-radio>
+              <v-radio
+                :label="$t(`reviewTime.importance`)"
+                default
+                value="importance"
+              ></v-radio>
+              <v-radio
+                :label="$t(`reviewTime.lifeSpheres`)"
+                value="life"
+              ></v-radio>
             </v-radio-group>
             <v-checkbox
               v-model="includeWholeDay"
-              label="include untracked time"
+              :label="$t(`reviewTime.untracked`)"
             ></v-checkbox>
           </v-row>
         </v-col>
@@ -35,7 +57,7 @@
 </template>
 
 <script setup>
-import { ref, watchEffect, onMounted } from "vue";
+import { ref, watchEffect } from "vue";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "vue-chartjs";
 
@@ -73,9 +95,6 @@ watchEffect(() => {
   statByPeriod.value = stat;
 });
 
-onMounted(() => {
-  // console.log("ReviewTime onMounted triggered");
-});
 </script>
 
 <style scoped>

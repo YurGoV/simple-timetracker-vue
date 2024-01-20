@@ -1,5 +1,3 @@
-// const { periodForSearch = day, includeWholeDay = false } = props;
-
 export const calculateStatByPeriod = ({
   daysInPeriod,
   includeWholeDay,
@@ -7,12 +5,6 @@ export const calculateStatByPeriod = ({
   allImportances,
   recordsByPeriod,
 }) => {
-  //  console.log(period, "period for search DDFFSS");
-  // console.log(includeWholeDay, "DD WW FFSS");
-  // console.log(allLifeSpheres, "ALL LF")
-  // console.log(allImportances, "ALL I")
-  // console.log(recordsByPeriod, "REC BY D")
-  // TODO: move count logic to utils
   const lifeSpheres = {};
 
   const lifeSpheresDataCount = {};
@@ -29,7 +21,6 @@ export const calculateStatByPeriod = ({
   // to back to 'populate' in mongoDB
   const idsDataValues = {};
 
-  // console.log("LOOK");
   const lifeSphereTypeName = allLifeSpheres[0].type;
   const importanceTypeName = allImportances[0].type;
 
@@ -46,14 +37,11 @@ export const calculateStatByPeriod = ({
       backgroundColor: [...backgroundColorSetup],
     },
   ];
-  // setup life sphere
   for (const sphere of allLifeSpheres) {
-    // console.log(sphere, "shpere in for");
     lifeSpheresDataCount[sphere.value] = 0;
 
     idsDataValues[sphere._id] = [sphere.type, sphere.value];
   }
-  // setup importance
   for (const sphere of allImportances) {
     importancesDataCount[sphere.value] = 0;
 
@@ -73,7 +61,6 @@ export const calculateStatByPeriod = ({
   // TODO: DRY
   const dayTimeInMin = 720; // whole day tracked tim length in minutes
   const periodTimeInMin = daysInPeriod * dayTimeInMin;
-  // life spheres section
   const lifeSpheresLabels = [
     ...Object.keys(lifeSpheresDataCount),
     "untracked time",
@@ -92,9 +79,7 @@ export const calculateStatByPeriod = ({
     resultValues.push(periodTimeInMin - usedTime);
 
     lifeSpheresDatasets = resultValues;
-    // console.log(resultValues, "RESULT VALUES");
   }
-  // importance section
   const importancesLabels = [
     ...Object.keys(importancesDataCount),
     "untracked time",
@@ -113,15 +98,12 @@ export const calculateStatByPeriod = ({
     resultValues.push(periodTimeInMin - usedTime);
 
     importancesDatasets = resultValues;
-    // console.log(resultValues, "RESULT VALUES");
   }
 
   lifeSpheres[lifeSphereTypeName].labels = lifeSpheresLabels;
   lifeSpheres[lifeSphereTypeName].datasets[0].data = lifeSpheresDatasets;
   lifeSpheres[importanceTypeName].labels = importancesLabels;
   lifeSpheres[importanceTypeName].datasets[0].data = importancesDatasets;
-
-  // console.log(lifeSpheres, "LSF-DATA");
 
   return lifeSpheres;
 };

@@ -1,25 +1,19 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="align-center text-center fill-height">
-      <!-- <v-navigation-drawer v-model="drawerVisible" location="bottom" temporary> -->
-
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
-          <h1>Pomodoro</h1>
-          <v-row class='main-pomodoro'>
-            <!-- <v-sheet :elevation="0" :height="900" :width="500" rounded> -->
-            <v-sheet
-              :elevation="1"
-              :height="300"
-              :width="200"
-              rounded="xl"
-            >
+          <h1>{{ $t(`pomodoroPage.title`) }}</h1>
+          <v-row class="main-pomodoro">
+            <v-sheet :elevation="1" :height="300" :width="200" rounded="xl">
               <!-- TODO: add pomodoro time, pomodoros interval, sessions interval -->
-              <h2>Setup:</h2>
-              <p>{{ sessionsAmount }} sessions</p>
-              <p>{{ timersInSession }} pomodoros at session:</p>
+              <h2>{{ $t(`pomodoroPage.subTitleSetup`) }}:</h2>
+              <p>{{ sessionsAmount }} {{ $t(`pomodoroPage.sessions`) }}</p>
+              <p>
+                {{ timersInSession }} {{ $t(`pomodoroPage.pomAtSession`) }}:
+              </p>
             </v-sheet>
-            <v-col >
+            <v-col>
               <v-sheet
                 @click="onTimerClick"
                 :elevation="8"
@@ -36,13 +30,15 @@
                   {{ remindedMinuteSeconds.toString().padStart(2, "0") }}
                 </p>
                 <p v-else class="pause">
-                  PAUSE<br />
+                  {{ $t(`pomodoroPage.pause`) }}<br />
                   {{ pauseOnDisplay.toString() }} <br />
-                  MINUTES LEFT
+                  {{ $t(`pomodoroPage.minutesLeft`) }}
                 </p>
               </v-sheet>
 
-              <v-btn @click="reset" class="stop-btn"> Stop </v-btn>
+              <v-btn @click="reset" class="stop-btn">
+                {{ $t(`pomodoroPage.stop`) }}
+              </v-btn>
             </v-col>
             <v-sheet
               :elevation="1"
@@ -51,9 +47,9 @@
               rounded="xl"
               class="main-button"
             >
-              <h2>Passed (total):</h2>
-              <p>{{ passedPomodoros }} pomodoros,</p>
-              <p>{{ passedSessions }} sessions</p>
+              <h2>{{ $t(`pomodoroPage.subTitlePassed`) }}:</h2>
+              <p>{{ passedPomodoros }} {{ $t(`pomodoroPage.pomodoros`) }},</p>
+              <p>{{ passedSessions }} {{ $t(`pomodoroPage.sessions`) }}</p>
             </v-sheet>
             <properties-selector v-if="isLoggedIn" class="properties" />
             <!-- </v-sheet> -->
@@ -70,7 +66,6 @@ import { useUserStore } from "@/store/user";
 import { usePomodoroSetup } from "@/store/pomodoroSetup";
 import { usePomodorosCount } from "@/store/pomodorosCount";
 import { storeToRefs } from "pinia";
-// import { ref } from "vue";
 
 import PropertiesSelector from "@/components/records/PropertiesSelector.vue";
 import { computed } from "vue";
@@ -94,20 +89,18 @@ const {
   passedPomodoros,
 } = storeToRefs(pomodorosCount);
 const { reset, onTimerClick } = pomodorosCount;
-
-// user.$subscribe(setIsAuth);
 </script>
 <style scoped>
 .main-pomodoro {
-align-items: center;
-justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 .pomodoro {
-margin: auto;
+  margin: auto;
 }
 .main-button {
   display: flex;
-margin: auto;
+  margin: auto;
   flex-direction: column;
   cursor: pointer;
 }

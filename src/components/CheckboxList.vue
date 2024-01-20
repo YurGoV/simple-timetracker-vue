@@ -1,4 +1,3 @@
-<!-- CheckboxList.vue -->
 <template>
   <v-col>
     <v-checkbox
