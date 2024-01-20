@@ -1,7 +1,7 @@
 // const { periodForSearch = day, includeWholeDay = false } = props;
 
 export const calculateStatByPeriod = ({
-  // period,
+  daysInPeriod,
   includeWholeDay,
   allLifeSpheres,
   allImportances,
@@ -70,8 +70,9 @@ export const calculateStatByPeriod = ({
     importancesDataCount[importanceValue] += timeInMinutes;
   }
 
-  // TODO: revfactoring & move to utils
-  const untrackedTime = 720; // whole day tracked tim length in minutes
+  // TODO: DRY
+  const dayTimeInMin = 720; // whole day tracked tim length in minutes
+  const periodTimeInMin = daysInPeriod * dayTimeInMin;
   // life spheres section
   const lifeSpheresLabels = [
     ...Object.keys(lifeSpheresDataCount),
@@ -84,11 +85,11 @@ export const calculateStatByPeriod = ({
     const resultValues = [];
     let usedTime = 0;
     for (const value of Object.values(lifeSpheresDataCount)) {
-      const countedValue = (100 / untrackedTime) * value;
+      const countedValue = (100 / periodTimeInMin) * value;
       resultValues.push(countedValue);
       usedTime += countedValue;
     }
-    resultValues.push(untrackedTime - usedTime);
+    resultValues.push(periodTimeInMin - usedTime);
 
     lifeSpheresDatasets = resultValues;
     // console.log(resultValues, "RESULT VALUES");
@@ -105,11 +106,11 @@ export const calculateStatByPeriod = ({
     const resultValues = [];
     let usedTime = 0;
     for (const value of Object.values(importancesDataCount)) {
-      const countedValue = (100 / untrackedTime) * value;
+      const countedValue = (100 / periodTimeInMin) * value;
       resultValues.push(countedValue);
       usedTime += countedValue;
     }
-    resultValues.push(untrackedTime - usedTime);
+    resultValues.push(periodTimeInMin - usedTime);
 
     importancesDatasets = resultValues;
     // console.log(resultValues, "RESULT VALUES");

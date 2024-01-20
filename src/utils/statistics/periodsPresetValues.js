@@ -1,21 +1,3 @@
-// const today = new Date();
-// today.setHours(0, 0, 0, 0);
-// const dayForCalcMonday = new Date();
-// const dayForCalcPrevWeek = new Date();
-//
-// const dayOfWeek = dayForCalcMonday.getDay(); // 0 is Sunday, 1 is Monday, ..., 6 is Saturday
-// const diff = dayForCalcMonday.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // adjust when today is Sunday
-//
-// const diffSundayPrevWeek = dayForCalcPrevWeek.getDate() - dayOfWeek - 6; // adjust when today is Sunday
-// const sundayOfPreviousWeek = new Date(dayForCalcPrevWeek.setDate(diffSundayPrevWeek));
-//
-// const diffMondayPrevWeek = dayForCalcPrevWeek.getDate() - dayOfWeek - 6; // adjust when today is Sunday
-// const mondayOfPreviousWeek = new Date(dayForCalcPrevWeek.setDate(diffMondayPrevWeek));
-//
-// const mondayOfCurrentWeek = new Date(dayForCalcMonday.setDate(diff));
-//
-// const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
@@ -55,6 +37,8 @@ export function periodByPreset(preset) {
   }
   if (preset === "previous_week") {
     console.log('cnock cnock PW', mondayOfPreviousWeek, sundayOfPreviousWeek)
+    console.log('cnock cnock PWT', mondayOfPreviousWeek.getTime(), sundayOfPreviousWeek.getTime())
+    console.log('diff:', Math.ceil((sundayOfPreviousWeek.getTime() - mondayOfPreviousWeek.getTime()) / (24 * 60 * 60 * 1000)))
     period.startSearchDay = mondayOfPreviousWeek.getTime();
     period.endSearchDay = sundayOfPreviousWeek.getTime();
   }

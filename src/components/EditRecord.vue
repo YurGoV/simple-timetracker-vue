@@ -22,13 +22,13 @@
               label="Duration in min"
             ></v-text-field>
             <PropertiesSelector />
+
             <v-btn @click="save" color="secondary" variant="outlined"
               >Save</v-btn
             >
           </v-sheet>
         </v-col>
       </v-row>
-      <v-row> </v-row>
     </v-responsive>
   </v-container>
 </template>

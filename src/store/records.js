@@ -4,6 +4,7 @@ import { saveRecord, updateRecord } from "@/services/records.service";
 import { useContextsStore } from "@/store/contexts";
 import { calculateStatByPeriod } from "@/utils/statistics/getStatByPeriod";
 import { periodByPreset } from "@/utils/statistics/periodsPresetValues";
+import { getDaysInPeriod } from "@/utils/statistics/getDaysInPeriod";
 
 const day = new Date();
 day.setHours(0, 0, 0, 0);
@@ -31,13 +32,15 @@ export const useRecordsStore = defineStore("records", () => {
   });
 
   // const getRecordsByPeriod = computed(() => {
-    // return (period) => {
-    function getRecordsByPeriod({startSearchDay, endSearchDay}) {
-      // console.log(startSearchDay, endSearchDay, 'G S B P PERIOD')
+  // return (period) => {
+  function getRecordsByPeriod({ startSearchDay, endSearchDay }) {
+    // console.log(startSearchDay, endSearchDay, 'G S B P PERIOD')
     // console.log(manualDate.value, "manual periodForSearch");
     // return records.value.filter((record) => record.date == manualDate.value);
-    return records.value.filter((record) => record.date >= startSearchDay && record.date <= endSearchDay);
-    }
+    return records.value.filter(
+      (record) => record.date >= startSearchDay && record.date <= endSearchDay,
+    );
+  }
   // });
 
   const getRecordById = computed(() => {
@@ -58,12 +61,13 @@ export const useRecordsStore = defineStore("records", () => {
     return (props) => {
       // console.log(props, 'GSBP PROPS')
       const { period, includeWholeDay = false } = props;
-      const periodForSearch = periodByPreset(period)
-      // console.log(period, periodForSearch, 'PFS p e r i o d')
-        const recordsByPeriod = getRecordsByPeriod(periodForSearch)
+      const periodForSearch = periodByPreset(period);
+      const daysInPeriod = getDaysInPeriod(periodForSearch)
+      // console.log(periodForSearch, daysInPeriod, 'PFS p e r i o d')
+      const recordsByPeriod = getRecordsByPeriod(periodForSearch);
       // NOTE: new
       const stat = calculateStatByPeriod({
-        period,
+        daysInPeriod,
         includeWholeDay,
         allLifeSpheres: allLifeSpheres.value,
         allImportances: allImportances.value,
@@ -123,13 +127,13 @@ export const useRecordsStore = defineStore("records", () => {
     };
 
     try {
-    const newRecord = await saveRecord(payload);
-    if (newRecord) {
-      records.value.push(newRecord);
-    }
-    return true
+      const newRecord = await saveRecord(payload);
+      if (newRecord) {
+        records.value.push(newRecord);
+      }
+      return true;
     } catch {
-      return false
+      return false;
     }
   }
 
@@ -170,16 +174,16 @@ export const useRecordsStore = defineStore("records", () => {
     // const recordId = "65a52f2851758191a430aef7"
 
     try {
-    const updatedRecord = await updateRecord({ record, recordId: id });
-    if (updatedRecord) {
-      const recordIndex = records.value.findIndex(
-        (record) => record._id === updatedRecord._id,
-      );
-      records.value[recordIndex] = updatedRecord;
-    }
-    return true;
+      const updatedRecord = await updateRecord({ record, recordId: id });
+      if (updatedRecord) {
+        const recordIndex = records.value.findIndex(
+          (record) => record._id === updatedRecord._id,
+        );
+        records.value[recordIndex] = updatedRecord;
+      }
+      return true;
     } catch {
-      return false
+      return false;
     }
   }
 

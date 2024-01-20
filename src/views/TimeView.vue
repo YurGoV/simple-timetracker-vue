@@ -22,7 +22,7 @@
   </v-sheet>
   <AddTime v-if="section === 'add'" />
   <ReviewTime v-if="section === 'review'" />
-  <EditTime v-if="section === 'edit'" />
+  <EditTimeList v-if="section === 'edit'" />
         </v-col>
       </v-row>
     </v-responsive>
@@ -33,7 +33,7 @@
 import { ref, onMounted } from "vue";
 import AddTime from "@/components/AddTime.vue";
 import ReviewTime from "@/components/ReviewTime.vue";
-import EditTime from "@/components/EditTime.vue";
+import EditTimeList from "@/components/EditTimeList.vue";
 import { useRouter } from "vue-router";
 
 const section = ref("add");
