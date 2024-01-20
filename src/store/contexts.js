@@ -6,12 +6,11 @@ export const useContextsStore = defineStore("contexts", () => {
   const contexts = ref(null);
 
   function setupContexts(gettedContexts) {
-    console.log(gettedContexts);
+    // console.log(gettedContexts);
     contexts.value = gettedContexts;
   }
 
   const getAllContexts = computed(() => contexts.value);
-
 
   const getLifeSpheres = computed(() => {
     if (contexts.value) {
@@ -39,9 +38,19 @@ export const useContextsStore = defineStore("contexts", () => {
     return null;
   });
 
-  function updateContextInDb(payload) {
-
-    updateContext(payload)
+  async function updateContextInDb(payload) {
+    try {
+      const newContext = await updateContext(payload);
+      if (newContext) {
+        const contextId = contexts.value.findIndex(
+          (context) => context._id === newContext._id,
+        );
+        contexts.value[contextId].value = newContext.value;
+        return newContext;
+      }
+    } catch {
+      return false;
+    }
   }
 
   return {

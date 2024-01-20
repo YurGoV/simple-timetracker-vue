@@ -32,7 +32,6 @@
 </template>
 
 <script setup>
-// TODO: rename to TimeList
 import { ref, computed, watch, watchEffect, onMounted } from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
@@ -68,7 +67,7 @@ const date = computed(() => {
 });
 
 function onListClick(id) {
-  console.log(id, "on list click id");
+  // console.log(id, "on list click id");
 
   identifier.value = id;
   router.push({
@@ -78,8 +77,8 @@ function onListClick(id) {
 }
 
 watchEffect(() => {
-  console.log("EditTime onMounted triggered");
-  console.log("watchEffect triggered");
+  // console.log("EditTime onMounted triggered");
+  // console.log("watchEffect triggered");
 
   recordsStore.setManualDate(date.value);
 });
@@ -89,12 +88,12 @@ onMounted(() => {
   watch(
     () => router.currentRoute.value.params.identifier,
     (newIdentifier) => {
-      console.log("Identifier changed:", newIdentifier);
+      // console.log("Identifier changed:", newIdentifier);
       identifier.value = newIdentifier;
     }
   );
 
-  console.log(routeSection, "RS PARAMS S");
+  // console.log(routeSection, "RS PARAMS S");
 
   const identifierProp = routeSection.params.identifier || null;
 

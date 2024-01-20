@@ -1,4 +1,13 @@
 <template>
+  <v-snackbar
+    v-model="snackbar"
+    :color="snackbarColor"
+    location="top"
+    :close-on-content-click="true"
+    timeout="2500"
+  >
+    {{ snackbarText }}</v-snackbar
+  >
   <v-container class="fill-height">
     <v-responsive class="align-center text-center fill-height">
       <v-row class="d-flex align-center justify-center">
@@ -13,23 +22,28 @@
               label="Duration in min"
             ></v-text-field>
             <PropertiesSelector />
-            <v-btn @click="save" color="primary">Save</v-btn>
+
+            <v-btn @click="save" color="secondary" variant="outlined"
+              >Save</v-btn
+            >
           </v-sheet>
         </v-col>
       </v-row>
-      <v-row> </v-row>
     </v-responsive>
   </v-container>
 </template>
 
 <script setup>
 // TODO: rename to TimeList
-import { ref, computed, watchEffect, onMounted, onBeforeMount} from "vue";
+import { ref, computed, watchEffect, onMounted, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import { useRecordsStore } from "@/store/records";
 // import { useContextsStore } from "@/store/contexts";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import PropertiesSelector from "@/components/records/PropertiesSelector.vue";
+
+import { useSnackbar } from "@/utils/useSnackbar";
+const { snackbar, snackbarText, snackbarColor, showSnackbar } = useSnackbar();
 
 const recordsStore = useRecordsStore();
 // const contextsStore = useContextsStore();
@@ -51,22 +65,24 @@ const date = computed(() => {
   return day.getTime();
 });
 
-function save() {
-  recordsStore.updateRecordInDb(record.value._id);
+async function save() {
+  const saveResult = await recordsStore.updateRecordInDb(record.value._id);
+  console.log(saveResult, "SR on edit record");
+  showSnackbar({ isSuccess: saveResult });
 }
 
 watchEffect(() => {
-  console.log("sE start time", startTime.value);
+  // console.log("sE start time", startTime.value);
   recordsStore.setManualDate(date.value);
   recordsStore.setManualStartTime(startTime.value.getTime());
   recordsStore.setManualEndTime(
     startTime.value.getTime() + duration.value * 60 * 1000,
   );
-  console.log(
-    "watchEffect triggered in edit record",
-    identity.value,
-    identifier,
-  );
+  // console.log(
+  //   "watchEffect triggered in edit record",
+  //   identity.value,
+  //   identifier,
+  // );
   if (identifier) {
     record.value = recordsStore.getRecordById(identifier);
   } else {
@@ -75,17 +91,17 @@ watchEffect(() => {
 });
 
 onMounted(() => {
-  console.log("EditRecord onMounted triggered");
+  // console.log("EditRecord onMounted triggered");
   const routeSection = router.currentRoute.value;
 
   const identifierProp = routeSection.params.identifier || null;
-  console.log(identifierProp, "RS identity in edit componenT");
+  // console.log(identifierProp, "RS identity in edit componenT");
 
   identity.value = identifierProp;
   // recordsStore.setTags(record.value.tags);
 });
 onBeforeMount(() => {
-  console.log(record.value.lifeSphere, record.value.importance, record.value.tags, 'ON BEforeMONUT')
+  // console.log(record.value.lifeSphere, record.value.importance, record.value.tags, 'ON BEforeMONUT')
   recordsStore.setLifeSphere(record.value.lifeSphere);
   recordsStore.setImportance(record.value.importance);
   recordsStore.setTags(record.value.tags);

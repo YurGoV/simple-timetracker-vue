@@ -5,7 +5,15 @@
         <v-col cols="auto">
           <h1>time review</h1>
           <h2>daily:</h2>
-          <v-row>
+          <v-row class="d-flex align-center justify-center">
+            <v-radio-group v-model="statPeriod" inline>
+              <v-radio label="Today" default value="today"></v-radio>
+              <v-radio label="Current week" value="current_week"></v-radio>
+              <v-radio label="Previous week" value="previous_week"></v-radio>
+              <v-radio label="Current month" value="current_month"></v-radio>
+            </v-radio-group>
+          </v-row>
+          <v-row class="d-flex align-center justify-center">
             <v-radio-group v-model="statCategory" inline>
               <v-radio label="Importance" default value="importance"></v-radio>
               <v-radio label="life spheres" value="life"></v-radio>
@@ -18,7 +26,9 @@
         </v-col>
       </v-row>
       <v-row>
-        <Doughnut :data="dailyStatToDisplay" :options="options" />
+        <v-col>
+          <Doughnut :data="dailyStatToDisplay" :options="options" />
+        </v-col>
       </v-row>
     </v-responsive>
   </v-container>
@@ -31,6 +41,7 @@ import { Doughnut } from "vue-chartjs";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const statPeriod = ref("today");
 const statCategory = ref("importance");
 const includeWholeDay = ref(false);
 
@@ -43,23 +54,27 @@ import { computed } from "vue";
 import { useRecordsStore } from "@/store/records";
 const recordsStore = useRecordsStore();
 
-const dailyStat = ref(
-  recordsStore.getStatByDay({ includeWholeDay: includeWholeDay.value }),
+const statByPeriod = ref(
+  recordsStore.getStatByPeriod({
+    period: statPeriod.value,
+    includeWholeDay: includeWholeDay.value,
+  }),
 );
 
 const dailyStatToDisplay = computed(() => {
-  return dailyStat.value[statCategory.value];
+  return statByPeriod.value[statCategory.value];
 });
 
 watchEffect(() => {
-  const stat = recordsStore.getStatByDay({
+  const stat = recordsStore.getStatByPeriod({
+    period: statPeriod.value,
     includeWholeDay: includeWholeDay.value,
   });
-  dailyStat.value = stat;
+  statByPeriod.value = stat;
 });
 
 onMounted(() => {
-  console.log("ReviewTime onMounted triggered");
+  // console.log("ReviewTime onMounted triggered");
 });
 </script>
 

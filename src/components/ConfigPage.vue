@@ -1,15 +1,30 @@
 <template>
-  <h1>Config page</h1>
-  <div>
+  <v-snackbar
+    v-model="snackbar"
+    :color="snackbarColor"
+    location="top"
+    :close-on-content-click="true"
+    timeout="2500"
+  >
+    {{ snackbarText }}</v-snackbar
+  >
+  <v-sheet class="section-title">
+    <h1>Edit your tags and contexts</h1>
+  </v-sheet>
+  <v-responsive class="mx-auto" max-width="344">
     <v-text-field
       v-model="newTagName"
       label="choose tag to edit"
       hide-details="auto"
     ></v-text-field>
-  </div>
-  <v-btn @click="save" :disabled="isButtonDisabled" color="primary">Save</v-btn>
+  </v-responsive>
+  <v-sheet class="section-title">
+    <v-btn @click="save" :disabled="isButtonDisabled" color="primary"
+      >Save</v-btn
+    >
+  </v-sheet>
 
-  <v-container class="fill-height">
+  <v-container >
     <!-- <v-responsive class="align-center text-center fill-height"> -->
     <!-- <v-navigation-drawer v-model="drawerVisible" location="bottom" temporary> -->
 
@@ -50,8 +65,8 @@
             </template>
           </v-virtual-scroll>
         </v-card>
-      </v-col>
-      <v-col>
+        <!-- </v-col> -->
+        <!-- <v-col> -->
         <v-card class="mx-auto" min-width="300" max-width="500">
           <v-card-title> Edit life spheres: </v-card-title>
 
@@ -76,8 +91,8 @@
             </template>
           </v-virtual-scroll>
         </v-card>
-      </v-col>
-      <v-col>
+        <!-- </v-col> -->
+        <!-- <v-col> -->
         <v-card class="mx-auto" min-width="300" max-width="500">
           <v-card-title> Edit Tags: </v-card-title>
 
@@ -123,6 +138,9 @@
 import { computed, ref } from "vue";
 import { useContextsStore } from "@/store/contexts";
 
+import { useSnackbar } from "@/utils/useSnackbar";
+const { snackbar, snackbarText, snackbarColor, showSnackbar } = useSnackbar();
+
 const oldTagName = ref(null);
 const newTagName = ref(null);
 const tagId = ref(null);
@@ -164,22 +182,39 @@ const isButtonDisabled = computed(
 );
 
 function onListClick(context) {
-  console.log(`on list click: ${context}`);
+  // console.log(`on list click: ${context}`);
   oldTagName.value = context.value;
   newTagName.value = context.value;
   tagId.value = context.id;
 }
-function save() {
-  console.log("click on save");
-  contextsStore.updateContextInDb({
-    id: tagId.value,
-    value: newTagName.value
-  })
 
+async function save() {
+  // console.log("click on save");
+  const savedResult = await contextsStore.updateContextInDb({
+    id: tagId.value,
+    value: newTagName.value,
+  });
+  if (savedResult) {
+    oldTagName.value = savedResult.value;
+  }
+
+  showSnackbar({ isSuccess: savedResult });
 }
 </script>
 
 <style scoped>
+.v-card {
+  margin-top: 30px;
+}
+.v-btn {
+  margin-top: 20px;
+}
+.section-title {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
 .main-button {
   display: flex;
   flex-direction: column;

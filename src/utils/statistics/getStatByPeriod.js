@@ -1,17 +1,17 @@
-// const { dayForSearch = day, includeWholeDay = false } = props;
+// const { periodForSearch = day, includeWholeDay = false } = props;
 
-export const calculateStatByDay = ({
-  dayForSearch,
+export const calculateStatByPeriod = ({
+  daysInPeriod,
   includeWholeDay,
   allLifeSpheres,
   allImportances,
-  recordsByDay,
+  recordsByPeriod,
 }) => {
-  console.log(dayForSearch, "DDFFSS");
-  console.log(includeWholeDay, "DD WW FFSS");
-  console.log(allLifeSpheres, "ALL LF")
-  console.log(allImportances, "ALL I")
-  console.log(recordsByDay, "REC BY D")
+  //  console.log(period, "period for search DDFFSS");
+  // console.log(includeWholeDay, "DD WW FFSS");
+  // console.log(allLifeSpheres, "ALL LF")
+  // console.log(allImportances, "ALL I")
+  // console.log(recordsByPeriod, "REC BY D")
   // TODO: move count logic to utils
   const lifeSpheres = {};
 
@@ -29,7 +29,7 @@ export const calculateStatByDay = ({
   // to back to 'populate' in mongoDB
   const idsDataValues = {};
 
-  console.log("LOOK");
+  // console.log("LOOK");
   const lifeSphereTypeName = allLifeSpheres[0].type;
   const importanceTypeName = allImportances[0].type;
 
@@ -60,7 +60,7 @@ export const calculateStatByDay = ({
     idsDataValues[sphere._id] = [sphere.type, sphere.value];
   }
 
-  for (const record of recordsByDay) {
+  for (const record of recordsByPeriod) {
     const timeInMinutes = (record.endTime - record.startTime) / 1000 / 60;
     const lifeValue = idsDataValues[record.lifeSphere][1];
 
@@ -70,8 +70,9 @@ export const calculateStatByDay = ({
     importancesDataCount[importanceValue] += timeInMinutes;
   }
 
-  // TODO: revfactoring & move to utils
-  const untrackedTime = 720; // whole day tracked tim length in minutes
+  // TODO: DRY
+  const dayTimeInMin = 720; // whole day tracked tim length in minutes
+  const periodTimeInMin = daysInPeriod * dayTimeInMin;
   // life spheres section
   const lifeSpheresLabels = [
     ...Object.keys(lifeSpheresDataCount),
@@ -84,14 +85,14 @@ export const calculateStatByDay = ({
     const resultValues = [];
     let usedTime = 0;
     for (const value of Object.values(lifeSpheresDataCount)) {
-      const countedValue = (100 / untrackedTime) * value;
+      const countedValue = (100 / periodTimeInMin) * value;
       resultValues.push(countedValue);
       usedTime += countedValue;
     }
-    resultValues.push(untrackedTime - usedTime);
+    resultValues.push(periodTimeInMin - usedTime);
 
     lifeSpheresDatasets = resultValues;
-    console.log(resultValues, "RESULT VALUES");
+    // console.log(resultValues, "RESULT VALUES");
   }
   // importance section
   const importancesLabels = [
@@ -105,14 +106,14 @@ export const calculateStatByDay = ({
     const resultValues = [];
     let usedTime = 0;
     for (const value of Object.values(importancesDataCount)) {
-      const countedValue = (100 / untrackedTime) * value;
+      const countedValue = (100 / periodTimeInMin) * value;
       resultValues.push(countedValue);
       usedTime += countedValue;
     }
-    resultValues.push(untrackedTime - usedTime);
+    resultValues.push(periodTimeInMin - usedTime);
 
     importancesDatasets = resultValues;
-    console.log(resultValues, "RESULT VALUES");
+    // console.log(resultValues, "RESULT VALUES");
   }
 
   lifeSpheres[lifeSphereTypeName].labels = lifeSpheresLabels;
@@ -120,7 +121,7 @@ export const calculateStatByDay = ({
   lifeSpheres[importanceTypeName].labels = importancesLabels;
   lifeSpheres[importanceTypeName].datasets[0].data = importancesDatasets;
 
-  console.log(lifeSpheres, "LSF-DATA");
+  // console.log(lifeSpheres, "LSF-DATA");
 
   return lifeSpheres;
 };
