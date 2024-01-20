@@ -10,9 +10,7 @@ const contextsStore = useContextsStore();
 
 const callback = async (response) => {
   const { credential } = response;
-  // console.log(credential, "credential");
   const loginResult = await loginUserByCredential({ credential });
-  // console.log(user, "user in button");
   const { user, gettedContexts, gettedRecords } = loginResult;
   userStore.setUser(user);
   contextsStore.setupContexts(gettedContexts);
@@ -22,7 +20,6 @@ const config = {
   theme: 'filled_black',
   type: "icon",
   size: "medium",
-  // shape: "circle",
   shape: "rectangular",
 };
 </script>

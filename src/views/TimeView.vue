@@ -1,5 +1,5 @@
 <template>
-  <v-container >
+  <v-container>
     <v-responsive class="align-center text-center fill-height">
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
@@ -49,18 +49,13 @@ const section = ref("add");
 const router = useRouter();
 
 function selectSection(selectedSection) {
-  // console.log("select section triggered", selectedSection);
   section.value = selectedSection;
 
   router.push({ name: "Time", params: { action: selectedSection } });
 }
 
 onMounted(() => {
-  // console.log("TimeView onMounted triggered");
   const routeSection = router.currentRoute.value;
-
-  // console.log(routeSection.params, "RS PARAMS");
-  // console.log(routeSection, "RS");
 
   const action = routeSection.params.action || "review";
   const name = routeSection.name;
@@ -68,14 +63,7 @@ onMounted(() => {
   section.value = action;
 
   const identifier = routeSection.params.identifier;
-  // console.log(
-  //   name,
-  //   action,
-  //   identifier,
-  //   "RS - name, action, identifier - in TW",
-  // );
   if (identifier) {
-    // console.log("lll");
     router.push({ name, params: { action: section.value, identifier } });
   } else {
     router.push({ name, params: { action: section.value } });

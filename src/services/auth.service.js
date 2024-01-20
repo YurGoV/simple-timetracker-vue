@@ -3,7 +3,6 @@ import axios from "@/services/axios";
 const baseUrl = import.meta.env.VITE_BACK_BASE_URL;
 
 export const loginUserByCredential = async ({ credential }) => {
-  // console.log(credential, 'credential')
   const user = await axios.post(`${baseUrl}/auth/login`, {
     credential,
   });
@@ -56,4 +55,3 @@ export const loginUserByToken = async (token) => {
   }
 };
 
-// export default login;

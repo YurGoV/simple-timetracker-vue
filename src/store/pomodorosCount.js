@@ -9,7 +9,6 @@ import { computed } from "vue";
 let initialPomodorosCount = {
   passedPomodoros: 0,
   passedSessions: 0,
-  // incompleteSection: false,
 };
 const { pomodoroSetup } = usePomodoroSetup();
 const {
@@ -61,12 +60,6 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
   );
   const remindedMinutes = computed(() => remindedMinutesValue.value);
   const isCountingComplete = computed(() => {
-    // console.log(
-    //   "iiii i",
-    //   pomodorosCount.value.passedPomodoros !== 0 &&
-    //     pomodorosCount.value.passedPomodoros % timersInSession === 0,
-    // );
-
     return (
       pomodorosCount.value.passedPomodoros !== 0 &&
       pomodorosCount.value.passedPomodoros % timersInSession === 0 &&
@@ -96,13 +89,9 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
       isCounting.value = false;
       cancelAnimationFrame(handle);
       addPomodoro();
-      // console.log(" isCountingComplete value:", isCountingComplete.value);
-      // console.log("pomodoros pause:", pomodorosPause.value);
       if (!isCountingComplete.value) {
-        // console.log("sessoin is incomplete");
         startInSessionPause();
       } else {
-        // console.log("session is complete");
         reset();
       }
     } else {
@@ -111,23 +100,18 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
   }
 
   function onTimerClick() {
-    // console.log("CLICK on timer", isCounting.value, handle);
     if (!timerStartAt) {
       timerStartAt = Date.now();
-      // console.log("timer started at: ", timerStartAt);
     }
     if (!isCounting.value && !handle) {
-      // console.log("start");
       lastTime = performance.now();
       startCountdown();
     } else if (isCounting.value && handle) {
-      // console.log("pause");
       pauseTimer();
     }
   }
 
   function restart() {
-    // console.log("NO CLICK", isCounting.value, handle);
     stop();
     readyToContinue.value = false;
     lastTime = performance.now();
@@ -152,23 +136,18 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
   }
 
   function startInSessionPause() {
-    // console.log(pomodorosPause.value, "pause, now count as seconds");
-
     const pauseInterval = setInterval(() => {
       passedPause.value += 1;
-      // console.log("pauseOnDisplay decreased:", passedPause.value);
     }, changePauseDisplay);
 
     inPauseState.value = true;
 
     setTimeout(
       () => {
-        // console.log("pause end");
         inPauseState.value = false;
         clearInterval(pauseInterval);
         passedPause.value = 0;
         readyToContinue.value = true;
-        //NOTE: ;;;
         isCounting.value = null;
         handle = null;
         reminded.value = initialDuration;
@@ -181,8 +160,8 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
   }
 
   function startCountdown() {
-    isCounting.value = true; // Set the flag to start counting
-    update(); // Initial call to start the countdown
+    isCounting.value = true;
+    update();
   }
 
   // TODO: move to service
@@ -199,12 +178,8 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
         pomororoStartTime: timerStartAt,
         pomodoroEndTime: timerStartAt + timerDuration.value,
       };
-      //
-      const newPomodoro = await savePomodoroRecordToDb(payload);
-      // console.log(newPomodoro, "new POMODORO!");
-      // if (newPomodoro) {
-      //
-      // }
+
+      await savePomodoroRecordToDb(payload);
     }
 
     timerStartAt = null;
@@ -222,7 +197,6 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
     pauseTimer,
     startInSessionPause,
     startCountdown,
-    //
     inPause,
     remindedMinuteSeconds,
     remindedMinutes,

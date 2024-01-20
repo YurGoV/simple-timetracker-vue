@@ -29,7 +29,7 @@
   },
   "editTimeList": {
     "title": "Editing existing records",
-   "time": "time of record - {hours}:{minutes}; duration - {duration} min"
+    "time": "time of record - {hours}:{minutes}; duration - {duration} min"
   },
   "editRecord": {
     "title": "Shoose time & tags",
@@ -66,6 +66,6 @@
     "lifeSphere": "Life Sphere",
     "importance": "Importance",
     "contextChoose": "Choose Context",
-    "comment": "write your comment there"
+    "comment": "comment"
   }
 }

@@ -1,36 +1,26 @@
 <template>
   <v-app-bar :elevation="2">
-    <!-- <v-app-bar-nav-icon v-if="isLoggedIn" @click.stop="drawer = !drawer"> -->
     <v-app-bar-nav-icon v-if="isLoggedIn" @click.stop="drawer = !drawer">
     </v-app-bar-nav-icon>
     <v-btn v-else-if="isHomeRoute" @click="onAboutBtnClick">
-      <!-- {{ $t(`appBar.logout`) }} -->
       About
     </v-btn>
     <v-btn v-else @click="onHomeBtnClick">
-      <!-- {{ $t(`appBar.logout`) }} -->
       Home
     </v-btn>
-
-    <!-- <v-navigation-drawer location="bottom" temporary> -->
-    <!-- </v-app-bar-nav-icon> -->
 
     <v-app-bar-title class="app-bar">
       {{ $t(`appBar.title`) }}
     </v-app-bar-title>
-    <!-- <v-icon icon="mdi-home" /> -->
-    <!-- <v-icon icon="mdi-account" /> -->
-    <!-- <div> -->
+
     <div class="button-section">
       <div class="i18n-section">
-        <!-- <p>en</p> -->
         <v-switch
           v-model='$i18n.locale'
           true-value="en"
           false-value="ua"
           :label="$i18n.locale"
         ></v-switch>
-        <!-- <p>ua</p> -->
       </div>
       <GoogleAuthBtn v-if="!isLoggedIn" class="gbtn" />
       <v-btn v-else @click="logout" prepend-icon="mdi-logout">
@@ -77,7 +67,6 @@ import { useRouter } from "vue-router";
 import i18n from '@/plugins/i18n'
 
 const language = ref("en");
-// import router from "@/router";
 const router = useRouter();
 
 const userStore = useUserStore();
@@ -103,7 +92,6 @@ const isHomeRoute = computed(() => {
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 
 watch(language, (newLanguage) => {
-  console.log(newLanguage, "NLV");
   i18n.locale = newLanguage
 });
 </script>

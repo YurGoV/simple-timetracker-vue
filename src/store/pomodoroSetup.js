@@ -3,10 +3,10 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 // NOTE: move to state
 let initialPomodoroSetup = {
-  timerDuration: 5, // on test used as seconds
-  timersPause: 1, // on test use as seconds
+  timerDuration: 25,
+  timersPause: 5,
   timersInSession: 3,
-  sessionsPause: 2,
+  sessionsPause: 15,
   sessionsAmount: 2,
 };
 

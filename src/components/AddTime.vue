@@ -15,7 +15,7 @@
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
           <v-sheet :elevation="0" :height="900" :width="500" rounded>
-            <h1>{{$t(`addTime.title`)}}</h1>
+            <h1>{{ $t(`addTime.title`) }}</h1>
 
             <VueDatePicker v-model="startTime"></VueDatePicker>
             <v-text-field
@@ -25,9 +25,9 @@
             ></v-text-field>
             <properties-selector />
 
-            <v-btn @click="save" color="secondary" variant="outlined"
-            >{{$t(`addTime.save`)}}</v-btn
-            >
+            <v-btn @click="save" color="secondary" variant="outlined">{{
+              $t(`addTime.save`)
+            }}</v-btn>
           </v-sheet>
         </v-col>
       </v-row>
@@ -63,12 +63,10 @@ const date = computed(() => {
 
 async function save() {
   const saveResult = await recordsStore.saveRecordToDb();
-  showSnackbar({isSuccess: saveResult})
+  showSnackbar({ isSuccess: saveResult });
 }
 
 watchEffect(() => {
-  // console.log("watchEffect triggered");
-
   recordsStore.setManualDate(date.value);
   recordsStore.setManualStartTime(startTime.value.getTime());
   recordsStore.setManualEndTime(

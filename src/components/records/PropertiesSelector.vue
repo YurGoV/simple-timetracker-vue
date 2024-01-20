@@ -25,7 +25,9 @@
         ></v-select>
       </v-col>
     </v-row>
-    <h2 class="choose-context-capition">{{$t(`propsSelector.contextChoose`)}}</h2>
+    <h2 class="choose-context-capition">
+      {{ $t(`propsSelector.contextChoose`) }}
+    </h2>
     <v-row class="tags-section">
       <v-checkbox
         v-model="selectedTags"
@@ -52,7 +54,6 @@ import { storeToRefs } from "pinia";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { useContextsStore } from "@/store/contexts";
 import { useRecordsStore } from "@/store/records";
-// import CheckboxList from "../CheckboxList.vue";
 
 const contextsStore = useContextsStore();
 const recordsStore = useRecordsStore();
@@ -77,8 +78,6 @@ const selectedImportance = ref(
 const selectedTags = ref(tags ? tags : []);
 
 watchEffect(() => {
-  // console.log("watchEffect triggered");
-
   recordsStore.setLifeSphere(selectedLifeSphere.value);
   recordsStore.setImportance(selectedImportance.value);
   recordsStore.setTags(selectedTags.value);

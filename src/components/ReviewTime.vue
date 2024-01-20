@@ -57,7 +57,7 @@
 </template>
 
 <script setup>
-import { ref, watchEffect, onMounted } from "vue";
+import { ref, watchEffect } from "vue";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "vue-chartjs";
 
@@ -95,9 +95,6 @@ watchEffect(() => {
   statByPeriod.value = stat;
 });
 
-onMounted(() => {
-  // console.log("ReviewTime onMounted triggered");
-});
 </script>
 
 <style scoped>

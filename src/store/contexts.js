@@ -6,7 +6,6 @@ export const useContextsStore = defineStore("contexts", () => {
   const contexts = ref(null);
 
   function setupContexts(gettedContexts) {
-    // console.log(gettedContexts);
     contexts.value = gettedContexts;
   }
 

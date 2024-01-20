@@ -4,7 +4,7 @@ import localesEN from "@/locales/en.json";
 import localesUA from "@/locales/ua.json";
 
 const i18n = createI18n({
-  legacy: false, //for Composition API
+  legacy: false,
   locale: localStorage.getItem('locale') || "en",
   fallbackLocale: 'en',
   messages: {
@@ -17,7 +17,6 @@ const i18n = createI18n({
 const currentLocale = ref(i18n.global.locale);
 
 watch(currentLocale, (newLocale) => {
-  // Save the new locale to localStorage
   localStorage.setItem("locale", newLocale);
 });
 
