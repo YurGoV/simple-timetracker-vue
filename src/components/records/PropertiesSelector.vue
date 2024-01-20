@@ -1,17 +1,9 @@
 <template>
-  <v-container
-    v-if="
-      !getLifeSpheres || !getImportances || !getTags
-      // ||
-      // !selectedLifeSphere ||
-      // !selectedTags ||
-      // !selectedImportance
-    "
-  >
+  <v-container v-if="!getLifeSpheres || !getImportances || !getTags">
     Loading...
   </v-container>
   <v-container v-else>
-    <v-row class='tags-section'>
+    <v-row class="tags-section">
       <v-col>
         <v-select
           v-model="selectedLifeSphere"
@@ -19,7 +11,7 @@
           item-title="value"
           item-value="_id"
           density="compact"
-          label="Life Sphere"
+          :label="$t(`propsSelector.lifeSphere`)"
         ></v-select>
       </v-col>
       <v-col>
@@ -29,25 +21,25 @@
           item-title="value"
           item-value="_id"
           density="compact"
-          label="Importance"
+          :label="$t(`propsSelector.importance`)"
         ></v-select>
       </v-col>
     </v-row>
-    <h2 class="choose-context-capition">Choose context</h2>
-    <v-row class='tags-section'>
-        <v-checkbox
-          v-model="selectedTags"
-          v-for="tag in getTags"
-          :label="tag.value"
-          :value="tag._id"
-          :key="tag._id"
-        ></v-checkbox>
+    <h2 class="choose-context-capition">{{$t(`propsSelector.contextChoose`)}}</h2>
+    <v-row class="tags-section">
+      <v-checkbox
+        v-model="selectedTags"
+        v-for="tag in getTags"
+        :label="tag.value"
+        :value="tag._id"
+        :key="tag._id"
+      ></v-checkbox>
     </v-row>
-    <v-row class='tags-section'>
+    <v-row class="tags-section">
       <v-text-field
         v-model="comment"
         type="text"
-        label="write your comment there"
+        :label="$t(`propsSelector.comment`)"
       ></v-text-field>
     </v-row>
   </v-container>

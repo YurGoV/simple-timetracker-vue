@@ -9,22 +9,22 @@
     {{ snackbarText }}</v-snackbar
   >
   <v-sheet class="section-title">
-    <h1>Edit your tags and contexts</h1>
+    <h1>{{ $t(`configPage.title`) }}</h1>
   </v-sheet>
   <v-responsive class="mx-auto" max-width="344">
     <v-text-field
       v-model="newTagName"
-      label="choose tag to edit"
+      :label="$t(`configPage.chooseLabel`)"
       hide-details="auto"
     ></v-text-field>
   </v-responsive>
   <v-sheet class="section-title">
-    <v-btn @click="save" :disabled="isButtonDisabled" color="primary"
-      >Save</v-btn
-    >
+    <v-btn @click="save" :disabled="isButtonDisabled" color="primary">{{
+      $t(`configPage.save`)
+    }}</v-btn>
   </v-sheet>
 
-  <v-container >
+  <v-container>
     <!-- <v-responsive class="align-center text-center fill-height"> -->
     <!-- <v-navigation-drawer v-model="drawerVisible" location="bottom" temporary> -->
 
@@ -42,13 +42,16 @@
       <!-- tags list -->
       <v-col>
         <v-card class="mx-auto" min-width="300" max-width="500">
-          <v-card-title> Edit importances: </v-card-title>
+          <v-card-title>{{ $t(`configPage.editImprtns`) }}: </v-card-title>
 
           <v-divider></v-divider>
 
           <v-virtual-scroll :items="importances" height="220" item-height="48">
             <template v-slot:default="{ item }">
-              <v-list-item :title="`Tag name:`" :subtitle="`${item.value}`">
+              <v-list-item
+                :title="$t(`configPage.tagName`)"
+                :subtitle="`${item.value}`"
+              >
                 <!-- <template v-slot:prepend> -->
                 <!--   <v-icon class="bg-primary">mdi-account</v-icon> -->
                 <!-- </template> -->
@@ -68,13 +71,16 @@
         <!-- </v-col> -->
         <!-- <v-col> -->
         <v-card class="mx-auto" min-width="300" max-width="500">
-          <v-card-title> Edit life spheres: </v-card-title>
+          <v-card-title>{{ $t(`configPage.editLifeSphrs`) }}: </v-card-title>
 
           <v-divider></v-divider>
 
           <v-virtual-scroll :items="lifeSpheres" height="220" item-height="48">
             <template v-slot:default="{ item }">
-              <v-list-item :title="`Tag name:`" :subtitle="`${item.value}`">
+              <v-list-item
+                :title="$t(`configPage.tagName`)"
+                :subtitle="`${item.value}`"
+              >
                 <!-- <template v-slot:prepend> -->
                 <!--   <v-icon class="bg-primary">mdi-account</v-icon> -->
                 <!-- </template> -->
@@ -94,7 +100,7 @@
         <!-- </v-col> -->
         <!-- <v-col> -->
         <v-card class="mx-auto" min-width="300" max-width="500">
-          <v-card-title> Edit Tags: </v-card-title>
+          <v-card-title>{{ $t(`configPage.editTags`) }}: </v-card-title>
 
           <v-divider></v-divider>
 

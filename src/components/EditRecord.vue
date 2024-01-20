@@ -14,17 +14,17 @@
         <v-col cols="auto">
           <!-- TODO: make template -->
           <v-sheet :elevation="0" :height="900" :width="500" rounded>
-            <h1>Edit record page</h1>
+            <h1>{{ $t(`editRecord.title`) }}</h1>
             <VueDatePicker v-model="startTime"></VueDatePicker>
             <v-text-field
               v-model="duration"
               type="number"
-              label="Duration in min"
+              :label="$t(`editRecord.duration`)"
             ></v-text-field>
             <PropertiesSelector />
 
             <v-btn @click="save" color="secondary" variant="outlined"
-              >Save</v-btn
+            >{{$t(`editRecord.save`)}}</v-btn
             >
           </v-sheet>
         </v-col>

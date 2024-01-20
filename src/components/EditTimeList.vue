@@ -8,8 +8,9 @@
           <v-sheet :elevation="0" :height="900" :width="500" rounded>
             <div v-if="!identifier">
               <!-- TODO: move in component as EditRecord -->
-              <h1>Edit time page</h1>
-
+              <p><br /><br /></p>
+              <h1>{{ $t(`editTimeList.title`) }}</h1>
+              <p><br /></p>
               <VueDatePicker v-model="startTime"></VueDatePicker>
               <v-list>
                 <v-list-item
@@ -32,6 +33,11 @@
 </template>
 
 <script setup>
+// NOTE: to delete:
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+
+
 import { ref, computed, watch, watchEffect, onMounted } from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
@@ -55,7 +61,8 @@ const dayRecordsList = computed(() =>
     const duration = Math.ceil((record.endTime - record.startTime) / 1000 / 60);
     return {
       id: record._id,
-      title: `start at ${hours}:${minutes}; duration ${duration} min`,
+      // title: `start at ${hours}:${minutes}; duration ${duration} min`,
+      title: t('editTimeList.time', { hours, minutes, duration }),
     };
   }),
 );
@@ -90,7 +97,7 @@ onMounted(() => {
     (newIdentifier) => {
       // console.log("Identifier changed:", newIdentifier);
       identifier.value = newIdentifier;
-    }
+    },
   );
 
   // console.log(routeSection, "RS PARAMS S");

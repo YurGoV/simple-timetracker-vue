@@ -24,10 +24,7 @@ export const loginUserByCredential = async ({ credential }) => {
 };
 
 export const logoutUser = async () => {
-  const response = await axios.post(
-    `${baseUrl}/auth/logout`,
-    {},
-  );
+  const response = await axios.post(`${baseUrl}/auth/logout`, {});
 
   delete axios.defaults.headers.common["Authorization"];
 
@@ -35,23 +32,28 @@ export const logoutUser = async () => {
 };
 
 export const loginUserByToken = async (token) => {
-  const user = await axios.get("auth/current", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  try {
+    const user = await axios.get("auth/current", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  axios.defaults.headers.common["Authorization"] = `Bearer ${user.data.token}`;
+    axios.defaults.headers.common["Authorization"] =
+      `Bearer ${user.data.token}`;
 
-  const gettedRecords = await axios.get(`${baseUrl}/records`);
+    const gettedRecords = await axios.get(`${baseUrl}/records`);
 
-  const gettedContexts = await axios.get(`${baseUrl}/contexts`);
+    const gettedContexts = await axios.get(`${baseUrl}/contexts`);
 
-  return {
-    user: user.data,
-    gettedRecords: gettedRecords.data,
-    gettedContexts: gettedContexts.data,
-  };
+    return {
+      user: user.data,
+      gettedRecords: gettedRecords.data,
+      gettedContexts: gettedContexts.data,
+    };
+  } catch {
+    localStorage.clear("token");
+  }
 };
 
 // export default login;

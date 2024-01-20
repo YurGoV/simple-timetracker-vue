@@ -15,18 +15,18 @@
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
           <v-sheet :elevation="0" :height="900" :width="500" rounded>
-            <h1>Add time manually</h1>
+            <h1>{{$t(`addTime.title`)}}</h1>
 
             <VueDatePicker v-model="startTime"></VueDatePicker>
             <v-text-field
               v-model="duration"
               type="number"
-              label="Duration in min"
+              :label="$t(`addTime.duration`)"
             ></v-text-field>
             <properties-selector />
 
             <v-btn @click="save" color="secondary" variant="outlined"
-              >Save time record</v-btn
+            >{{$t(`addTime.save`)}}</v-btn
             >
           </v-sheet>
         </v-col>

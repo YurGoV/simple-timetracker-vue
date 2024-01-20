@@ -23,27 +23,20 @@ const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
 
 export function periodByPreset(preset) {
-  console.log(preset, "PRESET in periods by preset calculate");
   const period = {};
   if (preset === "today") {
-    console.log('cnock cnock T', today)
     period.startSearchDay = today.getTime();
     period.endSearchDay = today.getTime();
   }
   if (preset === "current_week") {
-    console.log('cnock cnock CW', mondayOfCurrentWeek, today)
     period.startSearchDay = mondayOfCurrentWeek.getTime();
     period.endSearchDay = today.getTime();
   }
   if (preset === "previous_week") {
-    console.log('cnock cnock PW', mondayOfPreviousWeek, sundayOfPreviousWeek)
-    console.log('cnock cnock PWT', mondayOfPreviousWeek.getTime(), sundayOfPreviousWeek.getTime())
-    console.log('diff:', Math.ceil((sundayOfPreviousWeek.getTime() - mondayOfPreviousWeek.getTime()) / (24 * 60 * 60 * 1000)))
     period.startSearchDay = mondayOfPreviousWeek.getTime();
     period.endSearchDay = sundayOfPreviousWeek.getTime();
   }
   if (preset === "current_month") {
-    console.log('cnock cnock month', firstDayOfMonth, today)
     period.startSearchDay = firstDayOfMonth.getTime();
     period.endSearchDay = today.getTime();
   }
