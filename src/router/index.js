@@ -52,16 +52,16 @@ router.beforeEach(async (to, from, next) => {
   const { isLoggedIn } = userStore;
   if (!isLoggedIn && token) {
     try {
-      const { user, gettedContexts, gettedRecords } = await loginUserByToken(
-        token,
-      );
+      const { user, gettedContexts, gettedRecords } =
+        await loginUserByToken(token);
       userStore.setUser(user);
       contextsStore.setupContexts(gettedContexts);
       recordsStore.setupRecords(gettedRecords);
     } catch (error) {
-      // TODO: change to error component
-      console.error("Error fetching user data:", error);
-      return next(false);
+      // TODO: notify about need to login
+      return next({
+        name: "Home",
+      });
     }
   }
   if (to.meta?.requiresAuth && !userStore.isLoggedIn) {
