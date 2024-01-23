@@ -1,8 +1,9 @@
 import axios from "@/services/axios";
+const baseUrl = import.meta.env.VITE_BACK_BASE_URL;
 
 export const saveRecord = async (record) => {
   const response = await axios.post(
-    "http://localhost:4000/api/records/create",
+    `${baseUrl}/records/create`,
     record,
   );
 
@@ -12,7 +13,7 @@ export const saveRecord = async (record) => {
 
 export const updateRecord = async (record) => {
   const response = await axios.patch(
-    "http://localhost:4000/api/records/update",
+    `${baseUrl}/records/update`,
     record,
   );
 
