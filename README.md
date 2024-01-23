@@ -1,69 +1,14 @@
-# essentials
+SIMPLE TIME TRACKER APP
 
-## Project setup
+stack: Vue.js, vuetify.
 
-```
-# yarn
-yarn
+Goal:
+An application that allows users to track their time expenditures, specifying categories, and later review the spent time in the context of life spheres, urgency, and importance.
 
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# bun
-bun install
-```
-
-### Compiles and hot-reloads for development
-
-```
-# yarn
-yarn dev
-
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# bun
-bun run dev
-```
-
-### Compiles and minifies for production
-
-```
-# yarn
-yarn build
-
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# bun
-bun run build
-```
-
-### Lints and fixes files
-
-```
-# yarn
-yarn lint
-
-# npm
-npm run lint
-
-# pnpm
-pnpm lint
-
-# bun
-bun run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://vitejs.dev/config/).
+Roadmap:
+1. Adding new tags and removing unused ones;
+2. Displaying time spent in hours on graphs;
+3. Additional graphs with filtering by tags, allowing users to select a primary tag and "sub-tags";
+4. Additional graphs showing changes in time spent on categories/tags over weeks and months;
+5. "Attaching" tags to life spheres for displaying only necessary tags;
+6. Timer feature.

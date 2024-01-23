@@ -1,8 +1,9 @@
 // axios.js
 import axios from "axios";
+const baseUrl = import.meta.env.VITE_BACK_BASE_URL;
 
 const instance = axios.create({
-  baseURL: "http://localhost:4000/api",
+  baseURL: `${baseUrl}`,
 });
 
 const token = localStorage.getItem("token");
