@@ -1,5 +1,7 @@
 {
   "appBar": {
+    "btnAboutName": "About",
+    "btnHomeName": "Home",
     "title": "Simple Time Tracker",
     "logout": "logout",
     "home": "Home",
