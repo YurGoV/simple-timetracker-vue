@@ -6,6 +6,7 @@ Goal:
 An application that allows users to track their time expenditures, specifying categories, and later review the spent time in the context of life spheres, urgency, and importance.
 
 Roadmap:
+
 0. Add sound on timer/pause end;
 1. Adding new tags and removing unused ones;
 2. Displaying time spent in hours on graphs;
