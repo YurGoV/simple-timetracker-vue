@@ -15,6 +15,7 @@
     "axios": "^1.6.2",
     "chart.js": "^4.4.1",
     "core-js": "^3.29.0",
+    "howler": "^2.2.4",
     "pinia": "^2.0.0",
     "roboto-fontface": "*",
     "vue": "^3.2.0",

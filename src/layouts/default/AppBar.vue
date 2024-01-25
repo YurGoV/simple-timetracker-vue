@@ -3,10 +3,10 @@
     <v-app-bar-nav-icon v-if="isLoggedIn" @click.stop="drawer = !drawer">
     </v-app-bar-nav-icon>
     <v-btn v-else-if="isHomeRoute" @click="onAboutBtnClick">
-      About
+      {{ $t(`appBar.btnAboutName`) }}
     </v-btn>
     <v-btn v-else @click="onHomeBtnClick">
-      Home
+      {{ $t(`appBar.btnHomeName`) }}
     </v-btn>
 
     <v-app-bar-title class="app-bar">

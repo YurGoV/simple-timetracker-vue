@@ -1,5 +1,7 @@
 {
   "appBar": {
+    "btnAboutName": "Опис",
+    "btnHomeName": "Головна",
     "title": "Простий тайм-трекер",
     "logout": "Вийти",
     "home": "Головна",

@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { usePomodoroSetup } from "./pomodoroSetup";
 import { useRecordsStore } from "./records";
 import { useUserStore } from "./user";
+import { useAudioStore } from './audio';
 
 import { computed } from "vue";
 // NOTE: move to state
@@ -38,7 +39,6 @@ const changePauseDisplay = 1000 * 60;
 
 export const usePomodorosCount = defineStore("pomodorosCount", () => {
   const pomodorosCount = ref(initialPomodorosCount);
-  // NOTE: added now on top
   let passedPause = ref(0);
   // const timerDuration = ref(initialDuration * 1000); // NOTE: for dev
   const timerDuration = ref(initialDuration * 1000 * 60);
@@ -89,6 +89,8 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
       isCounting.value = false;
       cancelAnimationFrame(handle);
       addPomodoro();
+      console.log("ping");
+      useAudioStore().playBeepSound()
       if (!isCountingComplete.value) {
         startInSessionPause();
       } else {
@@ -142,20 +144,20 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
 
     inPauseState.value = true;
 
-    setTimeout(
-      () => {
-        inPauseState.value = false;
-        clearInterval(pauseInterval);
-        passedPause.value = 0;
-        readyToContinue.value = true;
-        isCounting.value = null;
-        handle = null;
-        reminded.value = initialDuration;
-        remindedMinuteSecondsValue.value = 0;
-        remindedMinutesValue.value = initialDuration;
-        // }, pomodorosPause.value * 1000); // NOTE: count as seconds to test on dev
-      },
-      pomodorosPause.value * 1000 * 60,
+    setTimeout(() => {
+      inPauseState.value = false;
+      clearInterval(pauseInterval);
+      passedPause.value = 0;
+      readyToContinue.value = true;
+      isCounting.value = null;
+      handle = null;
+      reminded.value = initialDuration;
+      remindedMinuteSecondsValue.value = 0;
+      remindedMinutesValue.value = initialDuration;
+      useAudioStore().playBeepSound()
+    // }, pomodorosPause.value * 1000); // NOTE: count as seconds to test on dev
+    },
+    pomodorosPause.value * 1000 * 60,
     );
   }
 
