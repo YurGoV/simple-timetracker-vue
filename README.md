@@ -7,7 +7,7 @@ An application that allows users to track their time expenditures, specifying ca
 
 Roadmap:
 
-0. Add sound on timer/pause end;
+0. + Add sound on timer/pause end;
 1. Adding new tags and removing unused ones;
 2. Displaying time spent in hours on graphs;
 3. Additional graphs with filtering by tags, allowing users to select a primary tag and "sub-tags";
