@@ -1,4 +1,8 @@
 {
+  "homePage": {
+    "titlePomodoro": "Помодоро",
+    "titleTimer": "Таймер"
+  },
   "appBar": {
     "btnAboutName": "Опис",
     "btnHomeName": "Головна",
@@ -54,7 +58,6 @@
     "edit": "Відредагувати"
   },
   "pomodoroPage": {
-    "title": "Помодоро",
     "subTitleSetup": "Налаштування",
     "subTitlePassed": "Пройдено",
     "sessions": "сесій",

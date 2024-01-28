@@ -3,7 +3,6 @@
     <v-responsive class="align-center text-center fill-height">
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
-          <h1>{{ $t(`pomodoroPage.title`) }}</h1>
           <v-row class="main-pomodoro">
             <v-sheet :elevation="1" :height="300" :width="200" rounded="xl">
               <!-- TODO: add pomodoro time, pomodoros interval, sessions interval -->

@@ -1,4 +1,8 @@
 {
+  "homePage": {
+    "titlePomodoro": "Pomororo",
+    "titleTimer": "Timer"
+  },
   "appBar": {
     "btnAboutName": "About",
     "btnHomeName": "Home",
@@ -54,7 +58,6 @@
     "edit": "Edit"
   },
   "pomodoroPage": {
-    "title": "Pomodoro",
     "subTitleSetup": "Setup",
     "subTitlePassed": "Passed",
     "sessions": "sessions",
