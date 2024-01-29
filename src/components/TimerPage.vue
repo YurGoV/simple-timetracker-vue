@@ -1,4 +1,13 @@
 <template>
+  <v-snackbar
+    v-model="snackbar"
+    :color="snackbarColor"
+    location="top"
+    :close-on-content-click="true"
+    timeout="2500"
+  >
+    {{ snackbarText }}</v-snackbar
+  >
   <v-container class="fill-height">
     <v-responsive class="align-center text-center fill-height">
       <v-row class="d-flex align-center justify-center">
@@ -16,7 +25,7 @@
               >
                 <div></div>
                 <!-- <p v-if="!inPause" class="timer"> -->
-                <p  class="timer">
+                <p class="timer">
                   {{ passedMinutes.toString().padStart(2, "0") }}
                   :
                   {{ passedSeconds.toString().padStart(2, "0") }}
@@ -27,13 +36,21 @@
                 <!--   {{ $t(`pomodoroPage.minutesLeft`) }} -->
                 <!-- </p> -->
               </v-sheet>
-
-              <v-btn :disabled='disabled' @click="clickOnReset" class="stop-btn">
-                Reset
+              <v-btn
+                :disabled="disabled"
+                @click="clickOnReset"
+                class="stop-btn"
+              >
+                {{ $t(`timerPage.reset`) }}
                 <!-- {{ $t(`pomodoroPage.stop`) }} -->
               </v-btn>
-              <v-btn :disabled="disabled" @click="clickOnSave" class="stop-btn">
-                Save
+              <v-btn
+                v-if="isLoggedIn"
+                :disabled="disabled"
+                @click="clickOnSave"
+                class="stop-btn"
+              >
+                {{ $t(`timerPage.save`) }}
                 <!-- {{ $t(`pomodoroPage.stop`) }} -->
               </v-btn>
             </v-col>
@@ -58,6 +75,9 @@ import { computed } from "vue";
 const userStore = useUserStore();
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 
+import { useSnackbar } from "@/utils/useSnackbar";
+const { snackbar, snackbarText, snackbarColor, showSnackbar } = useSnackbar();
+
 const timer = useTimer();
 const disabled = computed(() => !inPause.value);
 
@@ -72,11 +92,15 @@ const { resetTimer, onTimerClick, addTimer } = timer;
 function clickOnReset() {
   resetTimer();
 }
-function clickOnSave() {
-  addTimer();
+async function clickOnSave() {
+  const result = await addTimer();
+  showSnackbar({ isSuccess: result });
 }
 </script>
 <style scoped>
+v-btn {
+  margin: 10px;
+}
 .main-pomodoro {
   align-items: center;
   justify-content: center;

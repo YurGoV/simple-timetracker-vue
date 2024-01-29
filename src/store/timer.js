@@ -2,16 +2,17 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useRecordsStore } from "./records";
 import { useUserStore } from "./user";
-import { useAudioStore } from "./audio";
+// import { useAudioStore } from "./audio";
 
 import { computed } from "vue";
 // NOTE: move to state
 
-// const { savePomodoroRecordToDb } = useRecordsStore();
+const { savePomodoroRecordToDb } = useRecordsStore();
 const userStore = useUserStore();
 let countedSeconds;
 let handle;
 let timeOnPause = 0;
+let timerStartAt;
 
 // const lastUpdate = ref(performance.now());
 const date = () => {
@@ -21,6 +22,8 @@ const date = () => {
 };
 
 export const useTimer = defineStore("timer", () => {
+  const isLoggedIn = computed(() => userStore.isLoggedIn);
+
   const timerData = ref(0);
   const initialTimerValue = ref(0);
   // const timerDuration = ref(initialDuration * 1000 * 60);
@@ -34,8 +37,10 @@ export const useTimer = defineStore("timer", () => {
     () => timeOnPause + timerData.value - passedMinutes.value * 60,
   );
   // const inPause = computed(() => inPauseState.value);
-
-  const isLoggedIn = computed(() => userStore.isLoggedIn);
+  const timerEndAt = computed(() => {
+    // console.log(timeOnPause, 'TOP')
+    return timerStartAt + timeOnPause * 1000;
+  });
 
   function update() {
     if (!isCounting.value) return;
@@ -48,18 +53,19 @@ export const useTimer = defineStore("timer", () => {
   }
 
   function onTimerClick() {
-    console.log("clicked on timer", isCounting.value, handle, timerData.value);
+    // console.log("clicked on timer", isCounting.value, handle, timerData.value);
 
     if (!isCounting.value && handle && timerData.value > 0) {
-      console.log("resume");
+      // console.log("resume");
       initialTimerValue.value = performance.now();
       startCountdown();
     } else if (!isCounting.value && !handle) {
       initialTimerValue.value = performance.now();
-      console.log("start", initialTimerValue.value);
+      // console.log("start", initialTimerValue.value);
+      timerStartAt = Date.now();
       startCountdown();
     } else if (isCounting.value && handle) {
-      console.log("pause");
+      // console.log("pause");
       timeOnPause = timeOnPause + timerData.value;
       pauseTimer();
     }
@@ -73,13 +79,6 @@ export const useTimer = defineStore("timer", () => {
     handle = null;
     timeOnPause = 0;
     timerData.value = 0;
-    // isCounting.value = false;
-    // reminded.value = initialDuration;
-    // remindedMinuteSecondsValue.value = 0;
-    // remindedMinutesValue.value = initialDuration;
-    // lastTime = null;
-    // handle = null;
-    // readyToContinue.value = false;
   }
 
   function pauseTimer() {
@@ -95,24 +94,27 @@ export const useTimer = defineStore("timer", () => {
 
   // TODO: move to service
   async function addTimer() {
-    console.log("click on adTimer store");
-    // pomodorosCount.value.passedPomodoros += 1;
-    //
-    // if (pomodorosCount.value.passedPomodoros % timersInSession === 0) {
-    //   pomodorosCount.value.passedSessions += 1;
-    // }
-    //
-    // if (isLoggedIn.value) {
-    //   const payload = {
-    //     pomodoroDate: date(),
-    //     pomororoStartTime: timerStartAt,
-    //     pomodoroEndTime: timerStartAt + timerDuration.value,
-    //   };
-    //
-    //   await savePomodoroRecordToDb(payload);
-    // }
-    //
-    // timerStartAt = null;
+    // console.log("click on adTimer store");
+    // console.log(timerStartAt, "TSA");
+    // console.log(timerEndAt.value, "TD");
+    if (isLoggedIn.value) {
+      const payload = {
+        pomodoroDate: date(),
+        pomororoStartTime: timerStartAt,
+        // pomodoroEndTime: timerStartAt + timerDuration.value,
+        pomodoroEndTime: timerEndAt.value,
+      };
+
+      const result = await savePomodoroRecordToDb(payload);
+      console.log(result, 'RRRRR')
+      if (result) {
+        timerStartAt = null;
+        resetTimer();
+        return true;
+      }
+      return false;
+    }
+    return false;
   }
 
   return {

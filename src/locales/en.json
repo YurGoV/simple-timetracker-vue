@@ -67,6 +67,10 @@
     "minutesLeft": "MINUTES LEFT",
     "stop": "Stop"
   },
+  "timerPage": {
+    "reset": "Reset",
+    "save": "Save"
+  },
   "propsSelector": {
     "lifeSphere": "Life Sphere",
     "importance": "Importance",

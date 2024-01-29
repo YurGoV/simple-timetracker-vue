@@ -67,6 +67,10 @@
     "minutesLeft": "ЗАЛИШИЛОСЬ ХВИЛИН",
     "stop": "Стоп"
   },
+  "timerPage": {
+    "reset": "Скинути",
+    "save": "Зберегти"
+  },
   "propsSelector": {
     "lifeSphere": "Сфера життя",
     "importance": "Нагальність",
