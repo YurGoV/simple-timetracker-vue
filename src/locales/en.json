@@ -25,7 +25,9 @@
     "save": "Save time record"
   },
   "configPage": {
-    "title": "Edit your tags and contexts",
+    "titleOne": "Add new tag",
+    "titleTwo": "Edit your tags and contexts",
+    "addLabel": "enter new tag name",
     "chooseLabel": "choose tag to edit",
     "save": "Save",
     "editImprtns": "Edit importances",

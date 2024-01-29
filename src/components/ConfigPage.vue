@@ -9,11 +9,30 @@
     {{ snackbarText }}</v-snackbar
   >
   <v-sheet class="section-title">
-    <h1>{{ $t(`configPage.title`) }}</h1>
+    <h1>{{ $t(`configPage.titleOne`) }}</h1>
   </v-sheet>
   <v-responsive class="mx-auto" max-width="344">
     <v-text-field
-      v-model="newTagName"
+      v-model="newTag"
+      :label="$t(`configPage.addLabel`)"
+      hide-details="auto"
+    ></v-text-field>
+  </v-responsive>
+  <v-sheet class="section-title">
+    <v-btn
+      @click="create"
+      :disabled="isAddNewTagButtonDisabled"
+      color="primary"
+      >{{ $t(`configPage.save`) }}</v-btn
+    >
+  </v-sheet>
+  <!-- DRY -->
+  <v-sheet class="section-title">
+    <h1>{{ $t(`configPage.titleTwo`) }}</h1>
+  </v-sheet>
+  <v-responsive class="mx-auto" max-width="344">
+    <v-text-field
+      v-model="tagToUpdage"
       :label="$t(`configPage.chooseLabel`)"
       hide-details="auto"
     ></v-text-field>
@@ -105,8 +124,9 @@ import { useContextsStore } from "@/store/contexts";
 import { useSnackbar } from "@/utils/useSnackbar";
 const { snackbar, snackbarText, snackbarColor, showSnackbar } = useSnackbar();
 
+const newTag = ref("");
 const oldTagName = ref(null);
-const newTagName = ref(null);
+const tagToUpdage = ref(null);
 const tagId = ref(null);
 
 const contextsStore = useContextsStore();
@@ -134,19 +154,27 @@ const tags = computed(() =>
 );
 
 const isButtonDisabled = computed(
-  () => oldTagName.value === newTagName.value || !newTagName.value,
+  () => oldTagName.value === tagToUpdage.value || !tagToUpdage.value,
 );
+const isAddNewTagButtonDisabled = computed(() => newTag.value.trim() === "");
 
 function onListClick(context) {
   oldTagName.value = context.value;
-  newTagName.value = context.value;
+  tagToUpdage.value = context.value;
   tagId.value = context.id;
+}
+
+async function create() {
+  const newTagFromDb = await contextsStore.createTagInDb({
+    value: newTag.value,
+  });
+  showSnackbar({ isSuccess: newTagFromDb });
 }
 
 async function save() {
   const savedResult = await contextsStore.updateContextInDb({
     id: tagId.value,
-    value: newTagName.value,
+    value: tagToUpdage.value,
   });
   if (savedResult) {
     oldTagName.value = savedResult.value;
