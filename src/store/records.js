@@ -115,6 +115,8 @@ export const useRecordsStore = defineStore("records", () => {
     }
   }
 
+  // TODO: refactor there & in pomodoros count & timer
+  // to startTime & end time
   async function savePomodoroRecordToDb({
     pomodoroDate,
     pomororoStartTime,
@@ -131,10 +133,12 @@ export const useRecordsStore = defineStore("records", () => {
     };
 
     const newRecord = await saveRecord(payload);
+    console.log(newRecord, "NNNRRR");
     if (newRecord) {
       records.value.push(newRecord);
+      return await newRecord;
     }
-    return await newRecord;
+    return false
   }
 
   async function updateRecordInDb(id) {

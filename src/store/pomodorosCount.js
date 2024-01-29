@@ -89,7 +89,6 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
       isCounting.value = false;
       cancelAnimationFrame(handle);
       addPomodoro();
-      console.log("ping");
       useAudioStore().playBeepSound()
       if (!isCountingComplete.value) {
         startInSessionPause();

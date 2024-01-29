@@ -1,4 +1,8 @@
 {
+  "homePage": {
+    "titlePomodoro": "Pomororo",
+    "titleTimer": "Timer"
+  },
   "appBar": {
     "btnAboutName": "About",
     "btnHomeName": "Home",
@@ -21,7 +25,9 @@
     "save": "Save time record"
   },
   "configPage": {
-    "title": "Edit your tags and contexts",
+    "titleOne": "Add new tag",
+    "titleTwo": "Edit your tags and contexts",
+    "addLabel": "enter new tag name",
     "chooseLabel": "choose tag to edit",
     "save": "Save",
     "editImprtns": "Edit importances",
@@ -54,7 +60,6 @@
     "edit": "Edit"
   },
   "pomodoroPage": {
-    "title": "Pomodoro",
     "subTitleSetup": "Setup",
     "subTitlePassed": "Passed",
     "sessions": "sessions",
@@ -63,6 +68,10 @@
     "pause": "PAUSE",
     "minutesLeft": "MINUTES LEFT",
     "stop": "Stop"
+  },
+  "timerPage": {
+    "reset": "Reset",
+    "save": "Save"
   },
   "propsSelector": {
     "lifeSphere": "Life Sphere",

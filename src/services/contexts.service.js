@@ -10,3 +10,13 @@ export const updateContext = async (payload) => {
 
   return response.data;
 };
+
+export const createTag = async (payload) => {
+
+  const response = await axios.post(
+    `${baseUrl}/contexts`,
+    payload,
+  );
+
+  return response.data;
+};

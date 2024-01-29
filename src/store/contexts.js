@@ -1,6 +1,6 @@
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
-import { updateContext } from "@/services/contexts.service";
+import { updateContext, createTag } from "@/services/contexts.service";
 
 export const useContextsStore = defineStore("contexts", () => {
   const contexts = ref(null);
@@ -52,6 +52,19 @@ export const useContextsStore = defineStore("contexts", () => {
     }
   }
 
+  async function createTagInDb(payload) {
+    try {
+      const newTag = await createTag(payload);
+      if (newTag) {
+        contexts.value.push(newTag);
+      }
+      return newTag;
+    } catch (err) {
+      console.log(err, "eerr");
+      return false;
+    }
+  }
+
   return {
     setupContexts,
     getAllContexts,
@@ -59,5 +72,6 @@ export const useContextsStore = defineStore("contexts", () => {
     getImportances,
     getTags,
     updateContextInDb,
+    createTagInDb,
   };
 });
