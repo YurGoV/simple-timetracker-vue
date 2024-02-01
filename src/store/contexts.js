@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import { updateContext, createTag } from "@/services/contexts.service";
 
 export const useContextsStore = defineStore("contexts", () => {
-  const contexts = ref(null);
+  const contexts = ref([]);
 
   function setupContexts(gettedContexts) {
     contexts.value = gettedContexts;

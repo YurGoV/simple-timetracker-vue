@@ -16,6 +16,7 @@
                   v-for="item in dayRecordsList"
                   :key="item.id"
                   :title="item.title"
+                  :subtitle="item.subtitle"
                 ></v-list-item>
               </v-list>
             </div>
@@ -31,7 +32,7 @@
 </template>
 
 <script setup>
-import { useI18n } from 'vue-i18n';
+import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
 import { ref, computed, watch, watchEffect, onMounted } from "vue";
@@ -50,13 +51,16 @@ const name = ref(null);
 
 const dayRecordsList = computed(() =>
   recordsStore.getRecordsByDay.map((record) => {
+    // console.log(record, "RRR");
     const date = new Date(record.startTime);
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const duration = Math.ceil((record.endTime - record.startTime) / 1000 / 60);
+    const tags = record.tags.join(', ')
     return {
       id: record._id,
-      title: t('editTimeList.time', { hours, minutes, duration }),
+      title: t("editTimeList.time", { hours, minutes, duration }),
+      subtitle: `${record.importance}, ${record.lifeSphere}, ${tags}`,
     };
   }),
 );
