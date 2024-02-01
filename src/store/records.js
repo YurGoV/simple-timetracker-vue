@@ -26,7 +26,20 @@ export const useRecordsStore = defineStore("records", () => {
   const getAllRecords = computed(() => records.value);
 
   const getRecordsByDay = computed(() => {
-    return records.value.filter((record) => record.date == manualDate.value);
+    // console.log(allContextsObj, "ACO");
+    return records.value
+      .filter((record) => record.date == manualDate.value)
+      .map((data) => {
+        // console.log(allContextsObj.value, "ACO");
+        data.importance = allContextsObj.value[data.importance];
+        data.lifeSphere = allContextsObj.value[data.lifeSphere];
+        const tags = [];
+        for (const el of data.tags) {
+          tags.push(allContextsObj.value[el]);
+        }
+        data.tags = tags;
+        return data;
+      });
   });
 
   function getRecordsByPeriod({ startSearchDay, endSearchDay }) {
@@ -46,6 +59,15 @@ export const useRecordsStore = defineStore("records", () => {
 
   const allLifeSpheres = computed(() => contextsStore.getLifeSpheres);
   const allImportances = computed(() => contextsStore.getImportances);
+
+  const allContextsObj = computed(() => {
+    // console.log(contextsStore.getAllContexts[0], "CS GAC");
+    const result = {};
+    for (const el of contextsStore.getAllContexts) {
+      result[el._id] = el.value;
+    }
+    return result;
+  });
 
   const getStatByPeriod = computed(() => {
     return (props) => {
@@ -133,12 +155,12 @@ export const useRecordsStore = defineStore("records", () => {
     };
 
     const newRecord = await saveRecord(payload);
-    console.log(newRecord, "NNNRRR");
+    // console.log(newRecord, "NNNRRR");
     if (newRecord) {
       records.value.push(newRecord);
       return await newRecord;
     }
-    return false
+    return false;
   }
 
   async function updateRecordInDb(id) {
@@ -169,21 +191,21 @@ export const useRecordsStore = defineStore("records", () => {
   return {
     setupRecords,
     getAllRecords,
+    getSelectedLifeSphere,
+    getSelectedImportance,
+    getSelectedTags,
+    getRecordsByDay,
+    getStatByPeriod,
+    getRecordById,
     setManualDate,
     setManualStartTime,
     setManualEndTime,
     setLifeSphere,
     setImportance,
     setTags,
-    getSelectedLifeSphere,
-    getSelectedImportance,
-    getSelectedTags,
     saveRecordToDb,
     setComment,
     updateRecordInDb,
     savePomodoroRecordToDb,
-    getRecordsByDay,
-    getStatByPeriod,
-    getRecordById,
   };
 });
