@@ -51,16 +51,20 @@ const name = ref(null);
 
 const dayRecordsList = computed(() =>
   recordsStore.getRecordsByDay.map((record) => {
-    // console.log(record, "RRR");
     const date = new Date(record.startTime);
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const duration = Math.ceil((record.endTime - record.startTime) / 1000 / 60);
-    const tags = record.tags.join(', ')
+
+    const tags = record.tagsValue.length
+      ? `; ${record.tagsValue.join(", ")}`
+      : "";
+    const comment = record.comment.length ? `; "${record.comment}"` : "";
+
     return {
       id: record._id,
       title: t("editTimeList.time", { hours, minutes, duration }),
-      subtitle: `${record.importance}, ${record.lifeSphere}, ${tags}`,
+      subtitle: `${record.importanceValue}, ${record.lifeSphereValue} ${tags} ${comment}`,
     };
   }),
 );

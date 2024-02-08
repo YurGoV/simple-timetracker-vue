@@ -39,7 +39,7 @@
     </v-row>
     <v-row class="tags-section">
       <v-text-field
-        v-model="comment"
+        v-model="selectedComment"
         type="text"
         :label="$t(`propsSelector.comment`)"
       ></v-text-field>
@@ -57,15 +57,18 @@ import { useRecordsStore } from "@/store/records";
 
 const contextsStore = useContextsStore();
 const recordsStore = useRecordsStore();
-const { getSelectedTags, getSelectedImportance, getSelectedLifeSphere } =
-  recordsStore;
+const {
+  getSelectedTags,
+  getSelectedImportance,
+  getSelectedLifeSphere,
+  getSelectedComment,
+} = recordsStore;
 const { getLifeSpheres, getImportances, getTags } = storeToRefs(contextsStore);
 
 const importance = getSelectedImportance;
 const lifeSphere = getSelectedLifeSphere;
 const tags = getSelectedTags;
-
-const comment = ref("");
+const comment = getSelectedComment;
 
 // TODO: last choise for default
 const selectedLifeSphere = ref(
@@ -74,14 +77,14 @@ const selectedLifeSphere = ref(
 const selectedImportance = ref(
   importance ? importance : getImportances.value[0]._id,
 );
-
 const selectedTags = ref(tags ? tags : []);
+const selectedComment = ref(comment ? comment : "");
 
 watchEffect(() => {
   recordsStore.setLifeSphere(selectedLifeSphere.value);
   recordsStore.setImportance(selectedImportance.value);
   recordsStore.setTags(selectedTags.value);
-  recordsStore.setComment(comment.value);
+  recordsStore.setComment(selectedComment.value);
 });
 </script>
 

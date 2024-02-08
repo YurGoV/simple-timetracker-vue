@@ -35,13 +35,13 @@ export const useRecordsStore = defineStore("records", () => {
       .filter((record) => record.date == manualDate.value)
       .map((data) => {
         // console.log(allContextsObj.value, "ACO");
-        data.importance = allContextsObj.value[data.importance];
-        data.lifeSphere = allContextsObj.value[data.lifeSphere];
-        const tags = [];
+        data.importanceValue = allContextsObj.value[data.importance];
+        data.lifeSphereValue = allContextsObj.value[data.lifeSphere];
+        const tagsValue = [];
         for (const el of data.tags) {
-          tags.push(allContextsObj.value[el]);
+          tagsValue.push(allContextsObj.value[el]);
         }
-        data.tags = tags;
+        data.tagsValue = tagsValue;
         return data;
       });
   });
@@ -60,6 +60,7 @@ export const useRecordsStore = defineStore("records", () => {
   const getSelectedTags = computed(() => tags.value);
   const getSelectedLifeSphere = computed(() => lifeSphere.value);
   const getSelectedImportance = computed(() => importance.value);
+  const getSelectedComment = computed(() => comment.value);
 
   const allLifeSpheres = computed(() => contextsStore.getLifeSpheres);
   const allImportances = computed(() => contextsStore.getImportances);
@@ -209,6 +210,7 @@ export const useRecordsStore = defineStore("records", () => {
     getSelectedLifeSphere,
     getSelectedImportance,
     getSelectedTags,
+    getSelectedComment,
     getRecordsByDay,
     getStatByPeriod,
     getRecordById,
