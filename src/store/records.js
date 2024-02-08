@@ -1,6 +1,10 @@
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
-import { saveRecord, updateRecord } from "@/services/records.service";
+import {
+  saveRecord,
+  updateRecord,
+  deleteRecord,
+} from "@/services/records.service";
 import { useContextsStore } from "@/store/contexts";
 import { calculateStatByPeriod } from "@/utils/statistics/getStatByPeriod";
 import { periodByPreset } from "@/utils/statistics/periodsPresetValues";
@@ -188,6 +192,17 @@ export const useRecordsStore = defineStore("records", () => {
     }
   }
 
+  async function deleteRecordFromDb(id) {
+    try {
+      const result = await deleteRecord(id);
+      const recordIdx = records.value.findIndex((record) => record._id === id);
+      records.value.splice(recordIdx, 1);
+      return result;
+    } catch {
+      return false;
+    }
+  }
+
   return {
     setupRecords,
     getAllRecords,
@@ -206,6 +221,7 @@ export const useRecordsStore = defineStore("records", () => {
     saveRecordToDb,
     setComment,
     updateRecordInDb,
+    deleteRecordFromDb,
     savePomodoroRecordToDb,
   };
 });
