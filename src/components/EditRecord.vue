@@ -92,6 +92,7 @@ onBeforeMount(() => {
   recordsStore.setLifeSphere(record.value.lifeSphere);
   recordsStore.setImportance(record.value.importance);
   recordsStore.setTags(record.value.tags);
+  recordsStore.setComment(record.value.comment);
 });
 </script>
 
