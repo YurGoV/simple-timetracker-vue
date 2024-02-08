@@ -26,6 +26,9 @@
             <v-btn @click="save" color="secondary" variant="outlined">{{
               $t(`editRecord.save`)
             }}</v-btn>
+            <v-btn @click="deleteRecord" color="secondary" variant="outlined">{{
+              $t(`editRecord.delete`)
+            }}</v-btn>
           </v-sheet>
         </v-col>
       </v-row>
@@ -66,6 +69,15 @@ const date = computed(() => {
 async function save() {
   const saveResult = await recordsStore.updateRecordInDb(record.value._id);
   showSnackbar({ isSuccess: saveResult });
+}
+
+async function deleteRecord() {
+  const deleteResult = await recordsStore.deleteRecordFromDb(record.value._id);
+  // FIX: not work becouse router.push
+  showSnackbar({ isSuccess: deleteResult });
+  if (deleteResult) {
+    router.push({ name: "Time", params: { action: "edit" } });
+  }
 }
 
 watchEffect(() => {

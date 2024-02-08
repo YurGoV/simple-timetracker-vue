@@ -42,7 +42,8 @@
   "editRecord": {
     "title": "Shoose time & tags",
     "duration": "Duration in minutes",
-    "save": "Save"
+    "save": "Save",
+    "delete": "Delete"
   },
   "reviewTime": {
     "title": "Statistics",
