@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useRecordsStore } from "./records";
 import { useUserStore } from "./user";
-// import { useAudioStore } from "./audio";
 
 import { computed } from "vue";
 // NOTE: move to state
@@ -14,7 +13,6 @@ let handle;
 let timeOnPause = 0;
 let timerStartAt;
 
-// const lastUpdate = ref(performance.now());
 const date = () => {
   const day = new Date();
   day.setHours(0, 0, 0, 0);
@@ -38,7 +36,6 @@ export const useTimer = defineStore("timer", () => {
   );
   // const inPause = computed(() => inPauseState.value);
   const timerEndAt = computed(() => {
-    // console.log(timeOnPause, 'TOP')
     return timerStartAt + timeOnPause * 1000;
   });
 
@@ -53,26 +50,21 @@ export const useTimer = defineStore("timer", () => {
   }
 
   function onTimerClick() {
-    // console.log("clicked on timer", isCounting.value, handle, timerData.value);
 
     if (!isCounting.value && handle && timerData.value > 0) {
-      // console.log("resume");
       initialTimerValue.value = performance.now();
       startCountdown();
     } else if (!isCounting.value && !handle) {
       initialTimerValue.value = performance.now();
-      // console.log("start", initialTimerValue.value);
       timerStartAt = Date.now();
       startCountdown();
     } else if (isCounting.value && handle) {
-      // console.log("pause");
       timeOnPause = timeOnPause + timerData.value;
       pauseTimer();
     }
   }
 
   function resetTimer() {
-    console.log("click on resetTimer");
     initialTimerValue.value = 0;
     isCounting.value = false;
     inPause.value = false;
@@ -94,9 +86,6 @@ export const useTimer = defineStore("timer", () => {
 
   // TODO: move to service
   async function addTimer() {
-    // console.log("click on adTimer store");
-    // console.log(timerStartAt, "TSA");
-    // console.log(timerEndAt.value, "TD");
     if (isLoggedIn.value) {
       const payload = {
         pomodoroDate: date(),
@@ -106,7 +95,6 @@ export const useTimer = defineStore("timer", () => {
       };
 
       const result = await savePomodoroRecordToDb(payload);
-      console.log(result, 'RRRRR')
       if (result) {
         timerStartAt = null;
         resetTimer();

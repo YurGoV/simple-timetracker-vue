@@ -30,11 +30,9 @@ export const useRecordsStore = defineStore("records", () => {
   const getAllRecords = computed(() => records.value);
 
   const getRecordsByDay = computed(() => {
-    // console.log(allContextsObj, "ACO");
     return records.value
       .filter((record) => record.date == manualDate.value)
       .map((data) => {
-        // console.log(allContextsObj.value, "ACO");
         data.importanceValue = allContextsObj.value[data.importance];
         data.lifeSphereValue = allContextsObj.value[data.lifeSphere];
         const tagsValue = [];
@@ -66,7 +64,6 @@ export const useRecordsStore = defineStore("records", () => {
   const allImportances = computed(() => contextsStore.getImportances);
 
   const allContextsObj = computed(() => {
-    // console.log(contextsStore.getAllContexts[0], "CS GAC");
     const result = {};
     for (const el of contextsStore.getAllContexts) {
       result[el._id] = el.value;
@@ -160,7 +157,6 @@ export const useRecordsStore = defineStore("records", () => {
     };
 
     const newRecord = await saveRecord(payload);
-    // console.log(newRecord, "NNNRRR");
     if (newRecord) {
       records.value.push(newRecord);
       return await newRecord;
