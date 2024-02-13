@@ -3,6 +3,12 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 // NOTE: move to state
 let initialPomodoroSetup = {
+  // NOTE: for dev-nt
+  // timerDuration: 2,
+  // timersPause: 1,
+  // timersInSession: 3,
+  // sessionsPause: 2,
+  // sessionsAmount: 2,
   timerDuration: 25,
   timersPause: 5,
   timersInSession: 3,
