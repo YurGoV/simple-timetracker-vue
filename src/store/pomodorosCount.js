@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { usePomodoroSetup } from "./pomodoroSetup";
 import { useRecordsStore } from "./records";
 import { useUserStore } from "./user";
-import { useAudioStore } from './audio';
+import { useAudioStore } from "./audio";
 
 import { computed } from "vue";
 // NOTE: move to state
@@ -23,7 +23,19 @@ const {
 const { savePomodoroRecordToDb } = useRecordsStore();
 const userStore = useUserStore();
 
-// NOTE: added now on bottom
+// NOTE: initial:
+// lastTime = undefined
+// handle = undefined
+// remainedSeconds = undefined
+// timerStartAt = undefined
+// passedPause = ref 0
+// timerDuration = ref(initialDuration * 1000 * 60)
+// reminded = ref initialDuration
+// remindedMinuteSecondsValue = ref 0
+// remindedMinutesValue = ref initialDuration
+// isCounting = ref(false);
+// inPauseState = ref(false);
+// readyToContinue = ref(false);
 let lastTime;
 let handle;
 let remainedSeconds;
@@ -39,6 +51,7 @@ const changePauseDisplay = 1000 * 60;
 
 export const usePomodorosCount = defineStore("pomodorosCount", () => {
   const pomodorosCount = ref(initialPomodorosCount);
+  // NOTE: added now on top
   let passedPause = ref(0);
   // const timerDuration = ref(initialDuration * 1000); // NOTE: for dev
   const timerDuration = ref(initialDuration * 1000 * 60);
@@ -89,7 +102,7 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
       isCounting.value = false;
       cancelAnimationFrame(handle);
       addPomodoro();
-      useAudioStore().playBeepSound()
+      useAudioStore().playBeepSound();
       if (!isCountingComplete.value) {
         startInSessionPause();
       } else {
@@ -121,12 +134,17 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
   }
   // FIX: when on pause, on stop button click no resetted
   function reset() {
-    isCounting.value = false;
+    lastTime = null;
+    handle = null;
+    remainedSeconds = null;
+    timerStartAt = null;
+    timerDuration.value = initialDuration * 1000 * 60;
+    passedPause.value = 0;
     reminded.value = initialDuration;
     remindedMinuteSecondsValue.value = 0;
     remindedMinutesValue.value = initialDuration;
-    lastTime = null;
-    handle = null;
+    isCounting.value = false;
+    inPauseState.value = false;
     readyToContinue.value = false;
   }
 
@@ -143,20 +161,21 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
 
     inPauseState.value = true;
 
-    setTimeout(() => {
-      inPauseState.value = false;
-      clearInterval(pauseInterval);
-      passedPause.value = 0;
-      readyToContinue.value = true;
-      isCounting.value = null;
-      handle = null;
-      reminded.value = initialDuration;
-      remindedMinuteSecondsValue.value = 0;
-      remindedMinutesValue.value = initialDuration;
-      useAudioStore().playBeepSound()
-    // }, pomodorosPause.value * 1000); // NOTE: count as seconds to test on dev
-    },
-    pomodorosPause.value * 1000 * 60,
+    setTimeout(
+      () => {
+        inPauseState.value = false;
+        clearInterval(pauseInterval);
+        passedPause.value = 0;
+        readyToContinue.value = true;
+        isCounting.value = null;
+        handle = null;
+        reminded.value = initialDuration;
+        remindedMinuteSecondsValue.value = 0;
+        remindedMinutesValue.value = initialDuration;
+        useAudioStore().playBeepSound();
+        // }, pomodorosPause.value * 1000); // NOTE: count as seconds to test on dev
+      },
+      pomodorosPause.value * 1000 * 60,
     );
   }
 

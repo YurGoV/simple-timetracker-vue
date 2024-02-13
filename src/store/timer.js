@@ -8,6 +8,17 @@ import { computed } from "vue";
 
 const { savePomodoroRecordToDb } = useRecordsStore();
 const userStore = useUserStore();
+
+// NOTE: initial values:
+// countedSeconds = undefined
+// handle = undefined
+// timeOnPause = 0
+// timerStartAt = undefined
+// timerData = ref 0
+// initialTimerValue = ref 0
+// isCountint = ref false
+// inPause = ref false
+
 let countedSeconds;
 let handle;
 let timeOnPause = 0;
@@ -50,7 +61,6 @@ export const useTimer = defineStore("timer", () => {
   }
 
   function onTimerClick() {
-
     if (!isCounting.value && handle && timerData.value > 0) {
       initialTimerValue.value = performance.now();
       startCountdown();
@@ -65,6 +75,10 @@ export const useTimer = defineStore("timer", () => {
   }
 
   function resetTimer() {
+    // NOTE: new
+    countedSeconds = null;
+    timerStartAt = null;
+    //
     initialTimerValue.value = 0;
     isCounting.value = false;
     inPause.value = false;
