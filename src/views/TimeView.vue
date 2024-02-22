@@ -2,37 +2,33 @@
   <v-container>
     <v-responsive class="align-center text-center fill-height">
       <v-row class="d-flex align-center justify-center">
-        <v-col cols="auto">
-          <v-sheet
-            :elevation="0"
-            :height="40"
-            :width="800"
-            rounded
-            class="buttons-section"
+        <v-col cols="12" md="4">
+          <v-btn
+            @click="selectSection('review')"
+            color="brown-darken-1"
+            variant="outlined"
+            >{{ $t(`timeView.review`) }}</v-btn
           >
-            <v-btn
-              @click="selectSection('review')"
-              color="brown-darken-1"
-              variant="outlined"
-              >{{ $t(`timeView.review`) }}</v-btn
-            >
-            <v-btn
-              @click="selectSection('add')"
-              color="brown-darken-1"
-              variant="outlined"
-              >{{ $t(`timeView.add`) }}</v-btn
-            >
-            <v-btn
-              @click="selectSection('edit')"
-              color="brown-darken-1"
-              variant="outlined"
-              >{{ $t(`timeView.edit`) }}</v-btn
-            >
-          </v-sheet>
-          <AddTime v-if="section === 'add'" />
-          <ReviewTime v-if="section === 'review'" />
-          <EditTimeList v-if="section === 'edit'" />
         </v-col>
+        <v-col cols="12" md="4">
+          <v-btn
+            @click="selectSection('add')"
+            color="brown-darken-1"
+            variant="outlined"
+            >{{ $t(`timeView.add`) }}</v-btn
+          >
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-btn
+            @click="selectSection('edit')"
+            color="brown-darken-1"
+            variant="outlined"
+            >{{ $t(`timeView.edit`) }}</v-btn
+          >
+        </v-col>
+        <AddTime v-if="section === 'add'" />
+        <ReviewTime v-if="section === 'review'" />
+        <EditTimeList v-if="section === 'edit'" />
       </v-row>
     </v-responsive>
   </v-container>
