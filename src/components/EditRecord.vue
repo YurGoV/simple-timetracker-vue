@@ -13,7 +13,8 @@
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
           <!-- TODO: make template -->
-          <v-sheet :elevation="0" :height="900" :width="500" rounded>
+          <!-- <v-sheet :elevation="0" :height="900" :width="500" rounded> -->
+          <v-sheet :elevation="0" rounded>
             <h1>{{ $t(`editRecord.title`) }}</h1>
             <VueDatePicker v-model="startTime"></VueDatePicker>
             <v-text-field
