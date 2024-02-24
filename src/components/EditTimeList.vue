@@ -4,7 +4,7 @@
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
           <!-- <v-sheet :elevation="0" :height="900" :width="300" rounded> -->
-          <v-sheet :elevation="0" rounded>
+          <v-sheet :elevation="0" :min-height="600" rounded>
             <div v-if="!identifier">
               <!-- TODO: move in component as EditRecord -->
               <p><br /><br /></p>
