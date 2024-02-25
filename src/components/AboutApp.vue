@@ -6,7 +6,7 @@
           <v-sheet
             :elevation="0"
             :height="900"
-            :width="500"
+            :max-width="600"
             rounded
             class="main-button"
           >
