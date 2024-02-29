@@ -1,9 +1,10 @@
 <template>
+  <!--  TODO: refactoring to button -->
   <div class="page-title" @click="switchView">
     <h1 v-if="pomodoroView">{{ $t(`homePage.titlePomodoro`) }}</h1>
     <h1 v-else>{{ $t(`homePage.titleTimer`) }}</h1>
   </div>
-  <PomodoroPage v-if="pomodoroView"/>
+  <PomodoroPage v-if="pomodoroView" />
   <TimerPage v-else />
 </template>
 

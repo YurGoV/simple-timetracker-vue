@@ -97,7 +97,6 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
     remindedMinuteSecondsValue.value =
       remindedSeconds - remindedMinutesValue.value * 60;
 
-    // console.log(remindedSeconds, 'rS')
     if (remindedSeconds <= 0) {
       handle = null;
       isCounting.value = false;
