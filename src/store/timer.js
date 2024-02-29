@@ -16,7 +16,7 @@ const userStore = useUserStore();
 // timerStartAt = undefined
 // timerData = ref 0
 // initialTimerValue = ref 0
-// isCountint = ref false
+// isCounting = ref false
 // inPause = ref false
 
 let countedSeconds;
@@ -38,23 +38,19 @@ export const useTimer = defineStore("timer", () => {
   // const timerDuration = ref(initialDuration * 1000 * 60);
   const isCounting = ref(false);
   const inPause = ref(false);
-  // const passedTime = computed(() => timerData.value);
+
   const passedMinutes = computed(() =>
     Math.floor((timeOnPause + timerData.value) / 60),
   );
   const passedSeconds = computed(
     () => timeOnPause + timerData.value - passedMinutes.value * 60,
   );
-  // const inPause = computed(() => inPauseState.value);
-  const timerEndAt = computed(() => {
-    return timerStartAt + timeOnPause * 1000;
-  });
 
   function update() {
     if (!isCounting.value) return;
     const timerCount = performance.now() - initialTimerValue.value;
 
-    countedSeconds = Math.abs(timerCount / 1000).toFixed(0);
+    countedSeconds = Number(Math.abs(timerCount / 1000).toFixed(0));
     timerData.value = Math.floor(countedSeconds);
 
     handle = requestAnimationFrame(update);
@@ -62,13 +58,15 @@ export const useTimer = defineStore("timer", () => {
 
   function onTimerClick() {
     if (!isCounting.value && handle && timerData.value > 0) {
+      // NOTE: resume on click
       initialTimerValue.value = performance.now();
-      startCountdown();
     } else if (!isCounting.value && !handle) {
+      // NOTE: first (start) on click,
       initialTimerValue.value = performance.now();
       timerStartAt = Date.now();
       startCountdown();
     } else if (isCounting.value && handle) {
+      // NOTE: on pause click
       timeOnPause = timeOnPause + timerData.value;
       pauseTimer();
     }
@@ -77,14 +75,13 @@ export const useTimer = defineStore("timer", () => {
   function resetTimer() {
     // NOTE: new
     countedSeconds = null;
+    handle = null;
+    timeOnPause = 0;
     timerStartAt = null;
-    //
+    timerData.value = 0;
     initialTimerValue.value = 0;
     isCounting.value = false;
     inPause.value = false;
-    handle = null;
-    timeOnPause = 0;
-    timerData.value = 0;
   }
 
   function pauseTimer() {
@@ -101,11 +98,11 @@ export const useTimer = defineStore("timer", () => {
   // TODO: move to service
   async function addTimer() {
     if (isLoggedIn.value) {
+      const endTime = timerStartAt + timeOnPause * 1000;
       const payload = {
         pomodoroDate: date(),
         pomororoStartTime: timerStartAt,
-        // pomodoroEndTime: timerStartAt + timerDuration.value,
-        pomodoroEndTime: timerEndAt.value,
+        pomodoroEndTime: endTime,
       };
 
       const result = await savePomodoroRecordToDb(payload);
@@ -120,14 +117,11 @@ export const useTimer = defineStore("timer", () => {
   }
 
   return {
-    // passedTime,
     passedMinutes,
     passedSeconds,
-    // update,
     onTimerClick,
     resetTimer,
     addTimer,
-    // startCountdown,
     inPause,
   };
 });
