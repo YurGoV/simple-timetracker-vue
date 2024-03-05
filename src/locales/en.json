@@ -22,7 +22,9 @@
   "addTime": {
     "title": "Add time manually",
     "duration": "Duration in min",
-    "save": "Save time record"
+    "save": "Save time record",
+    "saveSuccess": "record saved",
+    "saveFail": "error! record not saved"
   },
   "configPage": {
     "titleOne": "Add new tag",
@@ -33,7 +35,11 @@
     "editImprtns": "Edit importances",
     "editLifeSphrs": "Edit life spheres",
     "editTags": "Edit tags",
-    "tagName": "Tag Name"
+    "tagName": "Tag Name",
+    "createSuccess": "the tag successfully created",
+    "createFail": "error! tag not created",
+    "updateSuccess": "the tag successfully updated",
+    "updateFail": "error! tag not updated"
   },
   "editTimeList": {
     "title": "Editing existing records",
@@ -43,7 +49,11 @@
     "title": "Shoose time & tags",
     "duration": "Duration in minutes",
     "save": "Save",
-    "delete": "Delete"
+    "delete": "Delete",
+    "saveSuccess": "the record saved",
+    "saveFail": "error of saving the record",
+    "deleteSuccess": "the record deleted",
+    "deleteFail": "errorf of deleting the record"
   },
   "reviewTime": {
     "title": "Statistics",
@@ -72,7 +82,9 @@
   },
   "timerPage": {
     "reset": "Reset",
-    "save": "Save"
+    "save": "Save",
+    "saveSuccess": "record saved",
+    "saveFail": "error! record not saved"
   },
   "propsSelector": {
     "lifeSphere": "Life Sphere",

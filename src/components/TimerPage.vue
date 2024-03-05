@@ -1,13 +1,4 @@
 <template>
-  <v-snackbar
-    v-model="snackbar"
-    :color="snackbarColor"
-    location="top"
-    :close-on-content-click="true"
-    timeout="2500"
-  >
-    {{ snackbarText }}</v-snackbar
-  >
   <v-container class="fill-height">
     <v-responsive class="align-center text-center fill-height">
       <v-row class="d-flex align-center justify-center">
@@ -70,13 +61,14 @@ import { useTimer } from "@/store/timer";
 import { storeToRefs } from "pinia";
 
 import PropertiesSelector from "@/components/records/PropertiesSelector.vue";
-import { computed } from "vue";
+import { inject, computed } from "vue";
+
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+const { show } = inject("snackbar");
 
 const userStore = useUserStore();
 const isLoggedIn = computed(() => userStore.isLoggedIn);
-
-import { useSnackbar } from "@/utils/useSnackbar";
-const { snackbar, snackbarText, snackbarColor, showSnackbar } = useSnackbar();
 
 const timer = useTimer();
 const disabled = computed(() => !inPause.value);
@@ -94,7 +86,11 @@ function clickOnReset() {
 }
 async function clickOnSave() {
   const result = await addTimer();
-  showSnackbar({ isSuccess: result });
+  if (result) {
+    show({ message: t("timerPage.saveSuccess"), color: "green" });
+  } else {
+    show({ message: t("timerPage.saveFail"), color: "red" });
+  }
 }
 </script>
 <style scoped>
