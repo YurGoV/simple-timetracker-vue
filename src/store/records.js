@@ -128,15 +128,12 @@ export const useRecordsStore = defineStore("records", () => {
       comment: comment.value,
     };
 
-    try {
-      const newRecord = await saveRecord(payload);
-      if (newRecord) {
-        records.value.push(newRecord);
-      }
+    const newRecord = await saveRecord(payload);
+    if (newRecord) {
+      records.value.push(newRecord);
       return true;
-    } catch {
-      return false;
     }
+    return false;
   }
 
   // TODO: refactor there & in pomodoros count & timer
@@ -159,7 +156,7 @@ export const useRecordsStore = defineStore("records", () => {
     const newRecord = await saveRecord(payload);
     if (newRecord) {
       records.value.push(newRecord);
-      return await newRecord;
+      return newRecord;
     }
     return false;
   }

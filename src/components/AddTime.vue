@@ -1,13 +1,4 @@
 <template>
-  <v-snackbar
-    v-model="snackbar"
-    :color="snackbarColor"
-    location="top"
-    :close-on-content-click="true"
-    timeout="2500"
-  >
-    {{ snackbarText }}</v-snackbar
-  >
   <v-container class="fill-height">
     <v-responsive class="align-center text-center fill-height">
       <!-- <v-navigation-drawer v-model="drawerVisible" location="bottom" temporary> -->
@@ -37,7 +28,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watchEffect } from "vue";
+import { ref, computed, watchEffect, inject } from "vue";
 
 import PropertiesSelector from "@/components/records/PropertiesSelector.vue";
 
@@ -46,8 +37,9 @@ import { useRecordsStore } from "@/store/records";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
-import { useSnackbar } from "@/utils/useSnackbar";
-const { snackbar, snackbarText, snackbarColor, showSnackbar } = useSnackbar();
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+const { show } = inject("snackbar");
 
 const recordsStore = useRecordsStore();
 
@@ -64,7 +56,12 @@ const date = computed(() => {
 
 async function save() {
   const saveResult = await recordsStore.saveRecordToDb();
-  showSnackbar({ isSuccess: saveResult });
+  // TODO: refactor all snackbars to if-else inside snackbarProfider
+  if (saveResult) {
+    show({ message: t("addTime.saveSuccess"), color: "green" });
+  } else {
+    show({ message: t("addTime.saveFail"), color: "red" });
+  }
 }
 
 watchEffect(() => {

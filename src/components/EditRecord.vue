@@ -1,13 +1,4 @@
 <template>
-  <v-snackbar
-    v-model="snackbar"
-    :color="snackbarColor"
-    location="top"
-    :close-on-content-click="true"
-    timeout="2500"
-  >
-    {{ snackbarText }}</v-snackbar
-  >
   <v-container class="fill-height">
     <v-responsive class="align-center text-center fill-height">
       <v-row class="d-flex align-center justify-center">
@@ -39,15 +30,23 @@
 
 <script setup>
 // TODO: rename to TimeList
-import { ref, computed, watchEffect, onMounted, onBeforeMount } from "vue";
+import {
+  ref,
+  computed,
+  watchEffect,
+  onMounted,
+  onBeforeMount,
+  inject,
+} from "vue";
 import { useRouter } from "vue-router";
 import { useRecordsStore } from "@/store/records";
 
 import VueDatePicker from "@vuepic/vue-datepicker";
 import PropertiesSelector from "@/components/records/PropertiesSelector.vue";
 
-import { useSnackbar } from "@/utils/useSnackbar";
-const { snackbar, snackbarText, snackbarColor, showSnackbar } = useSnackbar();
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+const { show } = inject("snackbar");
 
 const recordsStore = useRecordsStore();
 const router = useRouter();
@@ -69,15 +68,21 @@ const date = computed(() => {
 
 async function save() {
   const saveResult = await recordsStore.updateRecordInDb(record.value._id);
-  showSnackbar({ isSuccess: saveResult });
+
+  if (saveResult) {
+    show({ message: t("editRecord.saveSuccess"), color: "green" });
+  } else {
+    show({ message: t("editRecord.deleteFail"), color: "red" });
+  }
 }
 
 async function deleteRecord() {
-  const deleteResult = await recordsStore.deleteRecordFromDb(record.value._id);
-  // FIX: not work becouse router.push
-  showSnackbar({ isSuccess: deleteResult });
-  if (deleteResult) {
+  const saveResult = await recordsStore.deleteRecordFromDb(record.value._id);
+  if (saveResult) {
+    show({ message: t("editRecord.deleteSuccess"), color: "green" });
     router.push({ name: "Time", params: { action: "edit" } });
+  } else {
+    show({ message: t("editRecord.deleteFail"), color: "red" });
   }
 }
 

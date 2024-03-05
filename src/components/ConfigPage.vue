@@ -1,13 +1,4 @@
 <template>
-  <v-snackbar
-    v-model="snackbar"
-    :color="snackbarColor"
-    location="top"
-    :close-on-content-click="true"
-    timeout="2500"
-  >
-    {{ snackbarText }}</v-snackbar
-  >
   <v-sheet class="section-title">
     <h1>{{ $t(`configPage.titleOne`) }}</h1>
   </v-sheet>
@@ -118,11 +109,12 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, inject } from "vue";
 import { useContextsStore } from "@/store/contexts";
 
-import { useSnackbar } from "@/utils/useSnackbar";
-const { snackbar, snackbarText, snackbarColor, showSnackbar } = useSnackbar();
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+const { show } = inject("snackbar");
 
 const newTag = ref("");
 const oldTagName = ref(null);
@@ -168,7 +160,11 @@ async function create() {
   const newTagFromDb = await contextsStore.createTagInDb({
     value: newTag.value,
   });
-  showSnackbar({ isSuccess: newTagFromDb });
+  if (newTagFromDb) {
+    show({ message: t("configPage.createSuccess"), color: "green" });
+  } else {
+    show({ message: t("configPage.createFail"), color: "red" });
+  }
 }
 
 async function save() {
@@ -178,9 +174,10 @@ async function save() {
   });
   if (savedResult) {
     oldTagName.value = savedResult.value;
+    show({ message: t("configPage.updateSuccess"), color: "green" });
+  } else {
+    show({ message: t("configPage.updateFail"), color: "red" });
   }
-
-  showSnackbar({ isSuccess: savedResult });
 }
 </script>
 
