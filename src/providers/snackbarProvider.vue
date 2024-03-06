@@ -19,7 +19,7 @@ provide("snackbar", {
 
 <template>
   <slot />
-  <v-snackbar v-model="show" :color="color">
+  <v-snackbar v-model="show" :color="color" location='top' timeot='3500'>
     {{ message }}
     <template #actions>
       <v-btn variant="text" @click="show = false">Close</v-btn>

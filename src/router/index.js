@@ -8,7 +8,7 @@ import { loginUserByToken } from "@/services/auth.service";
 const routes = [
   {
     path: "/",
-    component: () => import("@/layouts/default/Default.vue"),
+    component: () => import("@/layouts/default/DefaultView.vue"),
     children: [
       {
         path: "",

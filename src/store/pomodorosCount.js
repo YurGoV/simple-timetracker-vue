@@ -116,6 +116,7 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
   function onTimerClick() {
     if (!timerStartAt) {
       timerStartAt = Date.now();
+      timerDuration.value = initialDuration * 1000 * 60;
     }
     if (!isCounting.value && !handle) {
       lastTime = performance.now();
@@ -125,20 +126,20 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
     }
   }
 
-  function restart() {
-    stop();
-    readyToContinue.value = false;
-    lastTime = performance.now();
-    startCountdown();
-    update();
-  }
+  // function restart() {
+  //   stop();
+  //   readyToContinue.value = false;
+  //   lastTime = performance.now();
+  //   startCountdown();
+  //   update();
+  // }
 
   function reset() {
     lastTime = null;
     handle = null;
     remindedSeconds = null;
     timerStartAt = null;
-    timerDuration.value = initialDuration * 1000 * 60;
+    // timerDuration.value = initialDuration * 1000 * 60;
     passedPause.value = 0;
     reminded.value = initialDuration;
     remindedMinuteSecondsValue.value = 0;
@@ -151,7 +152,8 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
   function pauseTimer() {
     isCounting.value = false;
     handle = null;
-    timerDuration.value = remindedSeconds * 1000; }
+    timerDuration.value = remindedSeconds * 1000;
+  }
 
   function startInSessionPause() {
     inPauseState.value = true;
@@ -221,7 +223,8 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
       const payload = {
         pomodoroDate: date(),
         pomororoStartTime: timerStartAt,
-        pomodoroEndTime: timerStartAt + timerDuration.value,
+        // pomodoroEndTime: timerStartAt + timerDuration.value,
+        pomodoroEndTime: timerStartAt + initialDuration * 1000 * 60,
       };
 
       await savePomodoroRecordToDb(payload);
@@ -237,7 +240,7 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
     pomodorosPause,
     update,
     onTimerClick,
-    restart,
+    // restart,
     reset,
     pauseTimer,
     startInSessionPause,
