@@ -91,5 +91,8 @@
     "importance": "Importance",
     "contextChoose": "Choose Context",
     "comment": "comment"
+  },
+  "footer": {
+    "text": "Time is the key to success"
   }
 }
