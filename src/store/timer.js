@@ -60,6 +60,7 @@ export const useTimer = defineStore("timer", () => {
     if (!isCounting.value && handle && timerData.value > 0) {
       // NOTE: resume on click
       initialTimerValue.value = performance.now();
+      startCountdown()
     } else if (!isCounting.value && !handle) {
       // NOTE: first (start) on click,
       initialTimerValue.value = performance.now();
