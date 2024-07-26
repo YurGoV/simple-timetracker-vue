@@ -9,6 +9,7 @@ let initialPomodoroSetup = {
   // timersInSession: 3,
   // sessionsPause: 2,
   // sessionsAmount: 2,
+
   timerDuration: 25,
   timersPause: 5,
   timersInSession: 3,

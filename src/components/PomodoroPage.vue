@@ -75,27 +75,6 @@ import { storeToRefs } from "pinia";
 import PropertiesSelector from "@/components/records/PropertiesSelector.vue";
 import { computed } from "vue";
 
-// import { useDisplay } from "vuetify";
-// const { name } = useDisplay();
-// const diameter = computed(() => {
-//   switch (name.value) {
-//     case "xs":
-//       return 300;
-//     case "sm":
-//       return 300;
-//     case "md":
-//       return 350;
-//     case "lg":
-//       return 350;
-//     case "xl":
-//       return 350;
-//     case "xxl":
-//       return 350;
-//   }
-//
-//   return undefined;
-// });
-//
 const userStore = useUserStore();
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 

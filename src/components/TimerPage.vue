@@ -15,17 +15,11 @@
                 class="main-button"
               >
                 <div></div>
-                <!-- <p v-if="!inPause" class="timer"> -->
                 <p class="timer">
                   {{ passedMinutes.toString().padStart(2, "0") }}
                   :
                   {{ passedSeconds.toString().padStart(2, "0") }}
                 </p>
-                <!-- <p v-else class="pause"> -->
-                <!--   {{ $t(`pomodoroPage.pause`) }}<br /> -->
-                <!--   {{ pauseOnDisplay.toString() }} <br /> -->
-                <!--   {{ $t(`pomodoroPage.minutesLeft`) }} -->
-                <!-- </p> -->
               </v-sheet>
               <v-btn
                 :disabled="disabled"
@@ -33,7 +27,6 @@
                 class="stop-btn"
               >
                 {{ $t(`timerPage.reset`) }}
-                <!-- {{ $t(`pomodoroPage.stop`) }} -->
               </v-btn>
               <v-btn
                 v-if="isLoggedIn"
@@ -42,11 +35,9 @@
                 class="stop-btn"
               >
                 {{ $t(`timerPage.save`) }}
-                <!-- {{ $t(`pomodoroPage.stop`) }} -->
               </v-btn>
             </v-col>
             <properties-selector v-if="isLoggedIn" class="properties" />
-            <!-- </v-sheet> -->
           </v-row>
           <br />
         </v-col>

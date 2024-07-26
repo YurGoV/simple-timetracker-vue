@@ -1,11 +1,9 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="align-center text-center fill-height">
-      <!-- <v-navigation-drawer v-model="drawerVisible" location="bottom" temporary> -->
 
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
-          <!-- <v-sheet :elevation="0" :height="900" :width="500" rounded> -->
           <v-sheet :elevation="0" rounded>
             <h1>{{ $t(`addTime.title`) }}</h1>
 

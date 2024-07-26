@@ -24,6 +24,7 @@ const { savePomodoroRecordToDb } = useRecordsStore();
 const userStore = useUserStore();
 
 // NOTE: initial:
+//
 // lastTime = undefined
 // handle = undefined
 // remindedSeconds = undefined
@@ -36,6 +37,7 @@ const userStore = useUserStore();
 // isCounting = ref(false);
 // inPauseState = ref(false);
 // readyToContinue = ref(false);
+
 let lastTime;
 let handle;
 let remindedSeconds;
@@ -126,14 +128,6 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
     }
   }
 
-  // function restart() {
-  //   stop();
-  //   readyToContinue.value = false;
-  //   lastTime = performance.now();
-  //   startCountdown();
-  //   update();
-  // }
-
   function reset() {
     lastTime = null;
     handle = null;
@@ -173,37 +167,6 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
         useAudioStore().playBeepSound();
       }
     }, changePauseDisplay);
-
-    // inPauseState.value = true;
-
-    // const stopPause = () => {
-    //   inPauseState.value = false;
-    //   clearInterval(pauseInterval);
-    //   passedPause.value = 0;
-    //   readyToContinue.value = true;
-    //   isCounting.value = null;
-    //   handle = null;
-    //   reminded.value = initialDuration;
-    //   remindedMinuteSecondsValue.value = 0;
-    //   remindedMinutesValue.value = initialDuration;
-    //   useAudioStore().playBeepSound();
-    // };
-    // setTimeout(
-    //   () => {
-    //     inPauseState.value = false;
-    //     clearInterval(pauseInterval);
-    //     passedPause.value = 0;
-    //     readyToContinue.value = true;
-    //     isCounting.value = null;
-    //     handle = null;
-    //     reminded.value = initialDuration;
-    //     remindedMinuteSecondsValue.value = 0;
-    //     remindedMinutesValue.value = initialDuration;
-    //     useAudioStore().playBeepSound();
-    //     // }, pomodorosPause.value * 1000); // NOTE: count as seconds to test on dev
-    //   },
-    //   pomodorosPause.value * 1000 * 60,
-    // );
   }
 
   function startCountdown() {
@@ -223,7 +186,6 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
       const payload = {
         pomodoroDate: date(),
         pomororoStartTime: timerStartAt,
-        // pomodoroEndTime: timerStartAt + timerDuration.value,
         pomodoroEndTime: timerStartAt + initialDuration * 1000 * 60,
       };
 
@@ -240,7 +202,6 @@ export const usePomodorosCount = defineStore("pomodorosCount", () => {
     pomodorosPause,
     update,
     onTimerClick,
-    // restart,
     reset,
     pauseTimer,
     startInSessionPause,
